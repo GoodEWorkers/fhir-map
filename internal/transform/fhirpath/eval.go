@@ -156,10 +156,11 @@ func evalIn(node *Node, subject any, env map[string]any) ([]any, error) {
 		if err != nil {
 			return nil, err
 		}
-		if node.IntValue < 0 || node.IntValue >= int64(len(recv)) {
+		i := toInt(node.IntValue)
+		if i < 0 || i >= len(recv) {
 			return nil, nil
 		}
-		return []any{recv[int(node.IntValue)]}, nil
+		return []any{recv[i]}, nil
 	case nodeComponent:
 		// HL7v2 component/subcomponent: split on separator and take 1-based piece.
 		recv, err := evalIn(node.Args[0], subject, env)
@@ -173,10 +174,8 @@ func evalIn(node *Node, subject any, env map[string]any) ([]any, error) {
 				continue
 			}
 			parts := strings.Split(s, node.Text)
-			if node.IntValue >= 1 && node.IntValue <= int64(len(parts)) {
-				if i := int(node.IntValue) - 1; parts[i] != "" {
-					out = append(out, parts[i])
-				}
+			if i := toInt(node.IntValue) - 1; i >= 0 && i < len(parts) && parts[i] != "" {
+				out = append(out, parts[i])
 			}
 		}
 		return out, nil
@@ -540,12 +539,12 @@ func evalFunc(node *Node, subject any, env map[string]any) ([]any, error) {
 		if err != nil {
 			return nil, err
 		}
-		startF, ok := numericFloat(firstOf(startRes))
+		start64, ok := toInteger(firstOf(startRes))
 		if !ok {
 			return nil, fmt.Errorf(".substring: start must be an integer")
 		}
 		s := stringify(receiver[0])
-		start := intArg(startF)
+		start := toInt(start64)
 		if start < 0 || start >= len(s) {
 			return nil, nil
 		}
@@ -555,11 +554,11 @@ func evalFunc(node *Node, subject any, env map[string]any) ([]any, error) {
 			if err != nil {
 				return nil, err
 			}
-			lenF, ok := numericFloat(firstOf(lenRes))
+			len64, ok := toInteger(firstOf(lenRes))
 			if !ok {
 				return nil, fmt.Errorf(".substring: length must be an integer")
 			}
-			end = start + intArg(lenF)
+			end = start + toInt(len64)
 			if end > len(s) {
 				end = len(s)
 			}
@@ -604,11 +603,11 @@ func evalFunc(node *Node, subject any, env map[string]any) ([]any, error) {
 		if err != nil {
 			return nil, err
 		}
-		nf, ok := numericFloat(firstOf(nRes))
+		n64, ok := toInteger(firstOf(nRes))
 		if !ok {
 			return nil, fmt.Errorf(".skip: argument must be an integer")
 		}
-		return fnSkip(receiver, intArg(nf)), nil
+		return fnSkip(receiver, toInt(n64)), nil
 	case "take":
 		if len(node.Args) != 2 {
 			return nil, fmt.Errorf(".take(n) takes one argument")
@@ -617,11 +616,11 @@ func evalFunc(node *Node, subject any, env map[string]any) ([]any, error) {
 		if err != nil {
 			return nil, err
 		}
-		nf, ok := numericFloat(firstOf(nRes))
+		n64, ok := toInteger(firstOf(nRes))
 		if !ok {
 			return nil, fmt.Errorf(".take: argument must be an integer")
 		}
-		return fnTake(receiver, intArg(nf)), nil
+		return fnTake(receiver, toInt(n64)), nil
 	case "ofType":
 		// `ofType(name)` takes a type identifier, not an expression — the
 		// arg's identifier text is the type name. Reading node.Args[1].Text
@@ -906,18 +905,18 @@ func numericFloat(v any) (float64, bool) {
 	return 0, false
 }
 
-// intArg converts a FHIRPath numeric argument to int with an explicit bound
-// check. Numeric literals originate from strconv.ParseInt (int64); clamping to
-// the 32-bit range (FHIR integers are 32-bit) keeps the conversion from
-// overflowing a narrower int and is a no-op for any real index or count.
-func intArg(f float64) int {
-	if f >= math.MaxInt32 {
+// toInt narrows an int64 to int with an explicit 32-bit bound check. Values
+// originate from strconv.ParseInt (int64); clamping to the 32-bit range (FHIR
+// integers are 32-bit) keeps the conversion from overflowing a narrower int on
+// a 32-bit platform and is a no-op for any real index or count.
+func toInt(n int64) int {
+	if n > math.MaxInt32 {
 		return math.MaxInt32
 	}
-	if f <= math.MinInt32 {
+	if n < math.MinInt32 {
 		return math.MinInt32
 	}
-	return int(f)
+	return int(n)
 }
 
 func toString(c []any) string {
