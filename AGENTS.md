@@ -41,3 +41,23 @@ This project is indexed by GitNexus as **fhir-map** (6286 symbols, 16620 relatio
 | Index, status, clean, wiki CLI commands | `.claude/skills/gitnexus/gitnexus-cli/SKILL.md` |
 
 <!-- gitnexus:end -->
+
+# Core Principles — code changes
+
+Non-negotiable for every code change in this repo — even docs and one-liners.
+
+- **Branch + PR, never straight to `main`.** Every change lands on a feature branch and
+  merges through a pull request. Never commit or push to `main` directly, and never bypass
+  branch protection.
+- **The gate is the contract.** Every PR must pass the full gate — the same checks locally
+  (lefthook) and in CI: build, gofmt, goimports, `-race` tests, gitleaks, golangci-lint,
+  gosec, govulncheck. Never `--no-verify`, never merge past required checks, and never
+  suppress a finding just to go green — make it actually pass.
+- **Fix the root cause and prove it.** Don't paper over a finding. Exercise the change
+  end-to-end (tests, fuzz, govulncheck), and add regression coverage for every bug you fix
+  (e.g. commit the fuzz crasher).
+- **Be honest about what you can't fix.** If a finding has no code fix — no upstream patch,
+  time-based, or an external human step — say so plainly. Never fake a resolution or
+  silently drop it.
+- **Keep dependencies pinned and patched.** Pin actions and images by SHA/digest, keep
+  modules current, and treat security-scan findings as work, not noise.
