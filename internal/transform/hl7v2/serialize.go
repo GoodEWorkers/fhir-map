@@ -178,8 +178,18 @@ func splitFieldKey(key string) (seg string, idx int, ok bool) {
 	if err != nil {
 		return "", 0, false
 	}
+	// HL7 field positions are 1-based and small; reject out-of-range indices so a
+	// crafted key like "A-99999999999" can't drive renderSegment (which sizes on
+	// the max index) into an enormous allocation and loop.
+	if n < 1 || n > maxFieldIndex {
+		return "", 0, false
+	}
 	return seg, n, true
 }
+
+// maxFieldIndex bounds the HL7v2 field positions the serializer will honor. Real
+// segments have well under a hundred fields; the cap is a DoS guard, not a spec limit.
+const maxFieldIndex = 10000
 
 func sortByOrder(names, order []string) {
 	rank := make(map[string]int, len(order))
