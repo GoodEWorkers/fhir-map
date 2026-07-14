@@ -1,0 +1,61 @@
+# Binaries
+/bin/
+/server
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+coverage.html
+
+# Dependency directories
+vendor/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+*.env.local
+
+# Docker
+.docker/
+
+# Postman files (reference only, not needed for build)
+*.postman_collection*.json
+*.postman_environment*.json
+
+# Claude Code config. Everything is user-specific EXCEPT the shared team
+# settings + hooks, which are committed so every contributor's Claude sessions
+# enforce the same pre-commit gate.
+.claude/*
+!.claude/settings.json
+!.claude/hooks/
+.claude/settings.local.json
+
+# GitNexus code-intelligence index (binary, multi-MB, regenerated per machine)
+.gitnexus/
+
+# Load test outputs (raw timing data, large, machine-specific)
+loadtest/results.json
+
+# BMad tool config (local tooling, not project source)
+_bmad/
+
+.understand-anything/
+
+# Internal BMAD planning artifacts (kept locally, not published)
+_bmad-output/

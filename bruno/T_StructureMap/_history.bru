@@ -1,0 +1,32 @@
+meta {
+  name: _history
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/fhir/R5/StructureMap/{{structureMapId}}/_history
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq Bundle
+  res.body.type: eq history
+  res.body.total: gte 2
+  res.body.entry[0].request.method: eq PUT
+  res.body.entry[1].request.method: eq POST
+}
+
+docs {
+  # _history for StructureMap
+
+  Mirrors the ConceptMap _history surface: a Bundle of type=history with one
+  entry per version, newest-first. After Create + Update the timeline has
+  at least 2 entries (PUT then POST in reverse-chronological order).
+}

@@ -1,0 +1,39 @@
+meta {
+  name: 05_unknown_map_canonical
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {"name": "map", "valueUri": "http://example.org/sm/does-not-exist"},
+      {"name": "content", "resource": {"resourceType": "Basic", "x": "v"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 422
+  res.body.resourceType: eq OperationOutcome
+  res.body.issue[0].code: eq not-found
+}
+
+docs {
+  `map` canonical URL that doesn't resolve to a stored StructureMap →
+  422 Unprocessable Entity (code: not-found). The engine treats an unknown
+  canonical as an unprocessable request rather than a bare 404, because
+  the request itself is syntactically valid but semantically unresolvable.
+}

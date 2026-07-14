@@ -1,0 +1,32 @@
+meta {
+  name: Read StructureMap
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/fhir/R5/StructureMap/{{structureMapId}}
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.headers["content-type"]: contains application/fhir+json
+  res.body.resourceType: eq StructureMap
+  res.body.id: eq {{structureMapId}}
+  res.body.status: eq active
+  res.body.group[0].name: eq MapQRtoPatient
+}
+
+docs {
+  # Read StructureMap
+
+  Round-trips the StructureMap created above. The nested rule structure
+  (rule[0].rule[0] with its `copy` transform and `valueId` parameter) must
+  survive JSON storage and read-back without loss.
+}

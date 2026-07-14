@@ -1,0 +1,70 @@
+meta {
+  name: 04_group_extends_GAP
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/extends",
+          "name": "ExtendsTest",
+          "status": "active",
+          "group": [
+            {
+              "name": "base",
+              "input": [{"name": "src", "mode": "source"}, {"name": "tgt", "mode": "target"}],
+              "rule": [{
+                "name": "id",
+                "source": [{"context": "src", "element": "id", "variable": "i"}],
+                "target": [{"context": "tgt", "element": "id", "transform": "copy",
+                            "parameter": [{"valueId": "i"}]}]
+              }]
+            },
+            {
+              "name": "main",
+              "extends": "base",
+              "input": [{"name": "src", "mode": "source"}, {"name": "tgt", "mode": "target"}],
+              "rule": [{
+                "name": "name",
+                "source": [{"context": "src", "element": "name", "variable": "n"}],
+                "target": [{"context": "tgt", "element": "name", "transform": "copy",
+                            "parameter": [{"valueId": "n"}]}]
+              }]
+            }
+          ]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "id": "1", "name": "Ada"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.name: eq Ada
+  res.body.id: eq "1"
+}
+
+docs {
+  SPEC GAP — group.extends should run the parent's rules before the
+  child's rules. Server stores `extends` on the group but the executor
+  doesn't inherit parent rules, so `id` will be missing from the
+  output.
+}

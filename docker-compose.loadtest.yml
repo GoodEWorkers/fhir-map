@@ -1,0 +1,83 @@
+# docker-compose.loadtest.yml — Load-test override
+#
+# Applies the resource constraints under test (1 vCPU / 1 GB RAM for the
+# server) and adds the k6 runner service. Use with:
+#
+#   docker compose -f docker-compose.yml -f docker-compose.loadtest.yml up --build
+#
+# Or via the Makefile: make load-test
+#
+# Architecture:
+#   postgres  — unconstrained (we are testing the server, not Postgres)
+#   server    — 1 vCPU / 1 GB RAM, tuned Go runtime and DB pool
+#   k6        — runs the test suite and exits; results printed to stdout
+#
+# The k6 service depends on the "seed" phase (k6 setup()) which pre-loads
+# the ConceptMap fixtures before the ramp starts.
+
+services:
+  server:
+    # ─── Resource constraints ────────────────────────────────────────────────
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1g
+        reservations:
+          cpus: "0.5"
+          memory: 512m
+
+    # ─── Tuned runtime environment ───────────────────────────────────────────
+    environment:
+      SERVER_PORT: "8080"
+      DATABASE_URL: "postgres://fhir:fhir@postgres:5432/fhir?sslmode=disable"
+
+      # Dockerfile copies migrations to /app/migrations; the code reads this env var.
+      MIGRATIONS_PATH: "migrations"
+
+      # [SYM-GR-0227] Constrain Go runtime to match the 1-core/1-GB profile.
+      # GOMEMLIMIT = 896 MiB (88 % of 1 GB, leaving headroom for OS / stack).
+      # GOMAXPROCS = 1 mirrors the CPU limit.
+      GOMEMLIMIT: "939524096"   # 896 MiB in bytes
+      GOMAXPROCS: "1"
+
+      # Tighten DB pool — 1 core cannot saturate more than ~8 concurrent DB
+      # connections without inducing context-switch overhead. 8 max / 2 min
+      # is the sweet spot for a single-core Go server.
+      DB_MAX_CONNS: "8"
+      DB_MIN_CONNS: "2"
+      DB_MAX_CONN_LIFETIME: "30m"
+      DB_MAX_CONN_IDLE_TIME: "5m"
+
+      # Tighten HTTP timeouts under load — prevents slow-client tie-up.
+      SERVER_READ_TIMEOUT: "10s"
+      SERVER_WRITE_TIMEOUT: "15s"
+      SERVER_IDLE_TIMEOUT: "60s"
+
+    # No container healthcheck: the runtime image is distroless/static (no
+    # shell, no wget/curl), so an in-container CMD-SHELL probe cannot run.
+    # Readiness is asserted externally by the k6 runner, which polls
+    # GET /health in setup() before seeding (see loadtest/load_test.js).
+
+  # ─── k6 load test runner ──────────────────────────────────────────────────
+  k6:
+    image: grafana/k6:latest
+    depends_on:
+      server:
+        condition: service_started
+    volumes:
+      - ./loadtest:/scripts:ro
+    environment:
+      # Target the server container by its service name
+      BASE_URL: "http://server:8080"
+      # Profile knobs — override on the CLI if needed:
+      #   docker compose ... run -e K6_VUS=50 k6 ...
+      K6_VUS: "20"
+      K6_DURATION: "2m"
+    command:
+      - run
+      - --out
+      - json=/scripts/results.json
+      - /scripts/load_test.js
+    profiles:
+      - loadtest

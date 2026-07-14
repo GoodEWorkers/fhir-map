@@ -1,0 +1,32 @@
+meta {
+  name: _history
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/fhir/R5/StructureDefinition/{{sdId}}/_history
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq Bundle
+  res.body.type: eq history
+  res.body.total: eq 2
+  res.body.entry[0].request.method: eq PUT
+  res.body.entry[1].request.method: eq POST
+}
+
+docs {
+  # StructureDefinition _history
+
+  Returns the full version timeline: entry[0] is the most-recent (PUT
+  that promoted status to active), entry[1] is the original POST. Same
+  Bundle/history shape as ConceptMap and StructureMap history.
+}

@@ -1,0 +1,45 @@
+meta {
+  name: 04_fml_where_clause
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "fml",
+        "valueString": "map \"http://example.org/fml/where\" = \"WhereTest\"\ngroup main(source src, target tgt) {\n  src.items where (status = 'active') as i -> tgt.found = evaluate(i, 'name');\n}\n"
+      },
+      {"name": "content",
+       "resource": {"resourceType": "Basic", "items": [
+         {"status": "inactive", "name": "skip"},
+         {"status": "active",   "name": "keep"}
+       ]}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.found: eq keep
+}
+
+docs {
+  FML `where(...)` clause — must precede `as variable` in the source
+  expression because parseSource() reads `where` before `as`. The spec
+  permits either order; the reversed `as v where (...)` form is a
+  documented parser gap (see 09_SpecGaps/09).
+}

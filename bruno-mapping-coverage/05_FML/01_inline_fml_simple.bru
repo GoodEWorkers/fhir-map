@@ -1,0 +1,39 @@
+meta {
+  name: 01_inline_fml_simple
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "fml",
+        "valueString": "map \"http://example.org/fml/simple\" = \"Simple\"\ngroup main(source src, target tgt) {\n  src.name as n -> tgt.name = copy(n);\n}\n"
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "name": "Ada"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.name: eq Ada
+}
+
+docs {
+  Inline FML via `fml` Parameter — minimal map + one rule. The body
+  uses JSON-encoded escapes to put newlines into the valueString.
+}

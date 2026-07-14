@@ -1,0 +1,19 @@
+meta {
+  name: 02_Delete sex ConceptMap
+  type: http
+  seq: 2
+}
+
+delete {
+  url: {{baseUrl}}/fhir/R5/ConceptMap/{{sexConceptMapId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 204
+}
+
+docs {
+  Tear down the sex ConceptMap seeded in 01_Setup.
+}

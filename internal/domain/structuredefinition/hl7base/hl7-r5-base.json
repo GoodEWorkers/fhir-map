@@ -1,0 +1,1686 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/Resource",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "Resource",
+        "url": "http://hl7.org/fhir/StructureDefinition/Resource",
+        "name": "Resource",
+        "status": "active",
+        "kind": "resource",
+        "abstract": true,
+        "type": "Resource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "Resource",
+              "path": "Resource"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "DomainResource",
+        "url": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "name": "DomainResource",
+        "status": "active",
+        "kind": "resource",
+        "abstract": true,
+        "type": "DomainResource",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Resource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "DomainResource",
+              "path": "DomainResource"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/Element",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "Element",
+        "url": "http://hl7.org/fhir/StructureDefinition/Element",
+        "name": "Element",
+        "status": "active",
+        "kind": "complex-type",
+        "abstract": true,
+        "type": "Element",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "Element",
+              "path": "Element"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/BackboneElement",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "BackboneElement",
+        "url": "http://hl7.org/fhir/StructureDefinition/BackboneElement",
+        "name": "BackboneElement",
+        "status": "active",
+        "kind": "complex-type",
+        "abstract": true,
+        "type": "BackboneElement",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "BackboneElement",
+              "path": "BackboneElement"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/DataType",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "DataType",
+        "url": "http://hl7.org/fhir/StructureDefinition/DataType",
+        "name": "DataType",
+        "status": "active",
+        "kind": "complex-type",
+        "abstract": true,
+        "type": "DataType",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "DataType",
+              "path": "DataType"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/boolean",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "boolean",
+        "url": "http://hl7.org/fhir/StructureDefinition/boolean",
+        "name": "boolean",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "boolean",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "boolean",
+              "path": "boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/integer",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "integer",
+        "url": "http://hl7.org/fhir/StructureDefinition/integer",
+        "name": "integer",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "integer",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "integer",
+              "path": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/integer64",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "integer64",
+        "url": "http://hl7.org/fhir/StructureDefinition/integer64",
+        "name": "integer64",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "integer64",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "integer64",
+              "path": "integer64"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/decimal",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "decimal",
+        "url": "http://hl7.org/fhir/StructureDefinition/decimal",
+        "name": "decimal",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "decimal",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "decimal",
+              "path": "decimal"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/base64Binary",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "base64Binary",
+        "url": "http://hl7.org/fhir/StructureDefinition/base64Binary",
+        "name": "base64Binary",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "base64Binary",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "base64Binary",
+              "path": "base64Binary"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/instant",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "instant",
+        "url": "http://hl7.org/fhir/StructureDefinition/instant",
+        "name": "instant",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "instant",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "instant",
+              "path": "instant"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/date",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "date",
+        "url": "http://hl7.org/fhir/StructureDefinition/date",
+        "name": "date",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "date",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "date",
+              "path": "date"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/dateTime",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "dateTime",
+        "url": "http://hl7.org/fhir/StructureDefinition/dateTime",
+        "name": "dateTime",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "dateTime",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "dateTime",
+              "path": "dateTime"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/time",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "time",
+        "url": "http://hl7.org/fhir/StructureDefinition/time",
+        "name": "time",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "time",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "time",
+              "path": "time"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/code",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "code",
+        "url": "http://hl7.org/fhir/StructureDefinition/code",
+        "name": "code",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "code",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "code",
+              "path": "code"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/oid",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "oid",
+        "url": "http://hl7.org/fhir/StructureDefinition/oid",
+        "name": "oid",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "oid",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "oid",
+              "path": "oid"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/id",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "id",
+        "url": "http://hl7.org/fhir/StructureDefinition/id",
+        "name": "id",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "id",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "id",
+              "path": "id"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/markdown",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "markdown",
+        "url": "http://hl7.org/fhir/StructureDefinition/markdown",
+        "name": "markdown",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "markdown",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "markdown",
+              "path": "markdown"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/unsignedInt",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "unsignedInt",
+        "url": "http://hl7.org/fhir/StructureDefinition/unsignedInt",
+        "name": "unsignedInt",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "unsignedInt",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "unsignedInt",
+              "path": "unsignedInt"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/positiveInt",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "positiveInt",
+        "url": "http://hl7.org/fhir/StructureDefinition/positiveInt",
+        "name": "positiveInt",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "positiveInt",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "positiveInt",
+              "path": "positiveInt"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/uuid",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "uuid",
+        "url": "http://hl7.org/fhir/StructureDefinition/uuid",
+        "name": "uuid",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "uuid",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "uuid",
+              "path": "uuid"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/uri",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "uri",
+        "url": "http://hl7.org/fhir/StructureDefinition/uri",
+        "name": "uri",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "uri",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "uri",
+              "path": "uri"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/url",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "url",
+        "url": "http://hl7.org/fhir/StructureDefinition/url",
+        "name": "url",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "url",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "url",
+              "path": "url"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/canonical",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "canonical",
+        "url": "http://hl7.org/fhir/StructureDefinition/canonical",
+        "name": "canonical",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "canonical",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "canonical",
+              "path": "canonical"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/string",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "string",
+        "url": "http://hl7.org/fhir/StructureDefinition/string",
+        "name": "string",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "string",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "string",
+              "path": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/xhtml",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "xhtml",
+        "url": "http://hl7.org/fhir/StructureDefinition/xhtml",
+        "name": "xhtml",
+        "status": "active",
+        "kind": "primitive-type",
+        "abstract": false,
+        "type": "xhtml",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/PrimitiveType",
+        "differential": {
+          "element": [
+            {
+              "id": "xhtml",
+              "path": "xhtml"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/Patient",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "Patient",
+        "url": "http://hl7.org/fhir/StructureDefinition/Patient",
+        "name": "Patient",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "Patient",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "Patient",
+              "path": "Patient"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/Practitioner",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "Practitioner",
+        "url": "http://hl7.org/fhir/StructureDefinition/Practitioner",
+        "name": "Practitioner",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "Practitioner",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "Practitioner",
+              "path": "Practitioner"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/Observation",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "Observation",
+        "url": "http://hl7.org/fhir/StructureDefinition/Observation",
+        "name": "Observation",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "Observation",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "Observation",
+              "path": "Observation"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/Encounter",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "Encounter",
+        "url": "http://hl7.org/fhir/StructureDefinition/Encounter",
+        "name": "Encounter",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "Encounter",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "Encounter",
+              "path": "Encounter"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/Condition",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "Condition",
+        "url": "http://hl7.org/fhir/StructureDefinition/Condition",
+        "name": "Condition",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "Condition",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "Condition",
+              "path": "Condition"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/Procedure",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "Procedure",
+        "url": "http://hl7.org/fhir/StructureDefinition/Procedure",
+        "name": "Procedure",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "Procedure",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "Procedure",
+              "path": "Procedure"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "MedicationRequest",
+        "url": "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
+        "name": "MedicationRequest",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "MedicationRequest",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "MedicationRequest",
+              "path": "MedicationRequest"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/AllergyIntolerance",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "AllergyIntolerance",
+        "url": "http://hl7.org/fhir/StructureDefinition/AllergyIntolerance",
+        "name": "AllergyIntolerance",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "AllergyIntolerance",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "AllergyIntolerance",
+              "path": "AllergyIntolerance"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/DiagnosticReport",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "DiagnosticReport",
+        "url": "http://hl7.org/fhir/StructureDefinition/DiagnosticReport",
+        "name": "DiagnosticReport",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "DiagnosticReport",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "DiagnosticReport",
+              "path": "DiagnosticReport"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/ServiceRequest",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "ServiceRequest",
+        "url": "http://hl7.org/fhir/StructureDefinition/ServiceRequest",
+        "name": "ServiceRequest",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "ServiceRequest",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "ServiceRequest",
+              "path": "ServiceRequest"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/Bundle",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "Bundle",
+        "url": "http://hl7.org/fhir/StructureDefinition/Bundle",
+        "name": "Bundle",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "Bundle",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Resource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "Bundle",
+              "path": "Bundle"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/Composition",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "Composition",
+        "url": "http://hl7.org/fhir/StructureDefinition/Composition",
+        "name": "Composition",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "Composition",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "Composition",
+              "path": "Composition"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/DocumentReference",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "DocumentReference",
+        "url": "http://hl7.org/fhir/StructureDefinition/DocumentReference",
+        "name": "DocumentReference",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "DocumentReference",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "DocumentReference",
+              "path": "DocumentReference"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/Organization",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "Organization",
+        "url": "http://hl7.org/fhir/StructureDefinition/Organization",
+        "name": "Organization",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "Organization",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "Organization",
+              "path": "Organization"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/Location",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "Location",
+        "url": "http://hl7.org/fhir/StructureDefinition/Location",
+        "name": "Location",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "Location",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "Location",
+              "path": "Location"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/RelatedPerson",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "RelatedPerson",
+        "url": "http://hl7.org/fhir/StructureDefinition/RelatedPerson",
+        "name": "RelatedPerson",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "RelatedPerson",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "RelatedPerson",
+              "path": "RelatedPerson"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/CarePlan",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "CarePlan",
+        "url": "http://hl7.org/fhir/StructureDefinition/CarePlan",
+        "name": "CarePlan",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "CarePlan",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "CarePlan",
+              "path": "CarePlan"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/QuestionnaireResponse",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "QuestionnaireResponse",
+        "url": "http://hl7.org/fhir/StructureDefinition/QuestionnaireResponse",
+        "name": "QuestionnaireResponse",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "QuestionnaireResponse",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "QuestionnaireResponse",
+              "path": "QuestionnaireResponse"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/Questionnaire",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "Questionnaire",
+        "url": "http://hl7.org/fhir/StructureDefinition/Questionnaire",
+        "name": "Questionnaire",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "Questionnaire",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "Questionnaire",
+              "path": "Questionnaire"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/ImagingStudy",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "ImagingStudy",
+        "url": "http://hl7.org/fhir/StructureDefinition/ImagingStudy",
+        "name": "ImagingStudy",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "ImagingStudy",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "ImagingStudy",
+              "path": "ImagingStudy"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/ImmunizationRecommendation",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "ImmunizationRecommendation",
+        "url": "http://hl7.org/fhir/StructureDefinition/ImmunizationRecommendation",
+        "name": "ImmunizationRecommendation",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "ImmunizationRecommendation",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "ImmunizationRecommendation",
+              "path": "ImmunizationRecommendation"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/Immunization",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "Immunization",
+        "url": "http://hl7.org/fhir/StructureDefinition/Immunization",
+        "name": "Immunization",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "Immunization",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "Immunization",
+              "path": "Immunization"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/Specimen",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "Specimen",
+        "url": "http://hl7.org/fhir/StructureDefinition/Specimen",
+        "name": "Specimen",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "Specimen",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "Specimen",
+              "path": "Specimen"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/Coverage",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "Coverage",
+        "url": "http://hl7.org/fhir/StructureDefinition/Coverage",
+        "name": "Coverage",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "Coverage",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "Coverage",
+              "path": "Coverage"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/Claim",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "Claim",
+        "url": "http://hl7.org/fhir/StructureDefinition/Claim",
+        "name": "Claim",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "Claim",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "Claim",
+              "path": "Claim"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/ExplanationOfBenefit",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "ExplanationOfBenefit",
+        "url": "http://hl7.org/fhir/StructureDefinition/ExplanationOfBenefit",
+        "name": "ExplanationOfBenefit",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "ExplanationOfBenefit",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "ExplanationOfBenefit",
+              "path": "ExplanationOfBenefit"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/MedicationAdministration",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "MedicationAdministration",
+        "url": "http://hl7.org/fhir/StructureDefinition/MedicationAdministration",
+        "name": "MedicationAdministration",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "MedicationAdministration",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "MedicationAdministration",
+              "path": "MedicationAdministration"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/MedicationDispense",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "MedicationDispense",
+        "url": "http://hl7.org/fhir/StructureDefinition/MedicationDispense",
+        "name": "MedicationDispense",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "MedicationDispense",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "MedicationDispense",
+              "path": "MedicationDispense"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "MedicationStatement",
+        "url": "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
+        "name": "MedicationStatement",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "MedicationStatement",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "MedicationStatement",
+              "path": "MedicationStatement"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/FamilyMemberHistory",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "FamilyMemberHistory",
+        "url": "http://hl7.org/fhir/StructureDefinition/FamilyMemberHistory",
+        "name": "FamilyMemberHistory",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "FamilyMemberHistory",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "FamilyMemberHistory",
+              "path": "FamilyMemberHistory"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/Goal",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "Goal",
+        "url": "http://hl7.org/fhir/StructureDefinition/Goal",
+        "name": "Goal",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "Goal",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "Goal",
+              "path": "Goal"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/StructureDefinition/RiskAssessment",
+      "resource": {
+        "resourceType": "StructureDefinition",
+        "id": "RiskAssessment",
+        "url": "http://hl7.org/fhir/StructureDefinition/RiskAssessment",
+        "name": "RiskAssessment",
+        "status": "active",
+        "kind": "resource",
+        "abstract": false,
+        "type": "RiskAssessment",
+        "baseDefinition": "http://hl7.org/fhir/StructureDefinition/DomainResource",
+        "derivation": "specialization",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+          }
+        ],
+        "differential": {
+          "element": [
+            {
+              "id": "RiskAssessment",
+              "path": "RiskAssessment"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

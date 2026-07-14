@@ -1,0 +1,49 @@
+meta {
+  name: Strict Rejects Bogus Status
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/fhir/ConceptMap
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "ConceptMap",
+    "url": "http://example.org/cm/strict-reject",
+    "status": "not-a-real-status",
+    "group": [
+      {
+        "source": "http://s",
+        "target": "http://t",
+        "element": [
+          {"code": "A", "target": [{"code": "B", "relationship": "equivalent"}]}
+        ]
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 422
+  res.body.resourceType: eq OperationOutcome
+  res.body.issue[0].code: eq invalid
+}
+
+docs {
+  # Strict validation rejects an invalid status enum
+
+  The default validation tier (strict) enforces the FHIR `status` value-set
+  binding: only `draft | active | retired | unknown` are accepted. Sending
+  a custom status string returns 400 `OperationOutcome`.
+
+  Compare with the lenient companion test which accepts the same body.
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Delete ConceptMap
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/fhir/ConceptMap/{{conceptMapId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 204
+}

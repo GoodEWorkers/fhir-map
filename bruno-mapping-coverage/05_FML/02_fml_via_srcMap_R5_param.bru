@@ -1,0 +1,40 @@
+meta {
+  name: 02_fml_via_srcMap_R5_param
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "srcMap",
+        "valueString": "map \"http://example.org/fml/sm\" = \"SM\"\ngroup main(source src, target tgt) {\n  src.x as v -> tgt.y = copy(v);\n}\n"
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "x": 7}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.y: eq 7
+}
+
+docs {
+  R5 spec name for inline FML is `srcMap` (not `fml`). Server accepts
+  both names per the parser. Same FML body as 01, different parameter
+  name.
+}

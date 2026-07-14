@@ -1,0 +1,33 @@
+meta {
+  name: vread Version 1
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/fhir/R5/ConceptMap/{{conceptMapId}}/_history/1
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq ConceptMap
+  res.body.status: eq draft
+  res.headers["etag"]: contains "1"
+}
+
+docs {
+  # vread — fetch a specific historical version
+
+  GET ConceptMap/{id}/_history/{vid} returns the snapshot of the resource
+  exactly as it was at version vid, regardless of subsequent updates. Here
+  we read v1 (the create snapshot, `status=draft`) even though v2 has
+  already updated it to `status=active`.
+
+  The ETag header echoes the version requested so caches can key on it.
+}

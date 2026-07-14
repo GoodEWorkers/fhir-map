@@ -1,0 +1,57 @@
+meta {
+  name: 14_evaluate
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/eval-test",
+          "name": "EvalTest",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "e",
+              "source": [{"context": "src", "variable": "v"}],
+              "target": [{"context": "tgt", "element": "upper", "transform": "evaluate",
+                          "parameter": [{"valueId": "v"}, {"valueString": "name"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "name": "ada"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.upper: eq ada
+}
+
+docs {
+  evaluate(context, fhirpath) — runs an inline FHIRPath expression
+  against the named context. Returns the result as the target value.
+}

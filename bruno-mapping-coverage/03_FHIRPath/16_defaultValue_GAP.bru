@@ -1,0 +1,71 @@
+meta {
+  name: 16_defaultValue_GAP
+  type: http
+  seq: 16
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/default",
+          "name": "DefaultTest",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "r",
+              "source": [{"context": "src", "element": "missingField", "variable": "v",
+                          "defaultValueString": "fallback"}],
+              "target": [{"context": "tgt", "element": "result", "transform": "copy",
+                          "parameter": [{"valueId": "v"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "other": "x"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.result: eq fallback
+}
+
+docs {
+  SPEC GAP — source.defaultValue[x] choice-type wire form. The FHIR
+  spec uses choice-type fields: `defaultValueString`,
+  `defaultValueInteger`, `defaultValueBoolean`, etc. This server's
+  StructureMap struct (`internal/domain/structuremap/model.go:105`)
+  flattens it to `defaultValue json.RawMessage json:"defaultValue"`,
+  which means spec-conformant payloads using the choice-type key go
+  unrecognised and the default is never applied.
+
+  M6.Fix.1 implemented the *fallback semantics* (when binding is empty
+  AND DefaultValue is non-empty, use it) — but the wire-form mismatch
+  means standard FHIR examples can't drive it.
+
+  Fix surface: parse `defaultValue[x]` siblings in a custom
+  UnmarshalJSON, the same way Parameter.value[x] is normally handled
+  in FHIR types.
+}

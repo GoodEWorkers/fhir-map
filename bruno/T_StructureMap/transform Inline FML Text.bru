@@ -1,0 +1,67 @@
+meta {
+  name: transform Inline FML Text
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "fml",
+        "valueString": "map \"http://example.org/inline-fml\" = \"InlineFML\"\n\ngroup G(source src, target tgt) {\n  src.value as v -> tgt.echo = copy(v);\n}\n"
+      },
+      {
+        "name": "source",
+        "resource": {"value": "hello from FML"}
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.echo: eq hello from FML
+}
+
+docs {
+  # $transform — inline FML text body
+
+  Demonstrates the M5b FML parser end-to-end: the `fml` Parameters part
+  carries FHIR Mapping Language text instead of (or in addition to) a
+  reference to a stored StructureMap. The handler parses the text into
+  the same StructureMap AST shape that CRUD persists, then runs the
+  executor against the `source` resource.
+
+  This is convenient for ad-hoc transforms in tests, ETL one-offs, or
+  workflows that compose maps at runtime — without needing to PUT the
+  StructureMap to the server first.
+
+  Grammar supported in M5b (sufficient for the QR-to-Patient family of
+  official examples):
+
+  ```
+  map "url" = "name"
+  uses "structure-url" alias name as mode
+  imports "url"
+  group name(source src : Type, target tgt : Type) {
+    src.element where (fhirpath-condition) as variable ->
+      tgt.element = transform(arg, arg, ...) [as variable] "rule-label";
+  }
+  ```
+
+  Comments use `//` (line) and `/* … */` (block) and are stripped by the
+  lexer.
+}

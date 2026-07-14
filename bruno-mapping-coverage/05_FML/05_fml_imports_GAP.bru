@@ -1,0 +1,41 @@
+meta {
+  name: 05_fml_imports_GAP
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "fml",
+        "valueString": "map \"http://example.org/fml/imp\" = \"ImpTest\"\nimports \"http://example.org/StructureMap/sentinel-copy\"\ngroup main(source src, target tgt) {\n  src.value as v -> tgt.value = copy(v);\n}\n"
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "value": "x"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.value: eq x
+}
+
+docs {
+  SPEC GAP / partial — `imports` is parsed and stored on the map but
+  the executor doesn't resolve cross-map references at runtime, so an
+  imported group can't be invoked from a dependent. This test only
+  verifies the syntax is accepted without erroring.
+}

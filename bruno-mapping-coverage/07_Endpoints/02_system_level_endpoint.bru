@@ -1,0 +1,39 @@
+meta {
+  name: 02_system_level_endpoint
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "fml",
+        "valueString": "map \"http://example.org/fml/sys\" = \"Sys\"\ngroup main(source src, target tgt) {\n  src.x as v -> tgt.y = copy(v);\n}\n"
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "x": "ok"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.y: eq ok
+}
+
+docs {
+  System-level $transform alias at /fhir/R5/$transform. HAPI-compat —
+  not in the spec, but mirrors the StructureMap-typed endpoint.
+}

@@ -1,0 +1,59 @@
+meta {
+  name: Update StructureMap
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{baseUrl}}/fhir/R5/StructureMap/{{structureMapId}}
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "StructureMap",
+    "url": "http://example.org/StructureMap/qr-to-patient",
+    "version": "2.0.0",
+    "name": "QuestionnaireResponseToPatient",
+    "title": "Renamed in v2",
+    "status": "active",
+    "group": [
+      {
+        "name": "MapQRtoPatient",
+        "input": [
+          {"name": "qr", "mode": "source"},
+          {"name": "patient", "mode": "target"}
+        ],
+        "rule": [
+          {
+            "name": "name",
+            "source": [{"context": "qr"}],
+            "target": [{"context": "patient", "element": "name", "transform": "create"}]
+          }
+        ]
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq StructureMap
+  res.body.title: eq Renamed in v2
+  res.body.version: eq 2.0.0
+  res.body.meta.versionId: eq "2"
+}
+
+docs {
+  # Update StructureMap
+
+  Replaces the resource with v2 (status active, version 2.0.0, simplified
+  rule structure). `meta.versionId` must advance to "2", which the history
+  / vread tests below rely on.
+}

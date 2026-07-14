@@ -1,0 +1,55 @@
+meta {
+  name: 24_cp_contactpoint
+  type: http
+  seq: 24
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/cp-multi",
+          "name": "CpMulti",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [{"name": "src", "mode": "source"}, {"name": "tgt", "mode": "target"}],
+            "rule": [{
+              "name": "p",
+              "source": [{"context": "src", "element": "phone", "variable": "p"}],
+              "target": [{"context": "tgt", "element": "telecom", "transform": "cp",
+                          "parameter": [{"valueString": "phone"}, {"valueId": "p"}, {"valueString": "work"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "phone": "+1-555-1234"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.telecom.system: eq phone
+  res.body.telecom.value: eq "+1-555-1234"
+  res.body.telecom.use: eq work
+}
+
+docs {
+  cp(system, value [, use]) — M6.Fix.4 added ContactPoint construction.
+}

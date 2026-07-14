@@ -1,0 +1,56 @@
+meta {
+  name: 08_cast_decimal
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/cast-dec-test",
+          "name": "CastDecTest",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "c",
+              "source": [{"context": "src", "element": "num", "variable": "v"}],
+              "target": [{"context": "tgt", "element": "n", "transform": "cast",
+                          "parameter": [{"valueId": "v"}, {"valueString": "decimal"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "num": "3.1415"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.n: eq 3.1415
+}
+
+docs {
+  cast(value, "decimal") — string-to-float coercion.
+}

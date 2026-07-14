@@ -1,0 +1,57 @@
+meta {
+  name: 10_reference
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/reference-test",
+          "name": "ReferenceTest",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "r",
+              "source": [{"context": "src", "element": "pat", "variable": "p"}],
+              "target": [{"context": "tgt", "element": "subject", "transform": "reference",
+                          "parameter": [{"valueId": "p"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content",
+       "resource": {"resourceType": "Basic", "pat": {"resourceType": "Patient", "id": "abc-123"}}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.subject.reference: eq "Patient/abc-123"
+}
+
+docs {
+  reference(resource) — packages a resource as Reference{reference:"Type/id"}.
+}

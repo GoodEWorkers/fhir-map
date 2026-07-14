@@ -1,0 +1,34 @@
+meta {
+  name: _history R4 Tree
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/fhir/R4/ConceptMap/{{conceptMapId}}/_history
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq Bundle
+  res.body.type: eq history
+  res.body.total: gte 2
+}
+
+docs {
+  # _history on the R4 URL tree
+
+  The history Bundle is available on every URL tree. Reading via /fhir/R4
+  returns the same timeline as /fhir/R5 for the same resource id, but each
+  entry's embedded `resource` is projected to R4 wire format — meaning
+  `target.equivalence` is emitted instead of `target.relationship`.
+
+  The companion `vread R4 Tree` test asserts that projection on a specific
+  version.
+}

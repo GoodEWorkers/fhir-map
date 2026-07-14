@@ -1,0 +1,43 @@
+meta {
+  name: Translate Batch Missing URL Error
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/fhir/ConceptMap/$translate-batch
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {"name": "code", "part": [
+        {"name": "code", "valueCode": "home"},
+        {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}
+      ]}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 422
+  res.body.resourceType: eq OperationOutcome
+  res.body.issue[0].code: eq invalid
+}
+
+docs {
+  # $translate-batch — missing url returns 400
+
+  Every batch must identify exactly one ConceptMap via `url` (or
+  `conceptMapId`). Omitting both must be rejected with 400
+  OperationOutcome and `issue[0].code = "invalid"`, mirroring the
+  behaviour of single-probe `$translate`.
+}

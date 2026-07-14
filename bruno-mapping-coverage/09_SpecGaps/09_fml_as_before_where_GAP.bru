@@ -1,0 +1,47 @@
+meta {
+  name: 09_fml_as_before_where_GAP
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {"name": "fml",
+       "valueString": "map \"http://example.org/fml/asw\" = \"ASW\"\ngroup main(source src, target tgt) {\n  src.items as i where (status = 'active') -> tgt.found = evaluate(i, 'name');\n}\n"},
+      {"name": "content",
+       "resource": {"resourceType": "Basic", "items": [{"status": "active", "name": "keep"}]}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.found: eq keep
+}
+
+docs {
+  SPEC GAP — `as variable` before `where(...)`. The FML grammar in the
+  R5 spec allows either order:
+    `source.element as v where (expr)`     ← common in published examples
+    `source.element where (expr) as v`     ← only this works today
+
+  parseSource() in fml/parser.go reads `where` then `as`. If `as`
+  comes first it consumes the variable, then `where` shows up before
+  the `->` arrow and fails with `expected '->' got "where"`.
+
+  Fix: make the where/as accept loop allow either order until either
+  the arrow or the comma is reached.
+}

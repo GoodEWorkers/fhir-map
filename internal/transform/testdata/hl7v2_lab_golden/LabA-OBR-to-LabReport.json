@@ -1,0 +1,6522 @@
+{
+ "resourceType": "StructureMap",
+ "id": "LabA-OBR-to-LabReport",
+ "contained": [
+  {
+   "resourceType": "ConceptMap",
+   "id": "#CM-LabA-blood-LabToLoinc",
+   "url": "http://example.org/fhir/R4/lab-ig/ConceptMap/CM-LabA-blood-LabToLoinc",
+   "name": "CM_LabA_blood_LabToLoinc",
+   "title": "LabA codes locaux de biologie vers LOINC",
+   "status": "draft",
+   "experimental": true,
+   "description": "ConceptMap reliant les codes locaux laboratoire LabA pour le sang (COS-LabA-LabAnalyses) aux codes LOINC (http://loinc.org) utilisés dans la spécification Postman vers V1 en faisant le lien avec les codes Reference (COS-LabAnalyses) du code Mirth.",
+   "group": [
+    {
+     "source": "http://example.org/fhir/R4/lab-ig/CodeSystem/COS-LabA-LabAnalyses",
+     "target": "http://loinc.org",
+     "element": [
+      {
+       "code": "K",
+       "display": "K",
+       "target": [
+        {
+         "code": "2823-3",
+         "equivalence": "equivalent",
+         "comment": "marker=potassium; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "KZ",
+       "display": "KZ",
+       "target": [
+        {
+         "code": "2823-3",
+         "equivalence": "equivalent",
+         "comment": "marker=potassium; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "NA",
+       "display": "NA",
+       "target": [
+        {
+         "code": "2951-2",
+         "equivalence": "equivalent",
+         "comment": "marker=sodium; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "NAZ",
+       "display": "NAZ",
+       "target": [
+        {
+         "code": "2951-2",
+         "equivalence": "equivalent",
+         "comment": "marker=sodium; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CL",
+       "display": "CL",
+       "target": [
+        {
+         "code": "2075-0",
+         "equivalence": "equivalent",
+         "comment": "marker=chloride; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CO2",
+       "display": "CO2",
+       "target": [
+        {
+         "code": "20565-8",
+         "equivalence": "equivalent",
+         "comment": "marker=total_co2; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "GL",
+       "display": "GL",
+       "target": [
+        {
+         "code": "14749-6",
+         "equivalence": "equivalent",
+         "comment": "marker=glucose; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "GLUU",
+       "display": "GLUU",
+       "target": [
+        {
+         "code": "14749-6",
+         "equivalence": "equivalent",
+         "comment": "marker=glucose; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZGL",
+       "display": "ZGL",
+       "target": [
+        {
+         "code": "14749-6",
+         "equivalence": "equivalent",
+         "comment": "marker=glucose; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "GLU",
+       "display": "GLU",
+       "target": [
+        {
+         "code": "14749-6",
+         "equivalence": "equivalent",
+         "comment": "marker=glucose; origin=mirth(mappingAnalyse); type=blood; note=GLU also appears as urine in mappingType"
+        }
+       ]
+      },
+      {
+       "code": "CR",
+       "display": "CR",
+       "target": [
+        {
+         "code": "14682-9",
+         "equivalence": "equivalent",
+         "comment": "marker=creatinine; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CRZ",
+       "display": "CRZ",
+       "target": [
+        {
+         "code": "14682-9",
+         "equivalence": "equivalent",
+         "comment": "marker=creatinine; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "UR",
+       "display": "UR",
+       "target": [
+        {
+         "code": "22700-9",
+         "equivalence": "equivalent",
+         "comment": "marker=urea; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZUR",
+       "display": "ZUR",
+       "target": [
+        {
+         "code": "22700-9",
+         "equivalence": "equivalent",
+         "comment": "marker=urea; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "AU",
+       "display": "AU",
+       "target": [
+        {
+         "code": "14933-6",
+         "equivalence": "equivalent",
+         "comment": "marker=uric_acid; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "AUZ",
+       "display": "AUZ",
+       "target": [
+        {
+         "code": "14933-6",
+         "equivalence": "equivalent",
+         "comment": "marker=uric_acid; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CA",
+       "display": "CA",
+       "target": [
+        {
+         "code": "2000-8",
+         "equivalence": "equivalent",
+         "comment": "marker=calcium; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CAZ",
+       "display": "CAZ",
+       "target": [
+        {
+         "code": "2000-8",
+         "equivalence": "equivalent",
+         "comment": "marker=calcium; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "P",
+       "display": "P",
+       "target": [
+        {
+         "code": "14879-1",
+         "equivalence": "equivalent",
+         "comment": "marker=phosphorus; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PZ",
+       "display": "PZ",
+       "target": [
+        {
+         "code": "14879-1",
+         "equivalence": "equivalent",
+         "comment": "marker=phosphorus; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "MG",
+       "display": "MG",
+       "target": [
+        {
+         "code": "2601-3",
+         "equivalence": "equivalent",
+         "comment": "marker=magnesium; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "MGZ",
+       "display": "MGZ",
+       "target": [
+        {
+         "code": "2601-3",
+         "equivalence": "equivalent",
+         "comment": "marker=magnesium; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PR",
+       "display": "PR",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "DPROT",
+       "display": "DPROT",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE",
+       "display": "PRTE",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE0",
+       "display": "PRTE0",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE1",
+       "display": "PRTE1",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE2",
+       "display": "PRTE2",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE3",
+       "display": "PRTE3",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE4",
+       "display": "PRTE4",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE5",
+       "display": "PRTE5",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE6",
+       "display": "PRTE6",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE7",
+       "display": "PRTE7",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE8",
+       "display": "PRTE8",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE9",
+       "display": "PRTE9",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTEA",
+       "display": "PRTEA",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTEB",
+       "display": "PRTEB",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTEC",
+       "display": "PRTEC",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTED",
+       "display": "PRTED",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTEE",
+       "display": "PRTEE",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTEF",
+       "display": "PRTEF",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTEG",
+       "display": "PRTEG",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTEH",
+       "display": "PRTEH",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTEI",
+       "display": "PRTEI",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTEJ",
+       "display": "PRTEJ",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRZ",
+       "display": "PRZ",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CRP",
+       "display": "CRP",
+       "target": [
+        {
+         "code": "1988-5",
+         "equivalence": "equivalent",
+         "comment": "marker=crp; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CRPZ",
+       "display": "CRPZ",
+       "target": [
+        {
+         "code": "1988-5",
+         "equivalence": "equivalent",
+         "comment": "marker=crp; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "BT",
+       "display": "BT",
+       "target": [
+        {
+         "code": "14631-6",
+         "equivalence": "equivalent",
+         "comment": "marker=total_bilirubin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "BTZ",
+       "display": "BTZ",
+       "target": [
+        {
+         "code": "14631-6",
+         "equivalence": "equivalent",
+         "comment": "marker=total_bilirubin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "BIC",
+       "display": "BIC",
+       "target": [
+        {
+         "code": "29760-6",
+         "equivalence": "equivalent",
+         "comment": "marker=conjugated_bilirubin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "BICZ",
+       "display": "BICZ",
+       "target": [
+        {
+         "code": "29760-6",
+         "equivalence": "equivalent",
+         "comment": "marker=conjugated_bilirubin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TGP",
+       "display": "TGP",
+       "target": [
+        {
+         "code": "1742-6",
+         "equivalence": "equivalent",
+         "comment": "marker=alat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TGPZ",
+       "display": "TGPZ",
+       "target": [
+        {
+         "code": "1742-6",
+         "equivalence": "equivalent",
+         "comment": "marker=alat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZTGP",
+       "display": "ZTGP",
+       "target": [
+        {
+         "code": "1742-6",
+         "equivalence": "equivalent",
+         "comment": "marker=alat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ALAT",
+       "display": "ALAT",
+       "target": [
+        {
+         "code": "1742-6",
+         "equivalence": "equivalent",
+         "comment": "marker=alat; origin=mirth(mappingAnalyse); type=blood; note=mirth marker 'asal' aligned to ALT"
+        }
+       ]
+      },
+      {
+       "code": "ASAT",
+       "display": "ASAT",
+       "target": [
+        {
+         "code": "1920-8",
+         "equivalence": "equivalent",
+         "comment": "marker=asat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TGO",
+       "display": "TGO",
+       "target": [
+        {
+         "code": "1920-8",
+         "equivalence": "equivalent",
+         "comment": "marker=asat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TGOZ",
+       "display": "TGOZ",
+       "target": [
+        {
+         "code": "1920-8",
+         "equivalence": "equivalent",
+         "comment": "marker=asat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZTGO",
+       "display": "ZTGO",
+       "target": [
+        {
+         "code": "1920-8",
+         "equivalence": "equivalent",
+         "comment": "marker=asat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZASAT",
+       "display": "ZASAT",
+       "target": [
+        {
+         "code": "1920-8",
+         "equivalence": "equivalent",
+         "comment": "marker=asat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PAL",
+       "display": "PAL",
+       "target": [
+        {
+         "code": "6768-6",
+         "equivalence": "equivalent",
+         "comment": "marker=alkaline_phosphatase; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PALZ",
+       "display": "PALZ",
+       "target": [
+        {
+         "code": "6768-6",
+         "equivalence": "equivalent",
+         "comment": "marker=alkaline_phosphatase; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZPAL",
+       "display": "ZPAL",
+       "target": [
+        {
+         "code": "6768-6",
+         "equivalence": "equivalent",
+         "comment": "marker=alkaline_phosphatase; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "GGT",
+       "display": "GGT",
+       "target": [
+        {
+         "code": "2324-2",
+         "equivalence": "equivalent",
+         "comment": "marker=gamma_gt; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LDH",
+       "display": "LDH",
+       "target": [
+        {
+         "code": "2532-0",
+         "equivalence": "equivalent",
+         "comment": "marker=ldh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LDHZ",
+       "display": "LDHZ",
+       "target": [
+        {
+         "code": "2532-0",
+         "equivalence": "equivalent",
+         "comment": "marker=ldh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZLDH",
+       "display": "ZLDH",
+       "target": [
+        {
+         "code": "2532-0",
+         "equivalence": "equivalent",
+         "comment": "marker=ldh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CK",
+       "display": "CK",
+       "target": [
+        {
+         "code": "2157-6",
+         "equivalence": "equivalent",
+         "comment": "marker=cpk; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CPK",
+       "display": "CPK",
+       "target": [
+        {
+         "code": "2157-6",
+         "equivalence": "equivalent",
+         "comment": "marker=cpk; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CPKZ",
+       "display": "CPKZ",
+       "target": [
+        {
+         "code": "2157-6",
+         "equivalence": "equivalent",
+         "comment": "marker=cpk; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZCPK",
+       "display": "ZCPK",
+       "target": [
+        {
+         "code": "2157-6",
+         "equivalence": "equivalent",
+         "comment": "marker=cpk; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LIP",
+       "display": "LIP",
+       "target": [
+        {
+         "code": "3040-3",
+         "equivalence": "equivalent",
+         "comment": "marker=lipase; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LIPAS",
+       "display": "LIPAS",
+       "target": [
+        {
+         "code": "3040-3",
+         "equivalence": "equivalent",
+         "comment": "marker=lipase; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LIPAY",
+       "display": "LIPAY",
+       "target": [
+        {
+         "code": "3040-3",
+         "equivalence": "equivalent",
+         "comment": "marker=lipase; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZLIPA",
+       "display": "ZLIPA",
+       "target": [
+        {
+         "code": "3040-3",
+         "equivalence": "equivalent",
+         "comment": "marker=lipase; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZLILB",
+       "display": "ZLILB",
+       "target": [
+        {
+         "code": "3040-3",
+         "equivalence": "equivalent",
+         "comment": "marker=lipase; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CHOL",
+       "display": "CHOL",
+       "target": [
+        {
+         "code": "14647-2",
+         "equivalence": "equivalent",
+         "comment": "marker=total_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CHOLZ",
+       "display": "CHOLZ",
+       "target": [
+        {
+         "code": "14647-2",
+         "equivalence": "equivalent",
+         "comment": "marker=total_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CHOZL",
+       "display": "CHOZL",
+       "target": [
+        {
+         "code": "14647-2",
+         "equivalence": "equivalent",
+         "comment": "marker=total_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HDL",
+       "display": "HDL",
+       "target": [
+        {
+         "code": "14646-4",
+         "equivalence": "equivalent",
+         "comment": "marker=hdl_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HDLY",
+       "display": "HDLY",
+       "target": [
+        {
+         "code": "14646-4",
+         "equivalence": "equivalent",
+         "comment": "marker=hdl_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HDLZ",
+       "display": "HDLZ",
+       "target": [
+        {
+         "code": "14646-4",
+         "equivalence": "equivalent",
+         "comment": "marker=hdl_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HDLZY",
+       "display": "HDLZY",
+       "target": [
+        {
+         "code": "14646-4",
+         "equivalence": "equivalent",
+         "comment": "marker=hdl_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LDL",
+       "display": "LDL",
+       "target": [
+        {
+         "code": "22748-8",
+         "equivalence": "equivalent",
+         "comment": "marker=ldl_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "DLDL",
+       "display": "DLDL",
+       "target": [
+        {
+         "code": "22748-8",
+         "equivalence": "equivalent",
+         "comment": "marker=ldl_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LDL2",
+       "display": "LDL2",
+       "target": [
+        {
+         "code": "22748-8",
+         "equivalence": "equivalent",
+         "comment": "marker=ldl_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TRIG",
+       "display": "TRIG",
+       "target": [
+        {
+         "code": "14927-8",
+         "equivalence": "equivalent",
+         "comment": "marker=triglycerides; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TRIGY",
+       "display": "TRIGY",
+       "target": [
+        {
+         "code": "14927-8",
+         "equivalence": "equivalent",
+         "comment": "marker=triglycerides; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TRIGZ",
+       "display": "TRIGZ",
+       "target": [
+        {
+         "code": "14927-8",
+         "equivalence": "equivalent",
+         "comment": "marker=triglycerides; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "BNP1",
+       "display": "BNP1",
+       "target": [
+        {
+         "code": "33762-6",
+         "equivalence": "equivalent",
+         "comment": "marker=nt_probnp; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "BNP1Z",
+       "display": "BNP1Z",
+       "target": [
+        {
+         "code": "33762-6",
+         "equivalence": "equivalent",
+         "comment": "marker=nt_probnp; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSH",
+       "display": "TSH",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSH1",
+       "display": "TSH1",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSH2",
+       "display": "TSH2",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSH3",
+       "display": "TSH3",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSH4",
+       "display": "TSH4",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSH5",
+       "display": "TSH5",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSH6",
+       "display": "TSH6",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSH7",
+       "display": "TSH7",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSH8",
+       "display": "TSH8",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSHE",
+       "display": "TSHE",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TROPI",
+       "display": "TROPI",
+       "target": [
+        {
+         "code": "6598-7",
+         "equivalence": "equivalent",
+         "comment": "marker=troponin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TROP1",
+       "display": "TROP1",
+       "target": [
+        {
+         "code": "6598-7",
+         "equivalence": "equivalent",
+         "comment": "marker=troponin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TROPZ",
+       "display": "TROPZ",
+       "target": [
+        {
+         "code": "6598-7",
+         "equivalence": "equivalent",
+         "comment": "marker=troponin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZTROZ",
+       "display": "ZTROZ",
+       "target": [
+        {
+         "code": "6598-7",
+         "equivalence": "equivalent",
+         "comment": "marker=troponin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HAPT",
+       "display": "HAPT",
+       "target": [
+        {
+         "code": "4542-7",
+         "equivalence": "equivalent",
+         "comment": "marker=haptoglobin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HAPTZ",
+       "display": "HAPTZ",
+       "target": [
+        {
+         "code": "4542-7",
+         "equivalence": "equivalent",
+         "comment": "marker=haptoglobin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "FER",
+       "display": "FER",
+       "target": [
+        {
+         "code": "2276-4",
+         "equivalence": "equivalent",
+         "comment": "marker=ferritin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "FERZ",
+       "display": "FERZ",
+       "target": [
+        {
+         "code": "2276-4",
+         "equivalence": "equivalent",
+         "comment": "marker=ferritin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "SAO2",
+       "display": "SAO2",
+       "target": [
+        {
+         "code": "2502-3",
+         "equivalence": "equivalent",
+         "comment": "marker=coeffsat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CST",
+       "display": "CST",
+       "target": [
+        {
+         "code": "2502-3",
+         "equivalence": "equivalent",
+         "comment": "marker=coeffsat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "SAO2Z",
+       "display": "SAO2Z",
+       "target": [
+        {
+         "code": "2502-3",
+         "equivalence": "equivalent",
+         "comment": "marker=coeffsat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PTHE",
+       "display": "PTHE",
+       "target": [
+        {
+         "code": "14866-8",
+         "equivalence": "equivalent",
+         "comment": "marker=pth; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PTH1",
+       "display": "PTH1",
+       "target": [
+        {
+         "code": "14866-8",
+         "equivalence": "equivalent",
+         "comment": "marker=pth; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "25DE",
+       "display": "25DE",
+       "target": [
+        {
+         "code": "68438-1",
+         "equivalence": "equivalent",
+         "comment": "marker=hydroxy_vitamin_d; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "125D",
+       "display": "125D",
+       "target": [
+        {
+         "code": "14566-4",
+         "equivalence": "equivalent",
+         "comment": "marker=di_hydroxy_vitamin_d; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "125Z",
+       "display": "125Z",
+       "target": [
+        {
+         "code": "14566-4",
+         "equivalence": "equivalent",
+         "comment": "marker=di_hydroxy_vitamin_d; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "INR",
+       "display": "INR",
+       "target": [
+        {
+         "code": "6301-6",
+         "equivalence": "equivalent",
+         "comment": "marker=inr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "INR1",
+       "display": "INR1",
+       "target": [
+        {
+         "code": "6301-6",
+         "equivalence": "equivalent",
+         "comment": "marker=inr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TP1",
+       "display": "TP1",
+       "target": [
+        {
+         "code": "5894-1",
+         "equivalence": "equivalent",
+         "comment": "marker=tp; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "RTCA",
+       "display": "RTCA",
+       "target": [
+        {
+         "code": "63561-5",
+         "equivalence": "equivalent",
+         "comment": "marker=tca_ratio; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "RTCA2",
+       "display": "RTCA2",
+       "target": [
+        {
+         "code": "63561-5",
+         "equivalence": "equivalent",
+         "comment": "marker=tca_ratio; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TCA1",
+       "display": "TCA1",
+       "target": [
+        {
+         "code": "14979-9",
+         "equivalence": "equivalent",
+         "comment": "marker=patient_tca; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TCA2",
+       "display": "TCA2",
+       "target": [
+        {
+         "code": "14979-9",
+         "equivalence": "equivalent",
+         "comment": "marker=patient_tca; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TCA3",
+       "display": "TCA3",
+       "target": [
+        {
+         "code": "14979-9",
+         "equivalence": "equivalent",
+         "comment": "marker=patient_tca; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TTCA1",
+       "display": "TTCA1",
+       "target": [
+        {
+         "code": "13488-2",
+         "equivalence": "equivalent",
+         "comment": "marker=control_tca; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "FIB2",
+       "display": "FIB2",
+       "target": [
+        {
+         "code": "3255-7",
+         "equivalence": "equivalent",
+         "comment": "marker=fibrinogen_activity; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "FIB2Z",
+       "display": "FIB2Z",
+       "target": [
+        {
+         "code": "3255-7",
+         "equivalence": "equivalent",
+         "comment": "marker=fibrinogen_activity; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "RBC",
+       "display": "RBC",
+       "target": [
+        {
+         "code": "789-8",
+         "equivalence": "equivalent",
+         "comment": "marker=hematies; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "BHEMM",
+       "display": "BHEMM",
+       "target": [
+        {
+         "code": "789-8",
+         "equivalence": "equivalent",
+         "comment": "marker=hematies; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HEMAM",
+       "display": "HEMAM",
+       "target": [
+        {
+         "code": "789-8",
+         "equivalence": "equivalent",
+         "comment": "marker=hematies; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "B1HB",
+       "display": "B1HB",
+       "target": [
+        {
+         "code": "718-7",
+         "equivalence": "equivalent",
+         "comment": "marker=hemoglobin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HB",
+       "display": "HB",
+       "target": [
+        {
+         "code": "718-7",
+         "equivalence": "equivalent",
+         "comment": "marker=hemoglobin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HGB",
+       "display": "HGB",
+       "target": [
+        {
+         "code": "718-7",
+         "equivalence": "equivalent",
+         "comment": "marker=hemoglobin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "0HCT2",
+       "display": "0HCT2",
+       "target": [
+        {
+         "code": "4544-3",
+         "equivalence": "equivalent",
+         "comment": "marker=hematocrit; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "0HCTC",
+       "display": "0HCTC",
+       "target": [
+        {
+         "code": "4544-3",
+         "equivalence": "equivalent",
+         "comment": "marker=hematocrit; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "0HTE",
+       "display": "0HTE",
+       "target": [
+        {
+         "code": "4544-3",
+         "equivalence": "equivalent",
+         "comment": "marker=hematocrit; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "7HCT",
+       "display": "7HCT",
+       "target": [
+        {
+         "code": "4544-3",
+         "equivalence": "equivalent",
+         "comment": "marker=hematocrit; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "9HCT",
+       "display": "9HCT",
+       "target": [
+        {
+         "code": "4544-3",
+         "equivalence": "equivalent",
+         "comment": "marker=hematocrit; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HEMB9",
+       "display": "HEMB9",
+       "target": [
+        {
+         "code": "4544-3",
+         "equivalence": "equivalent",
+         "comment": "marker=hematocrit; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HTE",
+       "display": "HTE",
+       "target": [
+        {
+         "code": "4544-3",
+         "equivalence": "equivalent",
+         "comment": "marker=hematocrit; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "0VMC",
+       "display": "0VMC",
+       "target": [
+        {
+         "code": "30428-7",
+         "equivalence": "equivalent",
+         "comment": "marker=vgm; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "VMC",
+       "display": "VMC",
+       "target": [
+        {
+         "code": "30428-7",
+         "equivalence": "equivalent",
+         "comment": "marker=vgm; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "0RETI",
+       "display": "0RETI",
+       "target": [
+        {
+         "code": "14196-0",
+         "equivalence": "equivalent",
+         "comment": "marker=reticulocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "RETA",
+       "display": "RETA",
+       "target": [
+        {
+         "code": "14196-0",
+         "equivalence": "equivalent",
+         "comment": "marker=reticulocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "RETAZ",
+       "display": "RETAZ",
+       "target": [
+        {
+         "code": "14196-0",
+         "equivalence": "equivalent",
+         "comment": "marker=reticulocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "RETP",
+       "display": "RETP",
+       "target": [
+        {
+         "code": "14196-0",
+         "equivalence": "equivalent",
+         "comment": "marker=reticulocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LEU",
+       "display": "LEU",
+       "target": [
+        {
+         "code": "6690-2",
+         "equivalence": "equivalent",
+         "comment": "marker=leukocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "WBC",
+       "display": "WBC",
+       "target": [
+        {
+         "code": "6690-2",
+         "equivalence": "equivalent",
+         "comment": "marker=leukocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "BLEUM",
+       "display": "BLEUM",
+       "target": [
+        {
+         "code": "6690-2",
+         "equivalence": "equivalent",
+         "comment": "marker=leukocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PNN",
+       "display": "PNN",
+       "target": [
+        {
+         "code": "26499-4",
+         "equivalence": "equivalent",
+         "comment": "marker=polynuclear_neutrophils; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "AGRAN",
+       "display": "AGRAN",
+       "target": [
+        {
+         "code": "26499-4",
+         "equivalence": "equivalent",
+         "comment": "marker=polynuclear_neutrophils; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PNEO",
+       "display": "PNEO",
+       "target": [
+        {
+         "code": "26449-9",
+         "equivalence": "equivalent",
+         "comment": "marker=polynuclear_eosinophils; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "AAEOS",
+       "display": "AAEOS",
+       "target": [
+        {
+         "code": "26449-9",
+         "equivalence": "equivalent",
+         "comment": "marker=polynuclear_eosinophils; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ABASO",
+       "display": "ABASO",
+       "target": [
+        {
+         "code": "26444-0",
+         "equivalence": "equivalent",
+         "comment": "marker=polynuclear_basophils; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ALYMP",
+       "display": "ALYMP",
+       "target": [
+        {
+         "code": "26474-7",
+         "equivalence": "equivalent",
+         "comment": "marker=lymphocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LYM",
+       "display": "LYM",
+       "target": [
+        {
+         "code": "26474-7",
+         "equivalence": "equivalent",
+         "comment": "marker=lymphocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "SPL",
+       "display": "SPL",
+       "target": [
+        {
+         "code": "26474-7",
+         "equivalence": "equivalent",
+         "comment": "marker=lymphocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "MONC",
+       "display": "MONC",
+       "target": [
+        {
+         "code": "26484-6",
+         "equivalence": "equivalent",
+         "comment": "marker=monocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "MONOC",
+       "display": "MONOC",
+       "target": [
+        {
+         "code": "26484-6",
+         "equivalence": "equivalent",
+         "comment": "marker=monocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "MONOP",
+       "display": "MONOP",
+       "target": [
+        {
+         "code": "26484-6",
+         "equivalence": "equivalent",
+         "comment": "marker=monocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "AMONO",
+       "display": "AMONO",
+       "target": [
+        {
+         "code": "26484-6",
+         "equivalence": "equivalent",
+         "comment": "marker=monocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PLAQ",
+       "display": "PLAQ",
+       "target": [
+        {
+         "code": "777-3",
+         "equivalence": "equivalent",
+         "comment": "marker=platelets; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "DFG1",
+       "display": "DFG1",
+       "target": [
+        {
+         "code": "77147-7",
+         "equivalence": "equivalent",
+         "comment": "marker=egfr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CKF2",
+       "display": "CKF2",
+       "target": [
+        {
+         "code": "77147-7",
+         "equivalence": "equivalent",
+         "comment": "marker=egfr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "DFG2",
+       "display": "DFG2",
+       "target": [
+        {
+         "code": "77147-7",
+         "equivalence": "equivalent",
+         "comment": "marker=egfr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "DFG3A",
+       "display": "DFG3A",
+       "target": [
+        {
+         "code": "77147-7",
+         "equivalence": "equivalent",
+         "comment": "marker=egfr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "DFG3B",
+       "display": "DFG3B",
+       "target": [
+        {
+         "code": "77147-7",
+         "equivalence": "equivalent",
+         "comment": "marker=egfr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "DFG4",
+       "display": "DFG4",
+       "target": [
+        {
+         "code": "77147-7",
+         "equivalence": "equivalent",
+         "comment": "marker=egfr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "DFG5",
+       "display": "DFG5",
+       "target": [
+        {
+         "code": "77147-7",
+         "equivalence": "equivalent",
+         "comment": "marker=egfr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CKH2",
+       "display": "CKH2",
+       "target": [
+        {
+         "code": "77147-7",
+         "equivalence": "equivalent",
+         "comment": "marker=egfr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TPSA",
+       "display": "TPSA",
+       "target": [
+        {
+         "code": "2857-1",
+         "equivalence": "equivalent",
+         "comment": "marker=psa; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TPSAX",
+       "display": "TPSAX",
+       "target": [
+        {
+         "code": "2857-1",
+         "equivalence": "equivalent",
+         "comment": "marker=psa; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TPSAZ",
+       "display": "TPSAZ",
+       "target": [
+        {
+         "code": "2857-1",
+         "equivalence": "equivalent",
+         "comment": "marker=psa; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ALB",
+       "display": "ALB",
+       "target": [
+        {
+         "code": "1751-7",
+         "equivalence": "equivalent",
+         "comment": "marker=albumine; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ALBC",
+       "display": "ALBC",
+       "target": [
+        {
+         "code": "1751-7",
+         "equivalence": "equivalent",
+         "comment": "marker=albumine; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ALBZ",
+       "display": "ALBZ",
+       "target": [
+        {
+         "code": "1751-7",
+         "equivalence": "equivalent",
+         "comment": "marker=albumine; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CICD2",
+       "display": "CICD2",
+       "target": [
+        {
+         "code": "53573-2",
+         "equivalence": "equivalent",
+         "comment": "marker=ciclosporine_t0; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CICT1",
+       "display": "CICT1",
+       "target": [
+        {
+         "code": "32997-9",
+         "equivalence": "equivalent",
+         "comment": "marker=ciclosporine_t2; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TACD2",
+       "display": "TACD2",
+       "target": [
+        {
+         "code": "11253-2",
+         "equivalence": "equivalent",
+         "comment": "marker=tacrolimus_t0; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TACR1",
+       "display": "TACR1",
+       "target": [
+        {
+         "code": "11253-2",
+         "equivalence": "equivalent",
+         "comment": "marker=tacrolimus_t0; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "SIRD2",
+       "display": "SIRD2",
+       "target": [
+        {
+         "code": "29247-4",
+         "equivalence": "equivalent",
+         "comment": "marker=sirolimus_t0; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "EVED2",
+       "display": "EVED2",
+       "target": [
+        {
+         "code": "50544-6",
+         "equivalence": "equivalent",
+         "comment": "marker=everolimus_t0; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PBKST",
+       "display": "PBKST",
+       "target": [
+        {
+         "code": "62466-8",
+         "equivalence": "equivalent",
+         "comment": "marker=bk; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PBKST",
+       "display": "PBKST",
+       "target": [
+        {
+         "code": "32362-6",
+         "equivalence": "equivalent",
+         "comment": "marker=bk; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PCSGT",
+       "display": "PCSGT",
+       "target": [
+        {
+         "code": "13949-3",
+         "equivalence": "equivalent",
+         "comment": "marker=cmv; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "S9",
+       "display": "S9",
+       "target": [
+        {
+         "code": "56888-1",
+         "equivalence": "equivalent",
+         "comment": "marker=vih; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "S9",
+       "display": "S9",
+       "target": [
+        {
+         "code": "29541-0",
+         "equivalence": "equivalent",
+         "comment": "marker=vih; origin=mirth(mappingAnalyse); type=blood0"
+        }
+       ]
+      },
+      {
+       "code": "S9",
+       "display": "S9",
+       "target": [
+        {
+         "code": "81652-0",
+         "equivalence": "equivalent",
+         "comment": "marker=vih; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LCOP",
+       "display": "LCOP",
+       "target": [
+        {
+         "code": "5196-1",
+         "equivalence": "equivalent",
+         "comment": "marker=vhb; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LCOP",
+       "display": "LCOP",
+       "target": [
+        {
+         "code": "103618-5",
+         "equivalence": "equivalent",
+         "comment": "marker=vhb; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LHC",
+       "display": "LHC",
+       "target": [
+        {
+         "code": "42003-4",
+         "equivalence": "equivalent",
+         "comment": "marker=vhc; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HC1",
+       "display": "HC1",
+       "target": [
+        {
+         "code": "42003-4",
+         "equivalence": "equivalent",
+         "comment": "marker=vhc; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "url": "http://example.org/fhir/R4/lab-ig/StructureMap/LabA-OBR-to-LabReport",
+ "version": "1.0.0",
+ "name": "LabA_OBR_to_LabReport",
+ "title": "HL7v2.3 OBR to HL7 Europe Laboratory resource ServiceRequest, DiagnosticReport, and Specimen",
+ "status": "draft",
+ "description": "Transforms an HL7v2.3 OBR segment into the HL7 Europe Laboratory ServiceRequest, DiagnosticReport, and Specimen resources.",
+ "structure": [
+  {
+   "url": "https://example.org",
+   "mode": "source"
+  },
+  {
+   "url": "http://hl7.eu/fhir/laboratory/StructureDefinition/ServiceRequest-eu-lab",
+   "mode": "target",
+   "alias": "serviceRequestTarget"
+  },
+  {
+   "url": "http://hl7.eu/fhir/laboratory/StructureDefinition/DiagnosticReport-eu-lab",
+   "mode": "target",
+   "alias": "diagnosticReportTarget"
+  },
+  {
+   "url": "http://hl7.eu/fhir/laboratory/StructureDefinition/Specimen-eu-lab",
+   "mode": "target",
+   "alias": "specimenTarget"
+  }
+ ],
+ "group": [
+  {
+   "name": "main",
+   "typeMode": "types",
+   "input": [
+    {
+     "name": "source",
+     "type": "HL7v2",
+     "mode": "source"
+    },
+    {
+     "name": "target",
+     "type": "Bundle",
+     "mode": "target"
+    }
+   ],
+   "rule": [
+    {
+     "name": "obrRecord",
+     "source": [
+      {
+       "context": "source",
+       "type": "string",
+       "element": "OBR",
+       "variable": "obr",
+       "condition": "$this.exists()"
+      }
+     ],
+     "target": [
+      {
+       "context": "target",
+       "element": "entry[+].resource",
+       "variable": "ServiceRequestTarget",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "ServiceRequest"
+        }
+       ]
+      },
+      {
+       "context": "ServiceRequestTarget",
+       "element": "id",
+       "variable": "ServiceRequestID",
+       "transform": "uuid"
+      },
+      {
+       "context": "target",
+       "element": "entry[=].fullUrl",
+       "variable": "ServiceRequestFullUrl",
+       "transform": "append",
+       "parameter": [
+        {
+         "valueString": "http://example.org/fhir/ServiceRequest/"
+        },
+        {
+         "valueId": "ServiceRequestID"
+        }
+       ]
+      },
+      {
+       "context": "ServiceRequestTarget",
+       "element": "status",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "active"
+        }
+       ]
+      },
+      {
+       "context": "ServiceRequestTarget",
+       "element": "intent",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "order"
+        }
+       ]
+      },
+      {
+       "context": "target",
+       "element": "entry[+].resource",
+       "variable": "DiagnosticReportTarget",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "DiagnosticReport"
+        }
+       ]
+      },
+      {
+       "context": "DiagnosticReportTarget",
+       "element": "id",
+       "variable": "DiagnosticReportID",
+       "transform": "uuid"
+      },
+      {
+       "context": "target",
+       "element": "entry[=].fullUrl",
+       "variable": "DiagnosticReportFullUrl",
+       "transform": "append",
+       "parameter": [
+        {
+         "valueString": "http://example.org/fhir/DiagnosticReport/"
+        },
+        {
+         "valueId": "DiagnosticReportID"
+        }
+       ]
+      },
+      {
+       "context": "DiagnosticReportTarget",
+       "element": "extension[+].url",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "http://hl7.org/fhir/5.0/StructureDefinition/extension-DiagnosticReport.composition"
+        }
+       ]
+      },
+      {
+       "context": "DiagnosticReportTarget",
+       "element": "extension[=].value",
+       "variable": "extDRReference",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "Reference"
+        }
+       ]
+      },
+      {
+       "context": "extDRReference",
+       "element": "reference",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "CompositionFullUrlToDefineInGlobalSM"
+        }
+       ]
+      },
+      {
+       "context": "target",
+       "element": "entry[+].resource",
+       "variable": "SpecimenTarget",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "Specimen"
+        }
+       ]
+      },
+      {
+       "context": "SpecimenTarget",
+       "element": "id",
+       "variable": "SpecimenID",
+       "transform": "uuid"
+      },
+      {
+       "context": "target",
+       "element": "entry[=].fullUrl",
+       "variable": "SpecimenFullUrl",
+       "transform": "append",
+       "parameter": [
+        {
+         "valueString": "http://example.org/fhir/Specimen/"
+        },
+        {
+         "valueId": "SpecimenID"
+        }
+       ]
+      }
+     ],
+     "rule": [
+      {
+       "name": "obr23ToServiceRequestIdentifier",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-2",
+         "variable": "placerOrderNumber",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "ServiceRequestTarget",
+         "element": "identifier[+].type.coding[+].code",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "PLAC"
+          }
+         ]
+        },
+        {
+         "context": "ServiceRequestTarget",
+         "element": "identifier[=].type.coding[=].system",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+          }
+         ]
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr2ToIdentifierValue",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-2-1",
+           "variable": "placerOrderNumberValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberValue"
+            }
+           ]
+          },
+          {
+           "context": "SpecimenTarget",
+           "element": "accessionIdentifier.value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr2ToIdentifierValueDR",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-2-1",
+           "variable": "placerOrderNumberValue",
+           "condition": "$this.exists() and ($this in %DiagnosticReportTarget.identifier.value).not()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[+].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "PLAC"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr2ToIdentifierSystem",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-2-2",
+           "variable": "placerOrderNumberSystem",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].system",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "placerOrderNumberSystem"
+            }
+           ]
+          },
+          {
+           "context": "SpecimenTarget",
+           "element": "accessionIdentifier.system",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "placerOrderNumberSystem"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr2ToIdentifierSystemDR",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-2-2",
+           "variable": "placerOrderNumberSystem",
+           "condition": "$this.exists() and ($this in %DiagnosticReportTarget.identifier.system).not() and %DiagnosticReportTarget.identifier.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].system",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "placerOrderNumberSystem"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr2ToIdentifierTypeCoding0",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-2-3",
+           "variable": "placerOrderNumberTypeCoding0",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberTypeCoding0"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberTypeCoding0"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "SpecimenTarget",
+           "element": "accessionIdentifier.type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberTypeCoding0"
+            }
+           ]
+          },
+          {
+           "context": "SpecimenTarget",
+           "element": "accessionIdentifier.type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr2ToIdentifierTypeCoding1",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-2-4",
+           "variable": "placerOrderNumberTypeCoding1",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberTypeCoding1"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberTypeCoding1"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "SpecimenTarget",
+           "element": "accessionIdentifier.type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberTypeCoding1"
+            }
+           ]
+          },
+          {
+           "context": "SpecimenTarget",
+           "element": "accessionIdentifier.type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr3ToServiceRequestIdentifierFiller",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-3",
+         "variable": "fillerOrderNumber",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "ServiceRequestTarget",
+         "element": "identifier[+].type.coding[+].code",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "FILL"
+          }
+         ]
+        },
+        {
+         "context": "ServiceRequestTarget",
+         "element": "identifier[=].type.coding[=].system",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+          }
+         ]
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr3ToIdentifierValue",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-3-1",
+           "variable": "fillerOrderNumberValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "fillerOrderNumberValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr3ToIdentifierValueDR",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-3-1",
+           "variable": "fillerOrderNumberValue",
+           "condition": "$this.exists() and ($this in %DiagnosticReportTarget.identifier.value).not()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[+].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "FILL"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "fillerOrderNumberValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr3ToIdentifierSystem",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-3-2",
+           "variable": "fillerOrderNumberSystem",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].system",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "fillerOrderNumberSystem"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr3ToIdentifierSystemDR",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-3-2",
+           "variable": "fillerOrderNumberSystem",
+           "condition": "$this.exists() and ($this in %DiagnosticReportTarget.identifier.system).not() and %DiagnosticReportTarget.identifier.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].system",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "fillerOrderNumberSystem"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr3ToIdentifierTypeCoding0",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-3-3",
+           "variable": "fillerOrderNumberTypeCoding0",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "fillerOrderNumberTypeCoding0"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "fillerOrderNumberTypeCoding0"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr3ToIdentifierTypeCoding1",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-3-4",
+           "variable": "fillerOrderNumberTypeCoding1",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "fillerOrderNumberTypeCoding1"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "fillerOrderNumberTypeCoding1"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr4ToDiagnosticReportCode",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-4",
+         "variable": "universalServiceIdentifier",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr41",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-4-1",
+           "variable": "obr41Identifier",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "obr41Translate",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-4-1",
+             "variable": "obr41Identifier",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "DiagnosticReportTarget",
+             "element": "code.coding[+].code",
+             "variable": "loincCode",
+             "transform": "translate",
+             "parameter": [
+              {
+               "valueId": "obr41Identifier"
+              },
+              {
+               "valueString": "#CM-LabA-blood-LabToLoinc"
+              },
+              {
+               "valueString": "code"
+              }
+             ]
+            }
+           ],
+           "rule": [
+            {
+             "name": "obr41TranslateDR",
+             "source": [
+              {
+               "context": "obr",
+               "type": "string",
+               "element": "OBR-4-1",
+               "variable": "obr41Identifier",
+               "condition": "$this.exists() and %DiagnosticReportTarget.code.coding.where(code = %loincCode).exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "DiagnosticReportTarget",
+               "element": "code.coding[=].system",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueString": "http://loinc.org"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obr42DR",
+             "source": [
+              {
+               "context": "obr",
+               "type": "string",
+               "element": "OBR-4-2",
+               "variable": "obr42Text",
+               "condition": "$this.exists() and %DiagnosticReportTarget.code.coding.where(code = %loincCode).exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "DiagnosticReportTarget",
+               "element": "code.coding[=].display",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "obr42Text"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obr41NoTranslateDR",
+             "source": [
+              {
+               "context": "obr",
+               "type": "string",
+               "element": "OBR-4-1",
+               "variable": "obr4Identifier",
+               "condition": "$this.exists() and %loincCode.exists().not()"
+              }
+             ],
+             "target": [
+              {
+               "context": "DiagnosticReportTarget",
+               "element": "code.coding[+].code",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "obr4Identifier"
+                }
+               ]
+              }
+             ],
+             "rule": [
+              {
+               "name": "obr42NoTranslateDR",
+               "source": [
+                {
+                 "context": "obr",
+                 "type": "string",
+                 "element": "OBR-4-2",
+                 "variable": "obr4Text",
+                 "condition": "$this.exists() and %loincCode.exists().not() and %DiagnosticReportTarget.code.coding.where(code = %obr4Identifier).exists()"
+                }
+               ],
+               "target": [
+                {
+                 "context": "DiagnosticReportTarget",
+                 "element": "code.coding[=].display",
+                 "transform": "copy",
+                 "parameter": [
+                  {
+                   "valueId": "obr4Text"
+                  }
+                 ]
+                }
+               ]
+              },
+              {
+               "name": "obr43NoTranslateDR",
+               "source": [
+                {
+                 "context": "obr",
+                 "type": "string",
+                 "element": "OBR-4-3",
+                 "variable": "obr4System",
+                 "condition": "$this.exists() and $this = 'L' and %loincCode.exists().not() and %DiagnosticReportTarget.code.coding.where(code = %obr4Identifier).exists()"
+                }
+               ],
+               "target": [
+                {
+                 "context": "DiagnosticReportTarget",
+                 "element": "code.coding[=].system",
+                 "transform": "copy",
+                 "parameter": [
+                  {
+                   "valueString": "http://example.org/fhir/labasystem"
+                  }
+                 ]
+                }
+               ]
+              },
+              {
+               "name": "obr43NoTranslateDR",
+               "source": [
+                {
+                 "context": "obr",
+                 "type": "string",
+                 "element": "OBR-4-3",
+                 "variable": "obr4System",
+                 "condition": "$this.exists() and $this != 'L' and %loincCode.exists().not() and %DiagnosticReportTarget.code.coding.where(code = %obr4Identifier).exists()"
+                }
+               ],
+               "target": [
+                {
+                 "context": "DiagnosticReportTarget",
+                 "element": "code.coding[=].system",
+                 "transform": "copy",
+                 "parameter": [
+                  {
+                   "valueId": "obr4System"
+                  }
+                 ]
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr4ToCodeCoding1Code",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-4-4",
+           "variable": "universalServiceIdentifier1Code",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "code.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "universalServiceIdentifier1Code"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr4ToCodeCoding1Display",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-4-5",
+           "variable": "universalServiceIdentifier1Display",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "code.coding[=].display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "universalServiceIdentifier1Display"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr4ToCodeCoding1System",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-4-6",
+           "variable": "universalServiceIdentifier1System",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "code.coding[=].system",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "universalServiceIdentifier1System"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr4ToServiceRequestCode",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-4",
+         "variable": "universalServiceIdentifier",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr41",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-4-1",
+           "variable": "obr41Identifier",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "obr41Translate",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-4-1",
+             "variable": "obr41Identifier",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "code.coding[+].code",
+             "transform": "translate",
+             "parameter": [
+              {
+               "valueId": "obr41Identifier"
+              },
+              {
+               "valueString": "#CM-LabA-blood-LabToLoinc"
+              },
+              {
+               "valueString": "code"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr41TranslateSR",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-4-1",
+             "variable": "obr41Identifier",
+             "condition": "$this.exists() and %ServiceRequestTarget.code.coding.code.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "code.coding[=].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://loinc.org"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr42SR",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-4-2",
+             "variable": "obr42Text",
+             "condition": "$this.exists() and %ServiceRequestTarget.code.coding.code.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "code.coding[=].display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "obr42Text"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr41NoTranslateSR",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-4-1",
+           "variable": "obr4Identifier",
+           "condition": "$this.exists() and %ServiceRequestTarget.code.coding.code.exists().not()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "code.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "obr4Identifier"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr42NoTranslateSR",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-4-2",
+           "variable": "obr4Text",
+           "condition": "$this.exists() and %ServiceRequestTarget.code.coding.display.exists().not()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "code.coding[=].display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "obr4Text"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr43NoTranslateSR",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-4-3",
+           "variable": "obr4System",
+           "condition": "$this.exists() and $this = 'L' and %ServiceRequestTarget.code.coding.system.exists().not()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "code.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr43NoTranslateSR",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-4-3",
+           "variable": "obr4System",
+           "condition": "$this.exists() and $this != 'L' and %ServiceRequestTarget.code.coding.system.exists().not()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "code.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "obr4System"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr4ToCodeCoding1Code",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-4-4",
+           "variable": "universalServiceIdentifier1Code",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "code.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "universalServiceIdentifier1Code"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr4ToCodeCoding1Display",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-4-5",
+           "variable": "universalServiceIdentifier1Display",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "code.coding[=].display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "universalServiceIdentifier1Display"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr4ToCodeCoding1System",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-4-6",
+           "variable": "universalServiceIdentifier1System",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "code.coding[=].system",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "universalServiceIdentifier1System"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr5ToServiceRequestPriority",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-5",
+         "variable": "priority",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr5Routine",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-5",
+           "variable": "priorityRoutine",
+           "condition": "$this.exists() and ($this = 'R')"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "priority",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "routine"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr5Stat",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-5",
+           "variable": "priorityStat",
+           "condition": "$this.exists() and ($this = 'S')"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "priority",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "stat"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr5Asap",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-5",
+           "variable": "priorityAsap",
+           "condition": "$this.exists() and ($this = 'A')"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "priority",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "asap"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr6ToServiceRequestAuthoredOn",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-6",
+         "variable": "requestedDateTime",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "ServiceRequestTarget",
+         "element": "authoredOn",
+         "transform": "dateOp",
+         "parameter": [
+          {
+           "valueId": "requestedDateTime"
+          },
+          {
+           "valueString": "yyyyMMddHHmm"
+          },
+          {
+           "valueString": "yyyy-MM-dd'T'HH:mm:ssXXX"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr11ToServiceRequestIntent",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-11",
+         "variable": "specimenActionCode",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr11OriginalOrder",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-11",
+           "variable": "specimenActionCodeOriginalOrder",
+           "condition": "$this.exists() and ($this = 'A')"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "intent",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "order"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr11ReflexOrder",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-11",
+           "variable": "specimenActionCodeReflexOrder",
+           "condition": "$this.exists() and ($this = 'G')"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "intent",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "reflex-order"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr11Order",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-11",
+           "variable": "specimenActionCodeOrder",
+           "condition": "$this.exists() and ($this != 'A' and $this != 'G')"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "intent",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "order"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr13ToServiceRequestReasonCodeText",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-13",
+           "variable": "relevantClinicalInformation",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "reasonCode[+].text",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "relevantClinicalInformation"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr16ToServiceRequestRequester",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-16",
+         "variable": "orderingProvider",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obrRequesterIdentifier",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-16-1",
+           "variable": "idNumber",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "requester.identifier.value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "idNumber"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "requester.identifier.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://example.org"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "requester.type",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "Practitioner"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr17ToServiceRequestContact",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-17",
+         "variable": "orderCallbackPhoneNumber",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "ServiceRequestTarget",
+         "element": "extension[+].url",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://hl7.org/fhir/StructureDefinition/servicerequest-order-callback-phone-number"
+          }
+         ]
+        },
+        {
+         "context": "ServiceRequestTarget",
+         "element": "extension[=].value",
+         "variable": "contactPointExt",
+         "transform": "create",
+         "parameter": [
+          {
+           "valueString": "ContactPoint"
+          }
+         ]
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr171ConditionalValue",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-17-1",
+           "variable": "telephoneNumber",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "contactPointExt",
+           "element": "value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "telephoneNumber"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr172toUse",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-17-2",
+           "variable": "telecomUse",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "obr172Home",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-17-2",
+             "variable": "telecomUseHome",
+             "condition": "$this.exists() and ($this = 'PRN')"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "use",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "home"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr172Work",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-17-2",
+             "variable": "telecomUseWork",
+             "condition": "$this.exists() and ($this = 'WPN')"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "use",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "work"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr172Mobile",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-17-2",
+             "variable": "telecomUseMobile",
+             "condition": "$this.exists() and ($this = 'PRS')"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "use",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "mobile"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr173toSystem",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-17-3",
+           "variable": "telecomEquipmentType",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "obr173Phone",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-17-3",
+             "variable": "telecomEquipmentTypePhone",
+             "condition": "$this = 'PH'"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "phone"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr173Fax",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-17-3",
+             "variable": "telecomEquipmentTypeFax",
+             "condition": "$this = 'FX'"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "fax"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr173Email",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-17-3",
+             "variable": "telecomEquipmentTypeEmail",
+             "condition": "$this = 'Internet' or $this = 'X.400'"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "email"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr173Pager",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-17-3",
+             "variable": "telecomEquipmentTypePager",
+             "condition": "$this = 'BP'"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "pager"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr173Cellular",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-17-3",
+             "variable": "telecomEquipmentTypeCellular",
+             "condition": "$this = 'CP'"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "mobile"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr173Modem",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-17-3",
+             "variable": "telecomEquipmentTypeModem",
+             "condition": "$this = 'MD' or $this = 'SAT' or $this = 'TDD' or $this = 'TTY'"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "other"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr174ToExtension",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-17-4",
+             "variable": "emailAddress",
+             "condition": "$this.exists() and (%telecomEquipmentType = 'Internet' or %telecomEquipmentType = 'X.400')"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "emailAddress"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr177ToExtension",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-17-7",
+             "variable": "phoneNumber",
+             "condition": "$this.exists() and (%telecomEquipmentType != 'Internet' and %telecomEquipmentType != 'X.400')"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "phoneNumber"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr175ToContactPointExtension",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-17-5",
+           "variable": "countryCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "contactPointExt",
+           "element": "extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/contactpoint-country"
+            }
+           ]
+          },
+          {
+           "context": "contactPointExt",
+           "element": "extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "countryCode"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr176ToContactPointExtension",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-17-6",
+           "variable": "areaCityCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "contactPointExt",
+           "element": "extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/contactpoint-area"
+            }
+           ]
+          },
+          {
+           "context": "contactPointExt",
+           "element": "extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "areaCityCode"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr178ToContactPointExtension",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-17-8",
+           "variable": "extensionNumber",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "contactPointExt",
+           "element": "extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/contactpoint-extension"
+            }
+           ]
+          },
+          {
+           "context": "contactPointExt",
+           "element": "extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "extensionNumber"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr27ToOrderQuantityTiming",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-27",
+         "variable": "quantityTiming",
+         "condition": "$this.exists() and (%obr6ToServiceRequestAuthoredOn.exists().not())"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr27Quantity",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-27-1",
+           "variable": "quantityTimingQuantity",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "quantity",
+           "variable": "quantityQuantity",
+           "transform": "create",
+           "parameter": [
+            {
+             "valueString": "Quantity"
+            }
+           ]
+          }
+         ],
+         "rule": [
+          {
+           "name": "obr27QuantityValue",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-27-1-1",
+             "variable": "quantityTimingQuantityValue",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "quantityQuantity",
+             "element": "value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "quantityTimingQuantityValue"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr27QuantityUnits",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-27-1-2",
+             "variable": "quantityTimingQuantityUnits",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "quantityQuantity",
+             "element": "unit",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "quantityTimingQuantityUnits"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr27Interval",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-27-2",
+             "variable": "quantityTimingInterval",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "occurrence",
+             "variable": "occurrenceTiming",
+             "transform": "create",
+             "parameter": [
+              {
+               "valueString": "Timing"
+              }
+             ]
+            }
+           ],
+           "rule": [
+            {
+             "name": "obr27IntervalCode21",
+             "source": [
+              {
+               "context": "obr",
+               "type": "string",
+               "element": "OBR-27-2-1",
+               "variable": "quantityTimingIntervalCode21",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "occurrenceTiming",
+               "element": "code",
+               "transform": "cc",
+               "parameter": [
+                {
+                 "valueString": "http://terminology.hl7.org/CodeSystem/v2-0335"
+                },
+                {
+                 "valueId": "quantityTimingIntervalCode21"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obr27IntervalExplicit",
+             "source": [
+              {
+               "context": "obr",
+               "type": "string",
+               "element": "OBR-27-2-2",
+               "variable": "quantityTimingIntervalExplicit",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "occurrenceTiming",
+               "element": "repeat.timeOfDay",
+               "transform": "dateOp",
+               "parameter": [
+                {
+                 "valueId": "quantityTimingIntervalExplicit"
+                },
+                {
+                 "valueString": "HHmm"
+                },
+                {
+                 "valueString": "HH:mm:ss"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obr27Duration",
+             "source": [
+              {
+               "context": "obr",
+               "type": "string",
+               "element": "OBR-27-3",
+               "variable": "quantityTimingDuration",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "occurrenceTiming",
+               "element": "repeat.bounds",
+               "variable": "boundsDuration",
+               "transform": "create",
+               "parameter": [
+                {
+                 "valueString": "Duration"
+                }
+               ]
+              }
+             ],
+             "rule": [
+              {
+               "name": "obr27DurationValue",
+               "source": [
+                {
+                 "context": "obr",
+                 "type": "string",
+                 "element": "OBR-27-3",
+                 "variable": "quantityTimingDurationValue",
+                 "condition": "$this.exists()"
+                }
+               ],
+               "target": [
+                {
+                 "context": "boundsDuration",
+                 "element": "value",
+                 "transform": "copy",
+                 "parameter": [
+                  {
+                   "valueId": "quantityTimingDurationValue"
+                  }
+                 ]
+                },
+                {
+                 "context": "boundsDuration",
+                 "element": "system",
+                 "transform": "copy",
+                 "parameter": [
+                  {
+                   "valueString": "http://unitsofmeasure.org/"
+                  }
+                 ]
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obr27Start",
+             "source": [
+              {
+               "context": "obr",
+               "type": "string",
+               "element": "OBR-27-4",
+               "variable": "quantityTimingStart",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "occurrenceTiming",
+               "element": "repeat.bounds",
+               "variable": "boundsPeriod",
+               "transform": "create",
+               "parameter": [
+                {
+                 "valueString": "Period"
+                }
+               ]
+              },
+              {
+               "context": "boundsPeriod",
+               "element": "start",
+               "transform": "dateOp",
+               "parameter": [
+                {
+                 "valueId": "quantityTimingStart"
+                },
+                {
+                 "valueString": "yyyyMMddHHmm"
+                }
+               ]
+              }
+             ],
+             "rule": [
+              {
+               "name": "obr27End",
+               "source": [
+                {
+                 "context": "obr",
+                 "type": "string",
+                 "element": "OBR-27-5",
+                 "variable": "quantityTimingEnd",
+                 "condition": "$this.exists()"
+                }
+               ],
+               "target": [
+                {
+                 "context": "boundsPeriod",
+                 "element": "end",
+                 "transform": "dateOp",
+                 "parameter": [
+                  {
+                   "valueId": "quantityTimingEnd"
+                  },
+                  {
+                   "valueString": "yyyyMMddHHmm"
+                  }
+                 ]
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr27Priority",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-27-6",
+             "variable": "quantityTimingPriority",
+             "condition": "$this.exists()"
+            }
+           ],
+           "rule": [
+            {
+             "name": "obr27PrioritySTAT",
+             "source": [
+              {
+               "context": "obr",
+               "type": "string",
+               "element": "OBR-27-6",
+               "variable": "prioritySTAT",
+               "condition": "$this = 'S'"
+              }
+             ],
+             "target": [
+              {
+               "context": "ServiceRequestTarget",
+               "element": "priority",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueString": "stat"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obr27PriorityRoutine",
+             "source": [
+              {
+               "context": "obr",
+               "type": "string",
+               "element": "OBR-27-6",
+               "variable": "priorityRoutine",
+               "condition": "$this = 'R'"
+              }
+             ],
+             "target": [
+              {
+               "context": "ServiceRequestTarget",
+               "element": "priority",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueString": "routine"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obr27PriorityASAP",
+             "source": [
+              {
+               "context": "obr",
+               "type": "string",
+               "element": "OBR-27-6",
+               "variable": "priorityASAP",
+               "condition": "$this = 'A'"
+              }
+             ],
+             "target": [
+              {
+               "context": "ServiceRequestTarget",
+               "element": "priority",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueString": "asap"
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr27Text",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-27-8",
+             "variable": "quantityTimingText",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "note[+].text",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "quantityTimingText"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr29ToBasedOnIdentifier",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-29",
+         "variable": "patientResultsObservationIdentifier",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr29ToBasedOnIdentifierValue",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-29-1",
+           "variable": "patientResultsObservationIdentifierValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "obr2911ToBasedOnIdentifierValue",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-29-1-1",
+             "variable": "patientResultsObservationIdentifierValue1",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "basedOn[+].identifier.value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "patientResultsObservationIdentifierValue1"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr2912ToBasedOnIdentifierSystem",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-29-1-2",
+             "variable": "patientResultsObservationIdentifierSystem1",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "basedOn[=].identifier.system",
+             "transform": "append",
+             "parameter": [
+              {
+               "valueString": "http://example.org/fhir/labasystem/"
+              },
+              {
+               "valueId": "patientResultsObservationIdentifierSystem1"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr2913ToBasedOnTypeCoding0",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-29-1-3",
+             "variable": "patientResultsObservationIdentifierTypeCoding0",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "basedOn[=].identifier.type.coding[+].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "patientResultsObservationIdentifierTypeCoding0"
+              }
+             ]
+            },
+            {
+             "context": "ServiceRequestTarget",
+             "element": "basedOn[=].identifier.type.coding[=].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr2914ToBasedOnTypeCoding1",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-29-1-4",
+             "variable": "patientResultsObservationIdentifierTypeCoding1",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "basedOn[=].identifier.type.coding[+].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "patientResultsObservationIdentifierTypeCoding1"
+              }
+             ]
+            },
+            {
+             "context": "ServiceRequestTarget",
+             "element": "basedOn[=].identifier.type.coding[=].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+              }
+             ]
+            },
+            {
+             "context": "ServiceRequestTarget",
+             "element": "basedOn[=].type",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "ServiceRequest"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr29ToBasedOnIdentifier1Value",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-29-2",
+           "variable": "patientResultsObservationIdentifier1Value",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "obr2921ToBasedOnIdentifier1Value",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-29-2-1",
+             "variable": "patientResultsObservationIdentifier1Value1",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "basedOn[+].identifier.value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "patientResultsObservationIdentifier1Value1"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr2922ToBasedOnIdentifier1System",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-29-2-2",
+             "variable": "patientResultsObservationIdentifier1System1",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "basedOn[=].identifier.system",
+             "transform": "append",
+             "parameter": [
+              {
+               "valueString": "http://example.org/fhir/labasystem/"
+              },
+              {
+               "valueId": "patientResultsObservationIdentifier1System1"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr2923ToBasedOn1TypeCoding0",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-29-2-3",
+             "variable": "patientResultsObservationIdentifier1TypeCoding0",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "basedOn[=].identifier.type.coding[+].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "patientResultsObservationIdentifier1TypeCoding0"
+              }
+             ]
+            },
+            {
+             "context": "ServiceRequestTarget",
+             "element": "basedOn[=].identifier.type.coding[=].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr2924ToBasedOn1TypeCoding1",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-29-2-4",
+             "variable": "patientResultsObservationIdentifier1TypeCoding1",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "basedOn[=].identifier.type.coding[+].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "patientResultsObservationIdentifier1TypeCoding1"
+              }
+             ]
+            },
+            {
+             "context": "ServiceRequestTarget",
+             "element": "basedOn[=].identifier.type.coding[=].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+              }
+             ]
+            },
+            {
+             "context": "ServiceRequestTarget",
+             "element": "basedOn[=].type",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "ServiceRequest"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr31ToServiceRequestReasonCode",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-31",
+         "variable": "reasonForStudy",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr31ToReasonCodeCodinCode",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-31-1",
+           "variable": "reasonForStudyCodingCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "reasonCode[+].coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "reasonForStudyCodingCode"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr31ToReasonCodeCodingDisplay",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-31-2",
+           "variable": "reasonForStudyCodingDisplay",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "reasonCode[=].coding[=].display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "reasonForStudyCodingDisplay"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr31ToReasonCodeCodingSystem",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-31-3",
+           "variable": "reasonForStudyCodingSystem",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "reasonCode[=].coding[=].system",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "reasonForStudyCodingSystem"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr7ToEffectiveDateTime",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-7",
+         "variable": "diagnosticReportObservationDateTime",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "effective",
+         "transform": "dateOp",
+         "parameter": [
+          {
+           "valueId": "diagnosticReportObservationDateTime"
+          },
+          {
+           "valueString": "yyyyMMddHHmm"
+          },
+          {
+           "valueString": "yyyy-MM-dd'T'HH:mm:ssXXX"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr8ToEffectivePeriod",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-8",
+         "variable": "diagnosticReportObservationEndDateTime",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "effective",
+         "variable": "diagnosticReportEffectivePeriodVar",
+         "transform": "create",
+         "parameter": [
+          {
+           "valueString": "Period"
+          }
+         ]
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr8ToEnd",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-8",
+           "variable": "diagnosticReportObservationEndDateTime",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "diagnosticReportEffectivePeriodVar",
+           "element": "end",
+           "transform": "dateOp",
+           "parameter": [
+            {
+             "valueId": "diagnosticReportObservationEndDateTime"
+            },
+            {
+             "valueString": "yyyyMMddHHmm"
+            },
+            {
+             "valueString": "yyyy-MM-dd'T'HH:mm:ssXXX"
+            }
+           ]
+          }
+         ],
+         "rule": [
+          {
+           "name": "obr7ToStart",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-7",
+             "variable": "diagnosticReportObservationStart",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "diagnosticReportEffectivePeriodVar",
+             "element": "start",
+             "transform": "dateOp",
+             "parameter": [
+              {
+               "valueId": "diagnosticReportObservationStart"
+              },
+              {
+               "valueString": "yyyyMMddHHmm"
+              },
+              {
+               "valueString": "yyyy-MM-dd'T'HH:mm:ssXXX"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr22ToIssued",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-22",
+         "variable": "obr22DateTime",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "issued",
+         "transform": "dateOp",
+         "parameter": [
+          {
+           "valueId": "obr22DateTime"
+          },
+          {
+           "valueString": "yyyyMMddHHmm"
+          },
+          {
+           "valueString": "instant"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr24ToCategory",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-24",
+         "variable": "obr24DiagnosticServiceSectionID",
+         "condition": "$this.exists() and $this in ('AU' | 'BG' | 'BLB' | 'CG' | 'CUS' | 'CTH' | 'CT' | 'CH' | 'CP' | 'EC' | 'EN' | 'GE' | 'HM' | 'IMG' | 'ICU' | 'IMM' | 'LAB' | 'MB' | 'MCB' | 'MYC' | 'NMS' | 'NMR' | 'NRS' | 'OUS' | 'OT' | 'OTH' | 'OSL' | 'PAR' | 'PHR' | 'PAT' | 'PT' | 'PHY' | 'PF' | 'RAD' | 'RX' | 'RUS' | 'RC' | 'RT' | 'SR' | 'SP' | 'TX' | 'VUS' | 'VR' | 'URN' | 'XRC')"
+        }
+       ],
+       "target": [
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "category[+].coding[+].code",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "obr24DiagnosticServiceSectionID"
+          }
+         ]
+        },
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "category[=].coding[=].system",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://terminology.hl7.org/CodeSystem/v2-0074"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr24ToCategoryCustom",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-24",
+         "variable": "obr24DiagnosticServiceSectionID",
+         "condition": "$this.exists() and ($this in ('AU' | 'BG' | 'BLB' | 'CG' | 'CUS' | 'CTH' | 'CT' | 'CH' | 'CP' | 'EC' | 'EN' | 'GE' | 'HM' | 'IMG' | 'ICU' | 'IMM' | 'LAB' | 'MB' | 'MCB' | 'MYC' | 'NMS' | 'NMR' | 'NRS' | 'OUS' | 'OT' | 'OTH' | 'OSL' | 'PAR' | 'PHR' | 'PAT' | 'PT' | 'PHY' | 'PF' | 'RAD' | 'RX' | 'RUS' | 'RC' | 'RT' | 'SR' | 'SP' | 'TX' | 'VUS' | 'VR' | 'URN' | 'XRC')).not()"
+        }
+       ],
+       "target": [
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "category[+].coding[+].code",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "obr24DiagnosticServiceSectionID"
+          }
+         ]
+        },
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "category[=].coding[=].system",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://example.org/fhir/labasystem/"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr25ToStatus",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-25",
+         "variable": "obr25Status",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr25Status",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-25",
+           "variable": "obr25StatusRegistered",
+           "condition": "$this.exists() and ($this = 'O' or $this = 'I' or $this = 'S')"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "registered"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr25StatusPreliminary",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-25",
+           "variable": "obr25StatusPreliminary",
+           "condition": "$this.exists() and ($this = 'P')"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "preliminary"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr25StatusCorrected",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-25",
+           "variable": "obr25StatusCorrected",
+           "condition": "$this.exists() and ($this = 'C')"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "corrected"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr25StatusPartial",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-25",
+           "variable": "obr25StatusPartial",
+           "condition": "$this.exists() and ($this = 'R')"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "partial"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr25StatusFinal",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-25",
+           "variable": "obr25StatusFinal",
+           "condition": "$this.exists() and ($this = 'F')"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "final"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr25StatusCancelled",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-25",
+           "variable": "obr25StatusCancelled",
+           "condition": "$this.exists() and ($this = 'X')"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "cancelled"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr32ToResultsInterpreter",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-32",
+         "variable": "principalResultsInterpreter",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr32Identifier",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-32-1",
+           "variable": "idNumber",
+           "condition": "$this.exists() and ($this in %DiagnosticReportTarget.resultsInterpreter.identifier.value).not()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "resultsInterpreter[+].identifier.value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "idNumber"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "resultsInterpreter[=].identifier.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://example.org"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "resultsInterpreter[=].type",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "PractitionerRole"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr34ToPerformer",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-34",
+         "variable": "technician",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr34Identifier",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-34-1",
+           "variable": "idNumber",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "performer[+].identifier.value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "idNumber"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "performer[=].identifier.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://example.org"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "performer[=].type",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "PractitionerRole"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr35ToTranscriptionist",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-35",
+         "variable": "transcriptionist",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr35Identifier",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-35-1",
+           "variable": "idNumber",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "performer[+].identifier.value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "idNumber"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "performer[=].identifier.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://example.org"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "performer[=].type",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "PractitionerRole"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr7ToSpecimenCollectionCollectedDateTime",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-7",
+         "variable": "specimenCollectionCollectedDateTime",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "SpecimenTarget",
+         "element": "collection.collected",
+         "transform": "dateOp",
+         "parameter": [
+          {
+           "valueId": "specimenCollectionCollectedDateTime"
+          },
+          {
+           "valueString": "yyyyMMddHHmm"
+          },
+          {
+           "valueString": "yyyy-MM-dd'T'HH:mm:ssXXX"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr8ToSpecimenCollectionCollectedPeriod",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-8",
+         "variable": "specimenCollectionCollectedEndDateTime",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "SpecimenTarget",
+         "element": "collection.collected",
+         "variable": "specimenCollectionCollectedPeriodVar",
+         "transform": "create",
+         "parameter": [
+          {
+           "valueString": "Period"
+          }
+         ]
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr8ToEnd",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-8",
+           "variable": "specimenCollectionCollectedEndDateTime",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "specimenCollectionCollectedPeriodVar",
+           "element": "end",
+           "transform": "dateOp",
+           "parameter": [
+            {
+             "valueId": "specimenCollectionCollectedEndDateTime"
+            },
+            {
+             "valueString": "yyyyMMddHHmm"
+            },
+            {
+             "valueString": "yyyy-MM-dd'T'HH:mm:ssXXX"
+            }
+           ]
+          }
+         ],
+         "rule": [
+          {
+           "name": "obr7ToStart",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-7",
+             "variable": "specimenCollectionCollectedStartDateTime",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "specimenCollectionCollectedPeriodVar",
+             "element": "start",
+             "transform": "dateOp",
+             "parameter": [
+              {
+               "valueId": "specimenCollectionCollectedStartDateTime"
+              },
+              {
+               "valueString": "yyyyMMddHHmm"
+              },
+              {
+               "valueString": "yyyy-MM-dd'T'HH:mm:ssXXX"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr9ToSpecimenCollectionQuantity",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-9",
+         "variable": "specimenCollectionVolume",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "SpecimenTarget",
+         "element": "collection.quantity",
+         "variable": "specimenCollectionQuantityVar",
+         "transform": "create",
+         "parameter": [
+          {
+           "valueString": "Quantity"
+          }
+         ]
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr9ToSpecimenCollectionQuantityValue",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-9-1",
+           "variable": "specimenCollectionVolumeValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "specimenCollectionQuantityVar",
+           "element": "value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "specimenCollectionVolumeValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr9ToSpecimenCollectionQuantityUnit",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-9-2",
+           "variable": "specimenCollectionVolumeUnit",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "specimenCollectionQuantityVar",
+           "element": "unit",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "specimenCollectionVolumeUnit"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr10ToSpecimenCollectionCollector",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-10",
+         "variable": "specimenCollectionCollector",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr10Identifier",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-10-1",
+           "variable": "idNumber",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "SpecimenTarget",
+           "element": "collection.collector.identifier.value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "idNumber"
+            }
+           ]
+          },
+          {
+           "context": "SpecimenTarget",
+           "element": "collection.collector.identifier.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://example.org"
+            }
+           ]
+          },
+          {
+           "context": "SpecimenTarget",
+           "element": "collection.collector.type",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "Practitioner"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr13ToSpecimenCollectionFastingStatus",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-13",
+         "variable": "specimenCollectionFastingStatus",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "SpecimenTarget",
+         "element": "collection.fastingStatus",
+         "variable": "fastingStatusCC",
+         "transform": "create",
+         "parameter": [
+          {
+           "valueString": "CodeableConcept"
+          }
+         ]
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr13ToFastingStatusCode",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-13",
+           "variable": "fastingStatusCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "fastingStatusCC",
+           "element": "text",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "fastingStatusCode"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr14ToSpecimenReceivedTime",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-14",
+         "variable": "specimenReceivedDateTime",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "SpecimenTarget",
+         "element": "receivedTime",
+         "transform": "dateOp",
+         "parameter": [
+          {
+           "valueId": "specimenReceivedDateTime"
+          },
+          {
+           "valueString": "yyyyMMddHHmm"
+          },
+          {
+           "valueString": "yyyy-MM-dd'T'HH:mm:ssXXX"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr15ToSpecimenSourceSiteModifier",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-15",
+         "variable": "specimenSourceSiteModifier",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr151ToSpecimenTypeCode",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-15-1",
+           "variable": "specimenTypeCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "obr1511ToSpecimenTypeCode",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-15-1-1",
+             "variable": "specimenTypeCode",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "SpecimenTarget",
+             "element": "type.coding[+].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "specimenTypeCode"
+              }
+             ]
+            },
+            {
+             "context": "SpecimenTarget",
+             "element": "type.coding[=].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0487"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr1512ToSpecimenTypeDisplay",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-15-1-2",
+             "variable": "specimenTypeDisplay",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "SpecimenTarget",
+             "element": "type.coding[=].display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "specimenTypeDisplay"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr1514ToSpecimenType1Code",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-15-1-4",
+             "variable": "specimenType1Code",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "SpecimenTarget",
+             "element": "type.coding[+].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "specimenType1Code"
+              }
+             ]
+            },
+            {
+             "context": "SpecimenTarget",
+             "element": "type.coding[=].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0487"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr1515ToSpecimenType1Display",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-15-1-5",
+             "variable": "specimenType1Display",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "SpecimenTarget",
+             "element": "type.coding[=].display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "specimenType1Display"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr153ToSpecimenNote",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-15-3",
+           "variable": "specimenNote",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "SpecimenTarget",
+           "element": "note[+].text",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "specimenNote"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr154ToSpecimenCollectionBodySiteCoding",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-15-4",
+           "variable": "specimenCollectionBodySiteCoding",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "obr1541ToSpecimenCollectionBodySiteCodingCode",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-15-4-1",
+             "variable": "specimenCollectionBodySiteCodingCode",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "SpecimenTarget",
+             "element": "collection.bodySite.coding[+].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "specimenCollectionBodySiteCodingCode"
+              }
+             ]
+            },
+            {
+             "context": "SpecimenTarget",
+             "element": "collection.bodySite.coding[=].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0163"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr1542ToSpecimenCollectionBodySiteCodingDisplay",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-15-4-2",
+             "variable": "specimenCollectionBodySiteCodingDisplay",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "SpecimenTarget",
+             "element": "collection.bodySite.coding[=].display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "specimenCollectionBodySiteCodingDisplay"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr1544ToSpecimenCollectionBodySiteCoding1Code",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-15-4-4",
+             "variable": "specimenCollectionBodySiteCoding1Code",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "SpecimenTarget",
+             "element": "collection.bodySite.coding[+].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "specimenCollectionBodySiteCoding1Code"
+              }
+             ]
+            },
+            {
+             "context": "SpecimenTarget",
+             "element": "collection.bodySite.coding[=].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0163"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr1545ToSpecimenCollectionBodySiteCoding1Display",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-15-4-5",
+             "variable": "specimenCollectionBodySiteCoding1Display",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "SpecimenTarget",
+             "element": "collection.bodySite.coding[=].display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "specimenCollectionBodySiteCoding1Display"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr155ToSpecimenCollectionMethod",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-15-5",
+           "variable": "specimenCollectionMethodCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "obr1551ToSpecimenCollectionMethodCodingCode",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-15-5-1",
+             "variable": "specimenCollectionMethodCodingCode",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "SpecimenTarget",
+             "element": "collection.method.coding[+].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "specimenCollectionMethodCodingCode"
+              }
+             ]
+            },
+            {
+             "context": "SpecimenTarget",
+             "element": "collection.method.coding[=].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0492"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr1552ToSpecimenCollectionMethodCodingDisplay",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-15-5-2",
+             "variable": "specimenCollectionMethodCodingDisplay",
+             "condition": "$this.exists() and %specimenCollectionMethodCodingCode.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "SpecimenTarget",
+             "element": "collection.method.coding[=].display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "specimenCollectionMethodCodingDisplay"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr1554ToSpecimenCollectionMethodCoding1Code",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-15-5-4",
+             "variable": "specimenCollectionMethodCoding1Code",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "SpecimenTarget",
+             "element": "collection.method.coding[+].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "specimenCollectionMethodCoding1Code"
+              }
+             ]
+            },
+            {
+             "context": "SpecimenTarget",
+             "element": "collection.method.coding[=].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0492"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr1555ToSpecimenCollectionMethodCoding1Display",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-15-5-5",
+             "variable": "specimenCollectionMethodCoding1Display",
+             "condition": "$this.exists() and %specimenCollectionMethodCoding1Code.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "SpecimenTarget",
+             "element": "collection.method.coding[=].display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "specimenCollectionMethodCoding1Display"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr156ToSpecimenCondition",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-15-6",
+           "variable": "specimenCollectionMethodModifierCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "obr1561ToSpecimenConditionCodingCode",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-15-6-1",
+             "variable": "specimenConditionCodingCode",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "SpecimenTarget",
+             "element": "condition[+].coding[+].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "specimenConditionCodingCode"
+              }
+             ]
+            },
+            {
+             "context": "SpecimenTarget",
+             "element": "condition[=].coding[=].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0493"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr1562ToSpecimenConditionCodingDisplay",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-15-6-2",
+             "variable": "specimenConditionCodingDisplay",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "SpecimenTarget",
+             "element": "condition[=].coding[=].display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "specimenConditionCodingDisplay"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr1564ToSpecimenConditionCoding1Code",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-15-6-4",
+             "variable": "specimenConditionCoding1Code",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "SpecimenTarget",
+             "element": "condition[+].coding[+].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "specimenConditionCoding1Code"
+              }
+             ]
+            },
+            {
+             "context": "SpecimenTarget",
+             "element": "condition[=].coding[=].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0493"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obr1565ToSpecimenConditionCoding1Display",
+           "source": [
+            {
+             "context": "obr",
+             "type": "string",
+             "element": "OBR-15-6-5",
+             "variable": "specimenConditionCoding1Display",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "SpecimenTarget",
+             "element": "condition[=].coding[=].display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "specimenConditionCoding1Display"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr39ToSpecimenNote",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-39",
+           "variable": "collectorsComment",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "SpecimenTarget",
+           "element": "note[+].text",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "collectorsComment"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

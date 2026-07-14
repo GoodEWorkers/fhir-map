@@ -1,0 +1,21 @@
+meta {
+  name: Search by Source Code
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/fhir/ConceptMap?source-code=home
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq Bundle
+  res.body.type: eq searchset
+}

@@ -1,0 +1,77 @@
+{
+  "resourceType": "TestScript",
+  "id": "fhir-map-02-translate-no-match",
+  "url": "http://goodeworkers.github.io/fhir-map/testscripts/02-translate-no-match",
+  "version": "1.0",
+  "name": "FhirMapTranslateNoMatch",
+  "title": "fhir-map: ConceptMap $translate — No Match",
+  "status": "active",
+  "experimental": true,
+  "date": "2026-05-27",
+  "publisher": "fhir-map",
+  "description": "POST $translate with a code that has no mapping in the ConceptMap; assert HTTP 200 with result=false (a missing mapping is not a 404).",
+  "fixture": [
+    {
+      "id": "cm-icd10-to-snomed",
+      "autocreate": true,
+      "autodelete": true,
+      "resource": {
+        "reference": "ConceptMap/icd10-to-snomed",
+        "display": "ICD-10 to SNOMED CT ConceptMap"
+      }
+    },
+    {
+      "id": "translate-input",
+      "autocreate": false,
+      "autodelete": false,
+      "resource": {
+        "reference": "Parameters/translate-no-match-input",
+        "display": "Parameters: url + unmapped sourceCode + sourceSystem ICD-10"
+      }
+    }
+  ],
+  "test": [
+    {
+      "id": "test-02",
+      "name": "Translate an unmapped code yields result=false",
+      "action": [
+        {
+          "operation": {
+            "resource": "ConceptMap",
+            "description": "POST $translate for a code with no target mapping",
+            "encodeRequestUrl": true,
+            "params": "/$translate",
+            "sourceId": "translate-input",
+            "responseId": "translate-response"
+          }
+        },
+        {
+          "assert": {
+            "description": "HTTP status is 200 OK (not 404 — the ConceptMap exists, the code simply has no mapping)",
+            "response": "okay",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        },
+        {
+          "assert": {
+            "description": "Response is a Parameters resource",
+            "resource": "Parameters",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        },
+        {
+          "assert": {
+            "description": "result parameter is false (no mapping found)",
+            "expression": "Parameters.parameter.where(name='result').value.ofType(boolean)",
+            "operator": "equals",
+            "value": "false",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        }
+      ]
+    }
+  ]
+}

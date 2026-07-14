@@ -1,0 +1,57 @@
+meta {
+  name: 08_string_concat
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/concat",
+          "name": "Concat",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "r",
+              "source": [{"context": "src", "variable": "s"}],
+              "target": [{"context": "tgt", "element": "full", "transform": "evaluate",
+                          "parameter": [{"valueId": "s"}, {"valueString": "first & ' ' & last"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "first": "Ada", "last": "Lovelace"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.full: eq "Ada Lovelace"
+}
+
+docs {
+  `&` string concatenation operator — distinct from `+` because `+`
+  errors on string operands per FHIRPath spec, but `&` always coerces.
+}

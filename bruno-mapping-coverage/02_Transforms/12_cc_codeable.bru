@@ -1,0 +1,63 @@
+meta {
+  name: 12_cc_codeable
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/cc-test",
+          "name": "CCTest",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "cc",
+              "source": [{"context": "src", "element": "c", "variable": "x"}],
+              "target": [{"context": "tgt", "element": "code", "transform": "cc",
+                          "parameter": [
+                            {"valueString": "http://snomed.info/sct"},
+                            {"valueId": "x"}
+                          ]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "c": "271649006"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.code.coding[0].system: eq "http://snomed.info/sct"
+  res.body.code.coding[0].code: eq "271649006"
+}
+
+docs {
+  cc(system, code) — builds a CodeableConcept wrapping a single Coding.
+  SPEC GAP CANDIDATE: spec also defines cc(text) one-arg form; the
+  server currently requires (system, code) and errors on the bare-text
+  form. Tracked in 09_SpecGaps.
+}

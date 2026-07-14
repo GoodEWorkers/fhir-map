@@ -1,0 +1,56 @@
+meta {
+  name: 04_substring
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/substr",
+          "name": "Substr",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "r",
+              "source": [{"context": "src", "variable": "s"}],
+              "target": [{"context": "tgt", "element": "year", "transform": "evaluate",
+                          "parameter": [{"valueId": "s"}, {"valueString": "date.substring(0, 4)"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "date": "2024-05-16"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.year: eq "2024"
+}
+
+docs {
+  substring(start, length) — extract first 4 characters from a date.
+}

@@ -1,0 +1,31 @@
+meta {
+  name: vread Version 1
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/fhir/R5/StructureDefinition/{{sdId}}/_history/1
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.headers["etag"]: contains "1"
+  res.body.resourceType: eq StructureDefinition
+  res.body.status: eq draft
+  res.body.title: eq Test Patient Profile
+}
+
+docs {
+  # vread StructureDefinition version 1
+
+  Fetches the original draft version (before the status-promotion update).
+  The ETag confirms version 1 and the status is still `draft` — the update
+  only appears in version 2.
+}

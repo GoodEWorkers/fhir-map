@@ -1,0 +1,56 @@
+meta {
+  name: 06_length
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/length",
+          "name": "Length",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "r",
+              "source": [{"context": "src", "variable": "s"}],
+              "target": [{"context": "tgt", "element": "len", "transform": "evaluate",
+                          "parameter": [{"valueId": "s"}, {"valueString": "name.length()"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "name": "Ada"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.len: eq 3
+}
+
+docs {
+  length() — string length of receiver.
+}

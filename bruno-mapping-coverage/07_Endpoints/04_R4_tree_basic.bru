@@ -1,0 +1,39 @@
+meta {
+  name: 04_R4_tree_basic
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/fhir/R4/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "fml",
+        "valueString": "map \"http://example.org/fml/r4\" = \"R4Test\"\ngroup main(source src, target tgt) {\n  src.x as v -> tgt.y = copy(v);\n}\n"
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "x": "r4"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.y: eq r4
+}
+
+docs {
+  R4 tree $transform — uses the same FML/Parameters shape as R5 since
+  the wire format for StructureMap is shared.
+}

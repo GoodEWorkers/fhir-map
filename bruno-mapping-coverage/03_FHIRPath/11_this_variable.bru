@@ -1,0 +1,59 @@
+meta {
+  name: 11_this_variable
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/this",
+          "name": "ThisV",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "r",
+              "source": [{"context": "src", "element": "tags", "variable": "t",
+                          "condition": "$this = 'green'"}],
+              "target": [{"context": "tgt", "element": "match", "transform": "copy",
+                          "parameter": [{"valueId": "t"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content",
+       "resource": {"resourceType": "Basic", "tags": ["red", "green", "blue"]}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.match: eq green
+}
+
+docs {
+  $this — the current evaluation context. Lets a condition compare the
+  primitive list element itself rather than a field of it.
+}

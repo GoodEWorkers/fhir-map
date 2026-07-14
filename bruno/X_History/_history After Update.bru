@@ -1,0 +1,39 @@
+meta {
+  name: _history After Update
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/fhir/R5/ConceptMap/{{conceptMapId}}/_history
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq Bundle
+  res.body.type: eq history
+  res.body.total: gte 2
+  res.body.entry[0].request.method: eq PUT
+  res.body.entry[1].request.method: eq POST
+}
+
+docs {
+  # ConceptMap/_history — full timeline
+
+  Returns a FHIR Bundle of type=history with one entry per version of the
+  resource, newest-first. After the CRUD folder has run Create + Update, this
+  endpoint returns at least 2 entries:
+
+  - entry[0]: the most recent change (PUT — the update)
+  - entry[1]: the original create (POST)
+
+  Each entry carries `request` (method + URL), `response` (status, etag,
+  lastModified), and the `resource` snapshot frozen at that version.
+  Delete entries omit `resource` per FHIR convention.
+}

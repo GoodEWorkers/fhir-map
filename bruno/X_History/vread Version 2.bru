@@ -1,0 +1,30 @@
+meta {
+  name: vread Version 2
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/fhir/R5/ConceptMap/{{conceptMapId}}/_history/2
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq ConceptMap
+  res.body.status: eq active
+  res.body.version: eq 2.0.0
+}
+
+docs {
+  # vread — version 2 (after the update)
+
+  v2 reflects the update from the CRUD folder: status=active, version=2.0.0.
+  Confirming vread on v2 returns the updated snapshot, while vread on v1
+  (previous test) still returns the original create snapshot.
+}

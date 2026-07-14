@@ -1,0 +1,138 @@
+meta {
+  name: Transform Numeric Literals
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/fhir/$transform
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/fhir/StructureMap/decimal-literal-demo",
+          "name": "DecimalLiteralDemo",
+          "title": "Decimal literal handling in copy() and evaluate()",
+          "status": "active",
+          "group": [
+            {
+              "name": "main",
+              "input": [
+                { "name": "source", "mode": "source" },
+                { "name": "target", "mode": "target" }
+              ],
+              "rule": [
+                {
+                  "name": "literalFactor",
+                  "source": [
+                    { "context": "source", "element": "value", "variable": "v" }
+                  ],
+                  "target": [
+                    {
+                      "context": "target",
+                      "element": "factor",
+                      "transform": "copy",
+                      "parameter": [
+                        { "valueDecimal": 2.5 }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "scaleByDecimal",
+                  "source": [
+                    { "context": "source", "element": "value", "variable": "v" }
+                  ],
+                  "target": [
+                    {
+                      "context": "target",
+                      "element": "scaled",
+                      "transform": "evaluate",
+                      "parameter": [
+                        { "valueId": "v" },
+                        { "valueString": "$this * 2.5" }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "scaleByNegativeDecimal",
+                  "source": [
+                    { "context": "source", "element": "value", "variable": "v" }
+                  ],
+                  "target": [
+                    {
+                      "context": "target",
+                      "element": "scaledNeg",
+                      "transform": "evaluate",
+                      "parameter": [
+                        { "valueId": "v" },
+                        { "valueString": "$this * -2.5" }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "name": "source",
+        "resource": {
+          "value": 10
+        }
+      }
+    ]
+  }
+}
+
+docs {
+  # Decimal literal handling
+
+  Regression / showcase request for floating-point literal support in the
+  `$transform` engine.
+
+  Two things are exercised:
+
+  1. **`copy(2.5)` → `target.factor`** — a literal `valueDecimal` flows through
+     the executor's literal resolution. In FML this is authored as `copy(2.5)`;
+     the FML parser stores it as `Parameter.valueDecimal` (a real float64), not a
+     stringified value.
+  2. **`evaluate(v, '$this * 2.5')` → `target.scaled`** — a decimal literal
+     **inside a FHIRPath expression**. This is the path that previously failed:
+     the runtime FHIRPath lexer only knew integers, so `2.5` lexed as `2` `.` `5`
+     and the parser errored with *"trailing input after expression"*. The lexer
+     now recognises `[0-9]+.[0-9]+` (digits required both sides), matching the
+     reference org.hl7.fhir FHIRLexer and the FML lexer.
+
+  3. **`evaluate(v, '$this * -2.5')` → `target.scaledNeg`** — a **unary minus**
+     inside a FHIRPath expression. FHIRPath defines `('+'|'-') expression` as a
+     polarity operator (the sign is not part of the literal). The engine now
+     supports it, matching org.hl7.fhir, Medplum, and fhirpath.js. (Unary `-`/`+`
+     on literal `copy()` args, e.g. `copy(-2.5)`, is also supported in FML text.)
+
+  Source `{ "value": 10 }` → expected target
+  `{ "factor": 2.5, "scaled": 25, "scaledNeg": -25 }`.
+
+  Note: decimals are IEEE-754 float64 (consistent with FHIR JSON decimals and
+  the rest of the evaluator), so high-precision arithmetic (e.g. `0.1 + 0.2`)
+  follows float64 rounding rather than arbitrary precision.
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

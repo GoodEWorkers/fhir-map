@@ -1,0 +1,36 @@
+meta {
+  name: 01_missing_content
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {"name": "fml",
+       "valueString": "map \"http://x\" = \"X\"\ngroup main(source s, target t) { s.a as v -> t.b = copy(v); }\n"}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.resourceType: eq OperationOutcome
+}
+
+docs {
+  Parameters body without a `content` (or `source`/`input`) part must
+  fail with 400 — the engine has nothing to transform.
+}

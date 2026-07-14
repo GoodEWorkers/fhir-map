@@ -1,0 +1,87 @@
+# Local git hooks via lefthook. Install with: make setup (or `lefthook install`).
+#
+# Goal: every check that commonly fails CI runs locally FIRST, so a red commit
+# never burns CI minutes for something a short local wait would have caught.
+# These commands mirror the CI jobs in .github/workflows/ci.yml (same tools,
+# same pinned versions) so "green locally" means "green in CI".
+#
+# All hooks are bypassable with `--no-verify` in an emergency; CI re-runs the
+# same checks and remains authoritative. See CONTRIBUTING.md.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# pre-commit — maximum safety: fmt, lint, build, security, and unit tests.
+# Ordered fast → slow so a quick failure (fmt/lint) aborts before the slow
+# steps (gosec/govulncheck/tests) ever run. Runs sequentially; first failure
+# stops the commit.
+# ─────────────────────────────────────────────────────────────────────────────
+pre-commit:
+  parallel: false
+  commands:
+    # 1. Formatting (instant) — matches .golangci.yml formatters.
+    gofmt:
+      glob: "*.go"
+      run: test -z "$(gofmt -l {staged_files})"
+      fail_text: "gofmt: run 'gofmt -w .' to fix formatting"
+
+    goimports:
+      glob: "*.go"
+      run: test -z "$(goimports -l {staged_files})"
+      fail_text: "goimports: run 'goimports -w .' to fix import ordering"
+
+    # 2. Secret scan of staged content (fast) — local guard; CI uses TruffleHog.
+    secret-scan:
+      run: gitleaks protect --staged --no-banner
+      fail_text: "gitleaks: potential secret detected in staged files — do NOT commit"
+
+    # 3. Full lint — IDENTICAL to the CI Lint job (golangci-lint v2.12.2).
+    #    NOTE: full run (not --fast-only); govet/shadow only runs in the full
+    #    pass, and that is exactly the class of issue CI fails on.
+    lint:
+      glob: "*.go"
+      run: golangci-lint run ./...
+      fail_text: "golangci-lint failed — fix the reported issues (this is what CI runs)"
+
+    # 4. Build — mirrors the CI Build job's binary compile.
+    build:
+      glob: "*.go"
+      run: go build -ldflags="-s -w" -o ./bin/server ./cmd/server
+      fail_text: "go build failed"
+
+    # 5. Static security analysis — mirrors the CI SAST job (pinned versions,
+    #    installed by `make tools`). Installed binaries (not `go run`) because a
+    #    `go run`-built govulncheck aborts at launch on recent macOS
+    #    ("missing LC_UUID load command").
+    gosec:
+      glob: "*.go"
+      run: gosec -severity high -quiet ./...
+      fail_text: "gosec found a HIGH-severity issue (or gosec is not installed — run 'make tools')"
+
+    govulncheck:
+      glob: "*.go"
+      run: govulncheck ./...
+      fail_text: "govulncheck found a known vulnerability (or govulncheck is not installed — run 'make tools')"
+
+    # 6. Unit tests with the race detector (no integration tag → no Docker
+    #    needed). Integration tests run at pre-push and in CI.
+    unit-tests:
+      glob: "*.go"
+      run: go test -race ./...
+      fail_text: "unit tests failed"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# pre-push — the heavier integration suite (matches the CI coverage job's
+# `-tags integration` run). Requires Docker (testcontainers spin up Postgres).
+# Skips gracefully with a warning if Docker is not running, so a push is never
+# hard-blocked by a stopped Docker daemon — CI remains authoritative for it.
+# ─────────────────────────────────────────────────────────────────────────────
+pre-push:
+  parallel: false
+  commands:
+    integration-tests:
+      run: |
+        if docker info >/dev/null 2>&1; then
+          go test -tags integration -race -count=1 ./...
+        else
+          echo "⚠  Docker not running — skipping integration tests locally (CI will run them)."
+        fi
+      fail_text: "integration tests failed"

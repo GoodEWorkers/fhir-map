@@ -1,0 +1,26 @@
+meta {
+  name: Delete StructureDefinition
+  type: http
+  seq: 7
+}
+
+delete {
+  url: {{baseUrl}}/fhir/R5/StructureDefinition/{{sdId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 204
+}
+
+docs {
+  # Delete StructureDefinition
+
+  Soft-deletes the test profile. Sets `deleted_at` so subsequent Reads
+  return 410 Gone, the `url` unique-index constraint is lifted (partial
+  index on `deleted_at IS NULL`), and re-running the collection from
+  scratch creates a fresh profile without a 409 conflict.
+
+  A second DELETE on the same id also returns 204 (idempotent, per FHIR).
+}

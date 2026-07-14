@@ -1,0 +1,56 @@
+meta {
+  name: 06_uuid
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/uuid-test",
+          "name": "UuidTest",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "id",
+              "source": [{"context": "src", "element": "marker", "variable": "m"}],
+              "target": [{"context": "tgt", "element": "id", "transform": "uuid"}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "marker": "go"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: matches ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+}
+
+docs {
+  uuid() — generates an RFC 4122 v4 UUID. The regex asserts the format
+  (version 4, variant 10xx).
+}

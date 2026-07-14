@@ -1,0 +1,50 @@
+meta {
+  name: 08_fml_uses_as_mode_GAP
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "fml",
+        "valueString": "map \"http://example.org/fml/uses\" = \"Uses\"\nuses \"http://hl7.org/fhir/StructureDefinition/QuestionnaireResponse\" alias QR as source\nuses \"http://hl7.org/fhir/StructureDefinition/Patient\" alias P as target\ngroup main(source qr : QR, target p : P) {\n  qr.name as n -> p.name = copy(n);\n}\n"
+      },
+      {"name": "content", "resource": {"resourceType": "QuestionnaireResponse", "name": "Ada"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.name: eq Ada
+}
+
+docs {
+  `uses "url" alias X as source` is valid FHIR R5 FML per spec
+  (StructureMap.structure.mode is 1..1 Required). Two fixes were needed:
+
+  1. Parser (already in place): parseUses now accepts tKwSource/tKwTarget
+     tokens in the `as` slot so `uses "..." as source` parses correctly.
+
+  2. Engine alias expansion (engine.go): when group input Type is an alias
+     (no "://"), the engine looks it up in sm.Structure, substitutes the
+     aliased URL, then resolves the URL via the type resolver.
+     Before this fix the engine compared the alias "QR" against the runtime
+     resourceType "QuestionnaireResponse" and returned 422 ErrInputTypeMismatch.
+
+  Both fixes are now live; this test verifies the full round-trip.
+}

@@ -1,0 +1,35 @@
+meta {
+  name: Read StructureDefinition
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/fhir/R5/StructureDefinition/{{sdId}}
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.headers["content-type"]: contains application/fhir+json
+  res.headers["etag"]: isDefined
+  res.body.resourceType: eq StructureDefinition
+  res.body.id: eq {{sdId}}
+  res.body.name: eq TestPatientProfile
+  res.body.type: eq Patient
+  res.body.kind: eq resource
+}
+
+docs {
+  # Read StructureDefinition
+
+  Retrieves the profile created in the previous step by its server-assigned
+  logical id. The response echoes back all fields including the HL7-defined
+  `type` and `kind` that the resolver uses when walking the `baseDefinition`
+  chain.
+}

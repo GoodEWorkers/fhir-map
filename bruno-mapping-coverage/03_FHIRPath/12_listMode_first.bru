@@ -1,0 +1,61 @@
+meta {
+  name: 12_listMode_first
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/lm-first",
+          "name": "LMFirst",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "r",
+              "source": [{"context": "src", "element": "items", "variable": "i", "listMode": "first"}],
+              "target": [{"context": "tgt", "element": "head", "transform": "evaluate",
+                          "parameter": [{"valueId": "i"}, {"valueString": "name"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content",
+       "resource": {"resourceType": "Basic", "items": [
+         {"name": "alpha"},
+         {"name": "beta"},
+         {"name": "gamma"}
+       ]}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.head: eq alpha
+}
+
+docs {
+  source.listMode = first — keep only the first element of the binding.
+}

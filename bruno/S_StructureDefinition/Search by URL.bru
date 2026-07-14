@@ -1,0 +1,32 @@
+meta {
+  name: Search by URL
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/fhir/R5/StructureDefinition?url=http%3A%2F%2Fexample.org%2Ffhir%2FStructureDefinition%2FTestPatientProfile
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq Bundle
+  res.body.type: eq searchset
+  res.body.total: eq 1
+  res.body.entry[0].resource.name: eq TestPatientProfile
+}
+
+docs {
+  # Search StructureDefinition by canonical URL
+
+  Finds the profile by its `url` search parameter. Returns a searchset
+  Bundle with `total: 1`. This is the lookup path the canonical-URL
+  resolver uses for custom (non-HL7) profiles: it calls
+  `repo.FindByURL(ctx, url, "")` which queries this same index.
+}

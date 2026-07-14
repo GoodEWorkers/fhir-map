@@ -1,0 +1,82 @@
+meta {
+  name: Create Transform Map
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "StructureMap",
+    "url": "http://example.org/StructureMap/qr-to-patient-transform",
+    "version": "1.0.0",
+    "name": "QRtoPatientTransform",
+    "status": "active",
+    "group": [
+      {
+        "name": "Map",
+        "input": [
+          {"name": "src", "type": "QuestionnaireResponse", "mode": "source"},
+          {"name": "tgt", "type": "Patient",                "mode": "target"}
+        ],
+        "rule": [
+          {
+            "name": "firstName",
+            "source": [
+              {"context": "src", "element": "item.where(linkId = 'first').answer.valueString", "variable": "v"}
+            ],
+            "target": [
+              {"context": "tgt", "element": "firstName", "transform": "copy", "parameter": [{"valueId": "v"}]}
+            ]
+          },
+          {
+            "name": "lastName",
+            "source": [
+              {"context": "src", "element": "item.where(linkId = 'last').answer.valueString", "variable": "v"}
+            ],
+            "target": [
+              {"context": "tgt", "element": "lastName", "transform": "copy", "parameter": [{"valueId": "v"}]}
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.resourceType: eq StructureMap
+  res.body.id: isDefined
+}
+
+script:post-response {
+  // Rebind structureMapId to this map so the follow-on instance-level
+  // $transform test resolves to a non-deleted resource (the original
+  // seed was already deleted by Z_Cleanup-style flow earlier).
+  bru.setVar("structureMapId", res.body.id);
+}
+
+docs {
+  # Create a StructureMap that the next test will $transform
+
+  Stores a small QR-to-Patient mapping. The same map is exercised in two
+  ways in the following tests:
+
+  - `$transform Inline` — POST against the type-level endpoint with the
+    map's canonical URL named in the Parameters body.
+  - `$transform Instance` — POST against the instance endpoint with just
+    the source resource in the body.
+
+  Both should produce `{"firstName":"Ada","lastName":"Lovelace"}`.
+}

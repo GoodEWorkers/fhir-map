@@ -1,0 +1,46 @@
+meta {
+  name: transform Instance
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/{{structureMapId}}/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "QuestionnaireResponse",
+    "item": [
+      {"linkId": "name", "answer": [{"valueString": "Augusta"}]}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body: isDefined
+}
+
+docs {
+  # $transform — instance form, bare source body
+
+  At the instance endpoint the StructureMap is implicit (it's the
+  resource named by the URL path), so the request body can be the bare
+  source resource without wrapping in a Parameters envelope. This is
+  the shape most automation callers prefer when applying a known map to
+  a stream of inputs.
+
+  The map used here is the QR-to-Patient map seeded by the
+  `Create StructureMap` test at the top of this folder — it has a
+  `name` rule that creates a target.name object and copies the answer
+  value into target.name.given. The response carries that nested
+  structure.
+}

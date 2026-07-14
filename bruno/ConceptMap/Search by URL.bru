@@ -1,0 +1,22 @@
+meta {
+  name: Search by URL
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/fhir/ConceptMap?url=http://example.org/fhir/ConceptMap/address-use
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq Bundle
+  res.body.type: eq searchset
+  res.body.total: isNumber
+}

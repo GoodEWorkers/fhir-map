@@ -1,0 +1,77 @@
+{
+  "resourceType": "TestScript",
+  "id": "fhir-map-06-translate-batch-smoke",
+  "url": "http://goodeworkers.github.io/fhir-map/testscripts/06-translate-batch-smoke",
+  "version": "1.0",
+  "name": "FhirMapTranslateBatchSmoke",
+  "title": "fhir-map: ConceptMap $translate-batch — Smoke",
+  "status": "active",
+  "experimental": true,
+  "date": "2026-05-27",
+  "publisher": "fhir-map",
+  "description": "POST $translate-batch with 5 input codings (a mix of matches and misses); assert HTTP 200 and exactly 5 per-probe translate result entries in input order.",
+  "fixture": [
+    {
+      "id": "cm-icd10-to-snomed",
+      "autocreate": true,
+      "autodelete": true,
+      "resource": {
+        "reference": "ConceptMap/icd10-to-snomed",
+        "display": "ICD-10 to SNOMED CT ConceptMap"
+      }
+    },
+    {
+      "id": "batch-input",
+      "autocreate": false,
+      "autodelete": false,
+      "resource": {
+        "reference": "Parameters/translate-batch-input",
+        "display": "Parameters: url + 5 repeating code parts (mix of hits and misses)"
+      }
+    }
+  ],
+  "test": [
+    {
+      "id": "test-06",
+      "name": "Batch translate of 5 probes returns 5 result entries",
+      "action": [
+        {
+          "operation": {
+            "resource": "ConceptMap",
+            "description": "POST $translate-batch with 5 probes",
+            "encodeRequestUrl": true,
+            "params": "/$translate-batch",
+            "sourceId": "batch-input",
+            "responseId": "batch-response"
+          }
+        },
+        {
+          "assert": {
+            "description": "HTTP status is 200 OK",
+            "response": "okay",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        },
+        {
+          "assert": {
+            "description": "Response is a Parameters resource",
+            "resource": "Parameters",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        },
+        {
+          "assert": {
+            "description": "Exactly 5 per-probe 'translate' result entries are present",
+            "expression": "Parameters.parameter.where(name='translate').count()",
+            "operator": "equals",
+            "value": "5",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+meta {
+  name: 06_fml_then_inline_GAP
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "fml",
+        "valueString": "map \"http://example.org/fml/then\" = \"ThenTest\"\ngroup main(source src, target tgt) {\n  src.outer as o -> tgt.outer = create('object') as t then {\n    o.inner as i -> t.inner = i;\n  };\n}\n"
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "outer": {"inner": "Ada"}}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.outer.inner: eq Ada
+}
+
+docs {
+  SPEC GAP — FML supports a `then { ... }` block after a rule for
+  inline nested rules and `then groupName(...)` for dependent
+  invocation. The current FML parser doesn't tokenise the `then`
+  keyword, so this request should produce a parse error and document
+  the gap.
+}

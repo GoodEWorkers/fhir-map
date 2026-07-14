@@ -1,0 +1,36 @@
+meta {
+  name: 02_bad_fml_syntax
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {"name": "fml", "valueString": "not a valid map declaration"},
+      {"name": "content", "resource": {"resourceType": "Basic", "x": "v"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.resourceType: eq OperationOutcome
+}
+
+docs {
+  Malformed FML → 400 with a parser error in the OperationOutcome
+  diagnostics. The error should point at a line number.
+}

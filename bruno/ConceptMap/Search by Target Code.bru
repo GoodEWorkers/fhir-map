@@ -1,0 +1,21 @@
+meta {
+  name: Search by Target Code
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/fhir/ConceptMap?target-code=H
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq Bundle
+  res.body.type: eq searchset
+}

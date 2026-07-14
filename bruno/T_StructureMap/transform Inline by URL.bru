@@ -1,0 +1,59 @@
+meta {
+  name: transform Inline by URL
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {"name": "map", "valueUri": "http://example.org/StructureMap/qr-to-patient-transform"},
+      {
+        "name": "source",
+        "resource": {
+          "resourceType": "QuestionnaireResponse",
+          "item": [
+            {"linkId": "first", "answer": [{"valueString": "Ada"}]},
+            {"linkId": "last",  "answer": [{"valueString": "Lovelace"}]}
+          ]
+        }
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.firstName: eq Ada
+  res.body.lastName: eq Lovelace
+}
+
+docs {
+  # $transform — type-level, by canonical URL
+
+  The type-level $transform endpoint takes a Parameters body naming the
+  map to apply via the `map` parameter (canonical URL or id) and the
+  source resource via the `source` parameter. The server resolves the
+  StructureMap, runs the executor, and returns the transformed target
+  resource directly as the response body.
+
+  Engine pipeline:
+  - The handler parses Parameters, extracts the canonical URL and source.
+  - structuremap.Service.FindByURL resolves the StructureMap to a parsed
+    domain object.
+  - transform.Engine.Transform walks group→rule→source/target,
+    evaluating each source.element via the FHIRPath subset engine and
+    applying the named transform (`copy` here) to each target.
+}

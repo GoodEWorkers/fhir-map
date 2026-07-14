@@ -1,0 +1,67 @@
+meta {
+  name: Update ConceptMap
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{baseUrl}}/fhir/ConceptMap/{{conceptMapId}}
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "ConceptMap",
+    "id": "{{conceptMapId}}",
+    "url": "http://example.org/fhir/ConceptMap/address-use",
+    "version": "2.0.0",
+    "name": "AddressUseMapping",
+    "title": "Address Use Mapping (Updated)",
+    "status": "active",
+    "description": "Updated mapping between address use codes",
+    "group": [
+      {
+        "source": "http://hl7.org/fhir/address-use",
+        "target": "http://terminology.hl7.org/CodeSystem/v3-AddressUse",
+        "element": [
+          {
+            "code": "home",
+            "display": "Home",
+            "target": [
+              {
+                "code": "H",
+                "display": "home address",
+                "relationship": "equivalent"
+              }
+            ]
+          },
+          {
+            "code": "work",
+            "display": "Work",
+            "target": [
+              {
+                "code": "WP",
+                "display": "work place",
+                "relationship": "equivalent"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq ConceptMap
+  res.body.status: eq active
+  res.body.version: eq 2.0.0
+  res.body.title: eq Address Use Mapping (Updated)
+}

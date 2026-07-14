@@ -1,0 +1,49 @@
+meta {
+  name: 07_fml_implicit_copy_form_GAP
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {"name": "fml",
+       "valueString": "map \"http://example.org/fml/implicit\" = \"Implicit\"\ngroup main(source src, target tgt) {\n  src.x as v -> tgt.y = v;\n}\n"},
+      {"name": "content", "resource": {"resourceType": "Basic", "x": "ok"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.y: eq ok
+}
+
+docs {
+  SPEC GAP — implicit-copy form. Per the FHIR Mapping Language spec a
+  bare variable on the right of `=` is shorthand for `copy(var)`.
+
+  Example from the spec:
+    `qr.name as n -> p.name = n;`
+
+  The current FML parser (internal/transform/fml/parser.go,
+  parseTarget) unconditionally requires `transform(args)` after `=`,
+  so `tgt.y = v;` errors with "expected '(' got ';' while parsing
+  transform args '('". Mapping authors must write `tgt.y = copy(v);`
+  as a workaround.
+
+  This is the highest-impact FML gap — almost every published example
+  uses the implicit form.
+}

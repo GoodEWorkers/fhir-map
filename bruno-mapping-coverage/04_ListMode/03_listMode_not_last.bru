@@ -1,0 +1,54 @@
+meta {
+  name: 03_listMode_not_last
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/lm-nl",
+          "name": "LMNL",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [{"name": "src", "mode": "source"}, {"name": "tgt", "mode": "target"}],
+            "rule": [{
+              "name": "r",
+              "source": [{"context": "src", "element": "items", "variable": "i", "listMode": "not_last"}],
+              "target": [{"context": "tgt", "element": "noTail", "transform": "evaluate",
+                          "parameter": [{"valueId": "i"}, {"valueString": "name"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content",
+       "resource": {"resourceType": "Basic", "items": [{"name":"a"},{"name":"b"},{"name":"c"}]}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  source.listMode = not_last — keeps [a, b]. The rule fires twice and
+  the last write ("b") is what survives.
+}

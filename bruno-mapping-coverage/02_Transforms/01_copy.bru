@@ -1,0 +1,57 @@
+meta {
+  name: 01_copy
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/copy-test",
+          "name": "CopyTest",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "r",
+              "source": [{"context": "src", "element": "value", "variable": "v"}],
+              "target": [{"context": "tgt", "element": "value", "transform": "copy",
+                          "parameter": [{"valueId": "v"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "value": "hello"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.value: eq hello
+}
+
+docs {
+  copy transform — simplest case. Verifies a single source binding is
+  copied verbatim into the target element.
+}

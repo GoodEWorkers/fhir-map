@@ -1,0 +1,62 @@
+meta {
+  name: 02_condition_and
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/cond-and",
+          "name": "CondAnd",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "r",
+              "source": [{"context": "src", "element": "items", "variable": "i",
+                          "condition": "status = 'on' and priority = 1"}],
+              "target": [{"context": "tgt", "element": "result", "transform": "evaluate",
+                          "parameter": [{"valueId": "i"}, {"valueString": "name"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content",
+       "resource": {"resourceType": "Basic", "items": [
+         {"status": "on",  "priority": 2, "name": "skip-priority"},
+         {"status": "off", "priority": 1, "name": "skip-status"},
+         {"status": "on",  "priority": 1, "name": "match"}
+       ]}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.result: eq match
+}
+
+docs {
+  FHIRPath `and` combining two equality predicates inside a condition.
+}

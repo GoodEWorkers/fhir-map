@@ -1,0 +1,54 @@
+meta {
+  name: resolver - Register Profile
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureDefinition
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "StructureDefinition",
+    "url": "http://example.org/fhir/StructureDefinition/ResolverTestProfile",
+    "name": "ResolverTestProfile",
+    "status": "active",
+    "kind": "resource",
+    "type": "Patient",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Patient",
+    "derivation": "constraint"
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.resourceType: eq StructureDefinition
+  res.body.id: isDefined
+}
+
+script:post-response {
+  bru.setVar("resolverProfileId", res.body.id);
+}
+
+docs {
+  # Register a custom profile for the resolver tests
+
+  POSTs a minimal Patient profile to the StructureDefinition registry.
+  Once registered, a StructureMap whose group input declares
+  `type: "http://example.org/fhir/StructureDefinition/ResolverTestProfile"`
+  will pass the type-check in `$transform`: the resolver walks the
+  `baseDefinition` chain → finds `type: "Patient"` → compares against
+  the input's `resourceType: "Patient"` → match.
+
+  This is the CR-2.2-D14 fix in action: before Story 2.4, the same
+  StructureMap would return 422 with ErrInputTypeMismatch because the
+  engine did an exact-string compare ("http://..." ≠ "Patient").
+}

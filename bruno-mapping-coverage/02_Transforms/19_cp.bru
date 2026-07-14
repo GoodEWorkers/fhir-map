@@ -1,0 +1,59 @@
+meta {
+  name: 19_cp
+  type: http
+  seq: 19
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/cp-test",
+          "name": "CpTest",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "p",
+              "source": [{"context": "src", "element": "phone", "variable": "p"}],
+              "target": [{"context": "tgt", "element": "telecom", "transform": "cp",
+                          "parameter": [{"valueId": "p"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "phone": "+1-555-1234"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.telecom: eq "+1-555-1234"
+}
+
+docs {
+  cp — ContactPoint construction in the spec; this server treats it as
+  a passthrough copy. SPEC GAP: cp(system, value) and cp(value) spec
+  forms that wrap into {system,value} ContactPoint shape are not
+  implemented.
+}

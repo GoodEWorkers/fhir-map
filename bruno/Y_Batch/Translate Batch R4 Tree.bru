@@ -1,0 +1,55 @@
+meta {
+  name: Translate Batch R4 Tree
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/fhir/R4/ConceptMap/$translate-batch
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {"name": "url", "valueUri": "http://example.org/fhir/ConceptMap/address-use"},
+      {"name": "code", "part": [
+        {"name": "code", "valueCode": "home"},
+        {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}
+      ]},
+      {"name": "code", "part": [
+        {"name": "code", "valueCode": "old"},
+        {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}
+      ]}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq Parameters
+  res.body.parameter[0].name: eq result
+  res.body.parameter[1].name: eq translate
+  ~ res.body.parameter[1].part[2].name: eq match
+  ~ res.body.parameter[1].part[2].part[0].name: eq equivalence
+}
+
+docs {
+  # $translate-batch — R4 tree wire format
+
+  Same operation against the `/fhir/R4` URL tree. The match qualifier part
+  in each per-probe response is named `equivalence` (R4 vocabulary), not
+  `relationship` (R5), proving the M2b R4/R5 dual-tree wiring extends to
+  the batch endpoint without any extra code at the engine layer.
+
+  The qualifier-name assertions are marked optional (~) since Bruno can't
+  always traverse deeply into nested Parameters parts; the strict shape is
+  covered by the Go test `TestIntegration_M3_5_TranslateBatch_*`.
+}

@@ -1,0 +1,92 @@
+meta {
+  name: Create StructureMap
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "StructureMap",
+    "url": "http://example.org/StructureMap/qr-to-patient",
+    "version": "1.0.0",
+    "name": "QuestionnaireResponseToPatient",
+    "status": "active",
+    "experimental": true,
+    "description": "Maps a QuestionnaireResponse to a Patient resource",
+    "structure": [
+      {"url": "http://hl7.org/fhir/StructureDefinition/QuestionnaireResponse", "mode": "source", "alias": "QR"},
+      {"url": "http://hl7.org/fhir/StructureDefinition/Patient", "mode": "target", "alias": "P"}
+    ],
+    "group": [
+      {
+        "name": "MapQRtoPatient",
+        "typeMode": "types",
+        "input": [
+          {"name": "qr", "type": "QR", "mode": "source"},
+          {"name": "patient", "type": "P", "mode": "target"}
+        ],
+        "rule": [
+          {
+            "name": "name",
+            "source": [{"context": "qr", "element": "item", "variable": "i", "condition": "i.linkId = 'name'"}],
+            "target": [{"context": "patient", "element": "name", "variable": "n", "transform": "create"}],
+            "rule": [
+              {
+                "name": "given",
+                "source": [{"context": "i", "element": "answer.value", "variable": "v"}],
+                "target": [
+                  {
+                    "context": "n",
+                    "element": "given",
+                    "transform": "copy",
+                    "parameter": [{"valueId": "v"}]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.headers["content-type"]: contains application/fhir+json
+  res.headers["location"]: isDefined
+  res.headers["etag"]: isDefined
+  res.body.resourceType: eq StructureMap
+  res.body.id: isDefined
+  res.body.meta.versionId: eq "1"
+  res.body.group[0].rule[0].rule[0].target[0].transform: eq copy
+}
+
+script:post-response {
+  bru.setVar("structureMapId", res.body.id);
+}
+
+docs {
+  # Create StructureMap
+
+  Creates a StructureMap that maps a QuestionnaireResponse "name" item into a
+  Patient.name with a given-name copy. Demonstrates nested rule structure
+  (the outer rule creates the name; an inner rule copies the answer value
+  into `given`) and the `copy` transform with a parameter referencing the
+  variable bound by the inner source.
+
+  This fixture is the seed for all subsequent StructureMap Bruno tests in
+  this folder. The created id is exported as `structureMapId` for the
+  following requests.
+}

@@ -1,0 +1,57 @@
+meta {
+  name: 05_append
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/append-test",
+          "name": "AppendTest",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "join",
+              "source": [{"context": "src", "element": "first", "variable": "f"}],
+              "target": [{"context": "tgt", "element": "full", "transform": "append",
+                          "parameter": [{"valueId": "f"}, {"valueString": " "}, {"valueString": "Lovelace"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "first": "Ada"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.full: eq "Ada Lovelace"
+}
+
+docs {
+  append(a, b, c...) — concatenate all parameters as strings. Mixes a
+  variable reference with two literal value strings.
+}

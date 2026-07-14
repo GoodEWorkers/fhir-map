@@ -1,0 +1,56 @@
+meta {
+  name: Update StructureDefinition
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{baseUrl}}/fhir/R5/StructureDefinition/{{sdId}}
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+  If-Match: {{sdETag}}
+}
+
+body:json {
+  {
+    "resourceType": "StructureDefinition",
+    "id": "{{sdId}}",
+    "url": "http://example.org/fhir/StructureDefinition/TestPatientProfile",
+    "name": "TestPatientProfile",
+    "title": "Test Patient Profile (Updated)",
+    "status": "active",
+    "kind": "resource",
+    "type": "Patient",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Patient",
+    "derivation": "constraint"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.headers["etag"]: isDefined
+  res.body.resourceType: eq StructureDefinition
+  res.body.status: eq active
+  res.body.title: eq Test Patient Profile (Updated)
+  res.body.meta.versionId: eq "2"
+}
+
+script:post-response {
+  bru.setVar("sdETag", res.headers["etag"]);
+}
+
+docs {
+  # Update StructureDefinition
+
+  Promotes the draft profile to `active` and updates its title. Uses
+  `If-Match` for optimistic concurrency — the server bumps `versionId` to 2
+  and the new ETag is stored for the vread test.
+
+  Optimistic concurrency mirrors the ConceptMap and StructureMap pattern:
+  PUT with a stale ETag returns 409 Conflict.
+}

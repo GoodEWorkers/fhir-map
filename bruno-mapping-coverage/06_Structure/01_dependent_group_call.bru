@@ -1,0 +1,71 @@
+meta {
+  name: 01_dependent_group_call
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/dep",
+          "name": "DepTest",
+          "status": "active",
+          "group": [
+            {
+              "name": "main",
+              "typeMode": "types",
+              "input": [{"name": "src", "mode": "source"}, {"name": "tgt", "mode": "target"}],
+              "rule": [{
+                "name": "outer",
+                "source": [{"context": "src", "element": "person", "variable": "p"}],
+                "target": [{"context": "tgt", "element": "person", "variable": "pt", "transform": "create"}],
+                "dependent": [{
+                  "name": "mapPerson",
+                  "parameter": [{"valueId": "p"}, {"valueId": "pt"}]
+                }]
+              }]
+            },
+            {
+              "name": "mapPerson",
+              "input": [{"name": "psrc", "mode": "source"}, {"name": "ptgt", "mode": "target"}],
+              "rule": [{
+                "name": "n",
+                "source": [{"context": "psrc", "element": "name", "variable": "n"}],
+                "target": [{"context": "ptgt", "element": "name", "transform": "copy",
+                            "parameter": [{"valueId": "n"}]}]
+              }]
+            }
+          ]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "person": {"name": "Ada"}}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.person.name: eq Ada
+}
+
+docs {
+  rule.dependent — invokes a named sibling group with positional args.
+  The dependent group sees only its declared inputs (no parent
+  variables), matching FHIR's group-as-function semantics.
+}

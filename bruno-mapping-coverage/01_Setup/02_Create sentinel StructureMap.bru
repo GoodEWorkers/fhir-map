@@ -1,0 +1,67 @@
+meta {
+  name: 02_Create sentinel StructureMap
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "StructureMap",
+    "url": "http://example.org/StructureMap/sentinel-copy",
+    "version": "1.0.0",
+    "name": "SentinelCopy",
+    "status": "active",
+    "structure": [
+      {"url": "http://example.org/sd/Src",  "mode": "source", "alias": "S"},
+      {"url": "http://example.org/sd/Dst",  "mode": "target", "alias": "T"}
+    ],
+    "group": [
+      {
+        "name": "main",
+        "typeMode": "types",
+        "input": [
+          {"name": "src", "mode": "source"},
+          {"name": "tgt", "mode": "target"}
+        ],
+        "rule": [
+          {
+            "name": "copyName",
+            "source": [{"context": "src", "element": "name", "variable": "v"}],
+            "target": [
+              {"context": "tgt", "element": "name", "transform": "copy",
+               "parameter": [{"valueId": "v"}]}
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.resourceType: eq StructureMap
+  res.body.id: isDefined
+}
+
+script:post-response {
+  bru.setVar("sentinelMapId", res.body.id);
+  bru.setVar("sentinelMapUrl", res.body.url);
+}
+
+docs {
+  Persisted StructureMap used by instance-level $transform tests.
+  The map copies `src.name` into `tgt.name` using the trivial `copy`
+  transform.
+}

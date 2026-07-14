@@ -1,0 +1,89 @@
+{
+  "resourceType": "TestScript",
+  "id": "fhir-map-05-translate-r4-compat",
+  "url": "http://goodeworkers.github.io/fhir-map/testscripts/05-translate-r4-compat",
+  "version": "1.0",
+  "name": "FhirMapTranslateR4Compat",
+  "title": "fhir-map: ConceptMap $translate — R4 Compatibility",
+  "status": "active",
+  "experimental": true,
+  "date": "2026-05-27",
+  "publisher": "fhir-map",
+  "description": "POST $translate to the R4 tree (/fhir/R4/ConceptMap/$translate); assert the match part exposes the R4 'equivalence' vocabulary rather than the R5 'relationship' vocabulary.",
+  "fixture": [
+    {
+      "id": "cm-icd10-to-snomed",
+      "autocreate": true,
+      "autodelete": true,
+      "resource": {
+        "reference": "ConceptMap/icd10-to-snomed",
+        "display": "ICD-10 to SNOMED CT ConceptMap"
+      }
+    },
+    {
+      "id": "translate-input",
+      "autocreate": false,
+      "autodelete": false,
+      "resource": {
+        "reference": "Parameters/translate-r4-input",
+        "display": "Parameters: url + sourceCode J18.9 + sourceSystem ICD-10 (posted to R4 tree)"
+      }
+    }
+  ],
+  "test": [
+    {
+      "id": "test-05",
+      "name": "R4 $translate returns equivalence, not relationship",
+      "action": [
+        {
+          "operation": {
+            "resource": "ConceptMap",
+            "description": "POST $translate against the R4 endpoint /fhir/R4/ConceptMap/$translate",
+            "encodeRequestUrl": true,
+            "params": "/$translate",
+            "sourceId": "translate-input",
+            "responseId": "translate-response"
+          }
+        },
+        {
+          "assert": {
+            "description": "HTTP status is 200 OK",
+            "response": "okay",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        },
+        {
+          "assert": {
+            "description": "result parameter is true",
+            "expression": "Parameters.parameter.where(name='result').value.ofType(boolean)",
+            "operator": "equals",
+            "value": "true",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        },
+        {
+          "assert": {
+            "description": "The match part uses R4 'equivalence' (e.g. equivalent), not R5 'relationship'",
+            "expression": "Parameters.parameter.where(name='match').part.where(name='equivalence').exists()",
+            "operator": "equals",
+            "value": "true",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        },
+        {
+          "assert": {
+            "description": "The R5-only 'relationship' part is absent on the R4 tree",
+            "expression": "Parameters.parameter.where(name='match').part.where(name='relationship').exists()",
+            "operator": "equals",
+            "value": "false",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        }
+      ]
+    }
+  ]
+}

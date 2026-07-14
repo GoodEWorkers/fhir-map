@@ -1,0 +1,101 @@
+meta {
+  name: Translate Batch 5 Codes
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/fhir/ConceptMap/$translate-batch
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {"name": "url", "valueUri": "http://example.org/fhir/ConceptMap/address-use"},
+      {
+        "name": "code",
+        "part": [
+          {"name": "code", "valueCode": "home"},
+          {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}
+        ]
+      },
+      {
+        "name": "code",
+        "part": [
+          {"name": "code", "valueCode": "work"},
+          {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}
+        ]
+      },
+      {
+        "name": "code",
+        "part": [
+          {"name": "code", "valueCode": "temp"},
+          {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}
+        ]
+      },
+      {
+        "name": "code",
+        "part": [
+          {"name": "code", "valueCode": "old"},
+          {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}
+        ]
+      },
+      {
+        "name": "code",
+        "part": [
+          {"name": "code", "valueCode": "unknown-zzz"},
+          {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}
+        ]
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq Parameters
+  res.body.parameter[0].name: eq result
+  res.body.parameter[0].valueBoolean: eq true
+  res.body.parameter[1].name: eq translate
+  res.body.parameter[2].name: eq translate
+  res.body.parameter[3].name: eq translate
+  res.body.parameter[4].name: eq translate
+  res.body.parameter[5].name: eq translate
+}
+
+docs {
+  # $translate-batch — 5 probes (R5 tree, alias)
+
+  Non-standard bulk variant of FHIR ConceptMap/$translate. One HTTP request,
+  one indexed SQL roundtrip on the server, **N per-probe responses** in input
+  order. HAPI FHIR has no equivalent operation.
+
+  ## Request shape
+
+  POST `/fhir/{R4|R5}/ConceptMap/$translate-batch`
+  Body: a `Parameters` resource where:
+  - `url` (1..1, uri): canonical ConceptMap URL — alternative: `conceptMapId`
+  - `conceptMapVersion` (0..1, string): optional version pin
+  - `targetSystem` (0..1, uri): optional global target-system filter
+  - `code` (1..*): repeating, each with `part: { code, system }`
+
+  ## Response shape
+
+  A single `Parameters` resource:
+  - `parameter[0]`: `name=result, valueBoolean` — overall (OR of per-probe results)
+  - `parameter[1..N]`: `name=translate`, one per input probe in input order
+    - `part: name=input { code, system }` — echoed input for correlation
+    - `part: name=result, valueBoolean` — true if this probe matched
+    - `part: name=match` (zero or more, same shape as $translate)
+
+  This test probes 4 known codes (home/work/temp/old) plus one miss (unknown-zzz).
+  The overall `result` is `true` because at least one probe matched.
+}

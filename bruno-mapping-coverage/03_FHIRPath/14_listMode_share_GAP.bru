@@ -1,0 +1,60 @@
+meta {
+  name: 14_listMode_share_GAP
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/lm-share",
+          "name": "LMShare",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "r",
+              "source": [{"context": "src", "element": "items", "variable": "i", "listMode": "share"}],
+              "target": [{"context": "tgt", "element": "out", "transform": "evaluate",
+                          "parameter": [{"valueId": "i"}, {"valueString": "name"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content",
+       "resource": {"resourceType": "Basic", "items": [{"name": "a"}, {"name": "b"}]}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  SPEC GAP CANDIDATE — sourceListMode = "share" is in the FHIR spec
+  but the executor only handles first/last/not-first/not-last/only-one.
+  Unknown modes are currently silently pass-through. This test will
+  pass on the existing pass-through behaviour but the *intended* spec
+  behaviour (share state with sibling source) is not implemented.
+}

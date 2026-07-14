@@ -1,0 +1,65 @@
+meta {
+  name: 13_qty
+  type: http
+  seq: 13
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/qty-test",
+          "name": "QtyTest",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "q",
+              "source": [{"context": "src", "element": "weight", "variable": "w"}],
+              "target": [{"context": "tgt", "element": "qty", "transform": "qty",
+                          "parameter": [
+                            {"valueId": "w"},
+                            {"valueString": "kg"},
+                            {"valueString": "http://unitsofmeasure.org"},
+                            {"valueString": "kg"}
+                          ]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "weight": "70.5"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.qty.value: eq 70.5
+  res.body.qty.unit: eq kg
+  res.body.qty.system: eq "http://unitsofmeasure.org"
+  res.body.qty.code: eq kg
+}
+
+docs {
+  qty(value, unit, system, code) — builds a Quantity. Verifies all four
+  positional arguments resolve to the canonical Quantity slots.
+}

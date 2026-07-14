@@ -1,0 +1,1744 @@
+{
+ "resourceType": "StructureMap",
+ "id": "LabA-MSH-to-LabReport",
+ "url": "http://example.org/fhir/R4/lab-ig/StructureMap/LabA-MSH-to-LabReport",
+ "version": "1.0.0",
+ "name": "LabA_MSH_to_LabReport",
+ "title": "HL7v2.3 MSH to HL7 Europe Laboratory resources",
+ "status": "draft",
+ "description": "Transforms an HL7v2.3 MSH message into the HL7 Europe Laboratory resources.",
+ "structure": [
+  {
+   "url": "https://example.org",
+   "mode": "source"
+  },
+  {
+   "url": "http://hl7.eu/fhir/laboratory/StructureDefinition/DiagnosticReport-eu-lab",
+   "mode": "target",
+   "alias": "diagnosticReportTarget"
+  },
+  {
+   "url": "http://hl7.eu/fhir/laboratory/StructureDefinition/Composition-eu-lab",
+   "mode": "target",
+   "alias": "compositionTarget"
+  }
+ ],
+ "group": [
+  {
+   "name": "main",
+   "typeMode": "types",
+   "input": [
+    {
+     "name": "source",
+     "type": "HL7v2",
+     "mode": "source"
+    },
+    {
+     "name": "target",
+     "type": "Bundle",
+     "mode": "target"
+    }
+   ],
+   "rule": [
+    {
+     "name": "bundleResource",
+     "source": [
+      {
+       "context": "source",
+       "type": "string",
+       "element": "MSH",
+       "variable": "resource",
+       "condition": "$this.exists()"
+      }
+     ],
+     "target": [
+      {
+       "context": "target",
+       "element": "entry[+].resource",
+       "variable": "CompositionTarget",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "Composition"
+        }
+       ]
+      },
+      {
+       "context": "CompositionTarget",
+       "element": "id",
+       "variable": "CompositionID",
+       "transform": "uuid"
+      },
+      {
+       "context": "target",
+       "element": "entry[=].fullUrl",
+       "variable": "CompositionFullUrl",
+       "transform": "append",
+       "parameter": [
+        {
+         "valueString": "http://example.org/fhir/Composition/"
+        },
+        {
+         "valueId": "CompositionID"
+        }
+       ]
+      },
+      {
+       "context": "CompositionTarget",
+       "element": "status",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "final"
+        }
+       ]
+      },
+      {
+       "context": "CompositionTarget",
+       "element": "title",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "Laboratory Report"
+        }
+       ]
+      },
+      {
+       "context": "target",
+       "element": "type",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "document"
+        }
+       ]
+      },
+      {
+       "context": "target",
+       "element": "identifier[+].value",
+       "transform": "uuid"
+      },
+      {
+       "context": "target",
+       "element": "identifier[=].system",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "http://example.org"
+        }
+       ]
+      },
+      {
+       "context": "target",
+       "element": "entry[+].resource",
+       "variable": "DiagnosticReportTarget",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "DiagnosticReport"
+        }
+       ]
+      },
+      {
+       "context": "DiagnosticReportTarget",
+       "element": "id",
+       "variable": "DiagnosticReportID",
+       "transform": "uuid"
+      },
+      {
+       "context": "target",
+       "element": "entry[=].fullUrl",
+       "variable": "DiagnosticReportFullUrl",
+       "transform": "append",
+       "parameter": [
+        {
+         "valueString": "http://example.org/fhir/DiagnosticReport/"
+        },
+        {
+         "valueId": "DiagnosticReportID"
+        }
+       ]
+      },
+      {
+       "context": "DiagnosticReportTarget",
+       "element": "status",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "registered"
+        }
+       ]
+      },
+      {
+       "context": "DiagnosticReportTarget",
+       "element": "extension[+].url",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "http://hl7.org/fhir/5.0/StructureDefinition/extension-DiagnosticReport.composition"
+        }
+       ]
+      },
+      {
+       "context": "DiagnosticReportTarget",
+       "element": "extension[=].value",
+       "variable": "extDRReference",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "Reference"
+        }
+       ]
+      },
+      {
+       "context": "extDRReference",
+       "element": "reference",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueId": "CompositionFullUrl"
+        }
+       ]
+      },
+      {
+       "context": "CompositionTarget",
+       "element": "extension[+].url",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "http://hl7.eu/fhir/laboratory/StructureDefinition/composition-diagnosticReportReference"
+        }
+       ]
+      },
+      {
+       "context": "CompositionTarget",
+       "element": "extension[=].value",
+       "variable": "extDRReference",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "Reference"
+        }
+       ]
+      },
+      {
+       "context": "extDRReference",
+       "element": "reference",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueId": "DiagnosticReportFullUrl"
+        }
+       ]
+      }
+     ],
+     "rule": [
+      {
+       "name": "pid2ToPatientIdentifier0",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "PID-2",
+         "variable": "patientIdExternal",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "pid2ToIdentifier0Value",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2-1",
+           "variable": "patientIdExternalValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "subject.identifier[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalValue"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "subject.identifier[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid2ToIdentifier0Extension0",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2-2",
+           "variable": "patientIdExternalExtension0",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "subject.identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/identifier-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "subject.identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalExtension0"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "subject.identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/identifier-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "subject.identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalExtension0"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid2ToIdentifier0Extension1",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2-3",
+           "variable": "patientIdExternalExtension1",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "subject.identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/namingsystem-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "subject.identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalExtension1"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "subject.identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/namingsystem-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "subject.identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalExtension1"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid2ToIdentifier0AssigningAuthority",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2-4",
+           "variable": "assigningAuthority",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "namespaceIDToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-2-4-1",
+             "variable": "assigningAuthorityIdNamespaceID",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "DiagnosticReportTarget",
+             "element": "subject.identifier[=].assigner.display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdNamespaceID"
+              }
+             ]
+            },
+            {
+             "context": "CompositionTarget",
+             "element": "subject.identifier[=].assigner.display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdNamespaceID"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "universalIDToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-2-4-2",
+             "variable": "assigningAuthorityIdUniversalID",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "DiagnosticReportTarget",
+             "element": "subject.identifier[=].assigner.identifier.value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdUniversalID"
+              }
+             ]
+            },
+            {
+             "context": "DiagnosticReportTarget",
+             "element": "subject.identifier[=].system",
+             "transform": "append",
+             "parameter": [
+              {
+               "valueString": "http://example.org/fhir/labasystem/"
+              },
+              {
+               "valueId": "assigningAuthorityIdUniversalID"
+              }
+             ]
+            },
+            {
+             "context": "CompositionTarget",
+             "element": "subject.identifier[=].assigner.identifier.value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdUniversalID"
+              }
+             ]
+            },
+            {
+             "context": "CompositionTarget",
+             "element": "subject.identifier[=].system",
+             "transform": "append",
+             "parameter": [
+              {
+               "valueString": "http://example.org/fhir/labasystem/"
+              },
+              {
+               "valueId": "assigningAuthorityIdUniversalID"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "universalIDTypeToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-2-4-3",
+             "variable": "assigningAuthorityIdUniversalIDType",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "DiagnosticReportTarget",
+             "element": "subject.identifier[=].assigner.identifier.type.coding[+].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+              }
+             ]
+            },
+            {
+             "context": "DiagnosticReportTarget",
+             "element": "subject.identifier[=].assigner.identifier.type.coding[=].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdUniversalIDType"
+              }
+             ]
+            },
+            {
+             "context": "CompositionTarget",
+             "element": "subject.identifier[=].assigner.identifier.type.coding[+].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+              }
+             ]
+            },
+            {
+             "context": "CompositionTarget",
+             "element": "subject.identifier[=].assigner.identifier.type.coding[=].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdUniversalIDType"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid2ToIdentifier0IdentifierTypeCode",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2-5",
+           "variable": "patientIdExternalIdentifierTypeCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "subject.identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalIdentifierTypeCode"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "subject.identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "subject.identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalIdentifierTypeCode"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "subject.identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "pid3ToPatientIdentifier0",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "PID-3",
+         "variable": "patientIdInternal",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "pid3ToIdentifier0Value",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3-1",
+           "variable": "patientIdInternalValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "subject.identifier[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalValue"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "subject.identifier[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid3ToIdentifier0Extension0",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3-2",
+           "variable": "patientIdInternalExtension0",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "subject.identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/identifier-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "subject.identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalExtension0"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "subject.identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/identifier-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "subject.identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalExtension0"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid3ToIdentifier0Extension1",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3-3",
+           "variable": "patientIdInternalExtension1",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "subject.identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/namingsystem-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "subject.identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalExtension1"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "subject.identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/namingsystem-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "subject.identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalExtension1"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid3ToIdentifier0AssigningAuthority",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3-4",
+           "variable": "assigningAuthority",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "namespaceIDToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-3-4-1",
+             "variable": "assigningAuthorityIdNamespaceID",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "DiagnosticReportTarget",
+             "element": "subject.identifier[=].assigner.display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdNamespaceID"
+              }
+             ]
+            },
+            {
+             "context": "CompositionTarget",
+             "element": "subject.identifier[=].assigner.display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdNamespaceID"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "universalIDToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-3-4-2",
+             "variable": "assigningAuthorityIdUniversalID",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "DiagnosticReportTarget",
+             "element": "subject.identifier[=].assigner.identifier.value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdUniversalID"
+              }
+             ]
+            },
+            {
+             "context": "DiagnosticReportTarget",
+             "element": "subject.identifier[=].system",
+             "transform": "append",
+             "parameter": [
+              {
+               "valueString": "http://example.org/fhir/labasystem/"
+              },
+              {
+               "valueId": "assigningAuthorityIdUniversalID"
+              }
+             ]
+            },
+            {
+             "context": "CompositionTarget",
+             "element": "subject.identifier[=].assigner.identifier.value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdUniversalID"
+              }
+             ]
+            },
+            {
+             "context": "CompositionTarget",
+             "element": "subject.identifier[=].system",
+             "transform": "append",
+             "parameter": [
+              {
+               "valueString": "http://example.org/fhir/labasystem/"
+              },
+              {
+               "valueId": "assigningAuthorityIdUniversalID"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "universalIDTypeToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-3-4-3",
+             "variable": "assigningAuthorityIdUniversalIDType",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "DiagnosticReportTarget",
+             "element": "subject.identifier[=].assigner.identifier.type.coding[+].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+              }
+             ]
+            },
+            {
+             "context": "DiagnosticReportTarget",
+             "element": "subject.identifier[=].assigner.identifier.type.coding[=].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdUniversalIDType"
+              }
+             ]
+            },
+            {
+             "context": "CompositionTarget",
+             "element": "subject.identifier[=].assigner.identifier.type.coding[+].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+              }
+             ]
+            },
+            {
+             "context": "CompositionTarget",
+             "element": "subject.identifier[=].assigner.identifier.type.coding[=].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdUniversalIDType"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid3ToIdentifier0IdentifierTypeCode",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3-5",
+           "variable": "patientIdInternalIdentifierTypeCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "subject.identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalIdentifierTypeCode"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "subject.identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "subject.identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalIdentifierTypeCode"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "subject.identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "msh3ToAuthorIdentifier0",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "MSH-3",
+         "variable": "sendingApp",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "msh3ToAuthorIdentifier0System",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "MSH-3-1",
+           "variable": "sendingAppSystem",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "performer[+].display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "sendingAppSystem"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "resultsInterpreter[+].display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "sendingAppSystem"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "author[+].display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "sendingAppSystem"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "performer[+].identifier.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "urn:ietf:rfc:3986"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "resultsInterpreter[+].identifier.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "urn:ietf:rfc:3986"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "author[+].identifier.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "urn:ietf:rfc:3986"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "msh3ToAuthorIdentifier0Value",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "MSH-3-2",
+           "variable": "sendingAppValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "performer[=].identifier.value",
+           "variable": "SendingAppValue",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "sendingAppValue"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "resultsInterpreter[=].identifier.value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "SendingAppValue"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "author[=].identifier.value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "SendingAppValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "msh3ToAuthorIdentifier0Type",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "MSH-3-4",
+           "variable": "sendingAppType",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "performer[=].identifier.type.coding.code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "sendingAppType"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "performer[=].identifier.type.coding.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "resultsInterpreter[=].identifier.type.coding.code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "sendingAppType"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "resultsInterpreter[=].identifier.type.coding.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "author[=].identifier.type.coding.code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "sendingAppType"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "author[=].identifier.type.coding.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "msh4ToAuthorIdentifier1",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "MSH-4",
+         "variable": "sendingFacility",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "msh4ToAuthorIdentifier1System",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "MSH-4-1",
+           "variable": "sendingFacilitySystem",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "performer[+].display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "sendingFacilitySystem"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "resultsInterpreter[+].display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "sendingFacilitySystem"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "author[+].display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "sendingFacilitySystem"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "performer[+].identifier.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "urn:ietf:rfc:3986"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "resultsInterpreter[+].identifier.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "urn:ietf:rfc:3986"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "author[+].identifier.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "urn:ietf:rfc:3986"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "msh4ToAuthorIdentifier1Value",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "MSH-4-2",
+           "variable": "sendingFacilityValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "performer[=].identifier.value",
+           "variable": "SendingFacilityValue",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "sendingFacilityValue"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "resultsInterpreter[=].identifier.value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "SendingFacilityValue"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "author[=].identifier.value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "SendingFacilityValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "msh4ToAuthorIdentifier1Type",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "MSH-4-4",
+           "variable": "sendingFacilityType",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "performer[=].identifier.type.coding.code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "sendingFacilityType"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "performer[=].identifier.type.coding.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "resultsInterpreter[=].identifier.type.coding.code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "sendingFacilityType"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "resultsInterpreter[=].identifier.type.coding.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "author[=].identifier.type.coding.code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "sendingFacilityType"
+            }
+           ]
+          },
+          {
+           "context": "CompositionTarget",
+           "element": "author[=].identifier.type.coding.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "msh6ToRecipientIdentifier",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "MSH-6",
+         "variable": "receivingFacility",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "CompositionTarget",
+         "element": "extension[+].value",
+         "variable": "RFIdentifierComp",
+         "transform": "create",
+         "parameter": [
+          {
+           "valueString": "Reference"
+          }
+         ]
+        },
+        {
+         "context": "RFIdentifierComp",
+         "element": "identifier.value",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "receivingFacility"
+          }
+         ]
+        },
+        {
+         "context": "RFIdentifierComp",
+         "element": "identifier.system",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://example.org"
+          }
+         ]
+        },
+        {
+         "context": "CompositionTarget",
+         "element": "extension[=].url",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://hl7.eu/fhir/StructureDefinition/information-recipient"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "msh7ToMetadataDateTime",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "MSH-7",
+         "variable": "dateTimeOfMessage",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "effective",
+         "variable": "DateTimeOfMessageVar",
+         "transform": "dateOp",
+         "parameter": [
+          {
+           "valueId": "dateTimeOfMessage"
+          },
+          {
+           "valueString": "yyyyMMddHHmmss"
+          }
+         ]
+        },
+        {
+         "context": "CompositionTarget",
+         "element": "date",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "DateTimeOfMessageVar"
+          }
+         ]
+        },
+        {
+         "context": "target",
+         "element": "timestamp",
+         "transform": "dateOp",
+         "parameter": [
+          {
+           "valueId": "dateTimeOfMessage"
+          },
+          {
+           "valueString": "yyyyMMddHHmmss"
+          },
+          {
+           "valueString": "instant"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "msh91ToMetadataTypeCode",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "MSH-9-1",
+         "variable": "messageTypeCode",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "code.coding[+].code",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "messageTypeCode"
+          }
+         ]
+        },
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "code.coding[=].system",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://terminology.hl7.org/CodeSystem/v2-0076"
+          }
+         ]
+        },
+        {
+         "context": "CompositionTarget",
+         "element": "type.coding[+].code",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "messageTypeCode"
+          }
+         ]
+        },
+        {
+         "context": "CompositionTarget",
+         "element": "type.coding[=].system",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://terminology.hl7.org/CodeSystem/v2-0076"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "msh92ToMetadataTypeCode",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "MSH-9-2",
+         "variable": "messageTypeCode2",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "code.coding[+].code",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "messageTypeCode2"
+          }
+         ]
+        },
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "code.coding[=].system",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://terminology.hl7.org/CodeSystem/v2-0003"
+          }
+         ]
+        },
+        {
+         "context": "CompositionTarget",
+         "element": "type.coding[+].code",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "messageTypeCode2"
+          }
+         ]
+        },
+        {
+         "context": "CompositionTarget",
+         "element": "type.coding[=].system",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://terminology.hl7.org/CodeSystem/v2-0003"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "msh10ToMetadataDocumentId",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "MSH-10",
+         "variable": "messageControlId",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "identifier[+].value",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "messageControlId"
+          }
+         ]
+        },
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "identifier[=].system",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://example.org"
+          }
+         ]
+        },
+        {
+         "context": "CompositionTarget",
+         "element": "identifier[+].value",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "messageControlId"
+          }
+         ]
+        },
+        {
+         "context": "CompositionTarget",
+         "element": "identifier[=].system",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://example.org"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "msh12ToVersion",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "MSH-12",
+         "variable": "versionId",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "CompositionTarget",
+         "element": "extension[+].value",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "versionId"
+          }
+         ]
+        },
+        {
+         "context": "CompositionTarget",
+         "element": "extension[=].url",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "msh19ToMetadataLanguage",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "MSH-19",
+         "variable": "language",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "language",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "language"
+          }
+         ]
+        },
+        {
+         "context": "CompositionTarget",
+         "element": "language",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "language"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

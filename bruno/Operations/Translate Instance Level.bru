@@ -1,0 +1,21 @@
+meta {
+  name: Translate Instance Level
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/fhir/ConceptMap/{{conceptMapId}}/$translate?sourceCode=temp&sourceSystem=http://hl7.org/fhir/address-use
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq Parameters
+  res.body.parameter[0].name: eq result
+}

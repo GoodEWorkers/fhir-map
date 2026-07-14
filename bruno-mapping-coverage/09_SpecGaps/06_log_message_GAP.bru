@@ -1,0 +1,56 @@
+meta {
+  name: 06_log_message_GAP
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/log",
+          "name": "LogTest",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [{"name": "src", "mode": "source"}, {"name": "tgt", "mode": "target"}],
+            "rule": [{
+              "name": "r",
+              "source": [{"context": "src", "element": "x", "variable": "v",
+                          "logMessage": "'value is ' & v"}],
+              "target": [{"context": "tgt", "element": "y", "transform": "copy",
+                          "parameter": [{"valueId": "v"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "x": "hello"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.y: eq hello
+}
+
+docs {
+  SPEC GAP — source.logMessage is FHIRPath evaluated for side-effect
+  trace logging during transform execution. Server doesn't evaluate
+  it. Useful for ETL debugging.
+}

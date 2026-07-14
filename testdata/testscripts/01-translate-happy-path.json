@@ -1,0 +1,87 @@
+{
+  "resourceType": "TestScript",
+  "id": "fhir-map-01-translate-happy-path",
+  "url": "http://goodeworkers.github.io/fhir-map/testscripts/01-translate-happy-path",
+  "version": "1.0",
+  "name": "FhirMapTranslateHappyPath",
+  "title": "fhir-map: ConceptMap $translate — Happy Path",
+  "status": "active",
+  "experimental": true,
+  "date": "2026-05-27",
+  "publisher": "fhir-map",
+  "description": "POST $translate with a known ICD-10 (J18.9) to SNOMED (233604007) mapping and assert HTTP 200 with result=true in the Parameters response.",
+  "fixture": [
+    {
+      "id": "cm-icd10-to-snomed",
+      "autocreate": true,
+      "autodelete": true,
+      "resource": {
+        "reference": "ConceptMap/icd10-to-snomed",
+        "display": "ICD-10 to SNOMED CT ConceptMap (J18.9 -> 233604007)"
+      }
+    },
+    {
+      "id": "translate-input",
+      "autocreate": false,
+      "autodelete": false,
+      "resource": {
+        "reference": "Parameters/translate-happy-path-input",
+        "display": "Parameters: url + sourceCode J18.9 + sourceSystem ICD-10"
+      }
+    }
+  ],
+  "test": [
+    {
+      "id": "test-01",
+      "name": "Translate J18.9 to SNOMED 233604007",
+      "action": [
+        {
+          "operation": {
+            "resource": "ConceptMap",
+            "description": "POST $translate for ICD-10 J18.9 against icd10-to-snomed",
+            "encodeRequestUrl": true,
+            "params": "/$translate",
+            "sourceId": "translate-input",
+            "responseId": "translate-response"
+          }
+        },
+        {
+          "assert": {
+            "description": "HTTP status is 200 OK",
+            "response": "okay",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        },
+        {
+          "assert": {
+            "description": "Response is a Parameters resource",
+            "resource": "Parameters",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        },
+        {
+          "assert": {
+            "description": "result parameter is true (mapping found)",
+            "expression": "Parameters.parameter.where(name='result').value.ofType(boolean)",
+            "operator": "equals",
+            "value": "true",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        },
+        {
+          "assert": {
+            "description": "A match part carries the SNOMED target concept 233604007",
+            "expression": "Parameters.parameter.where(name='match').part.where(name='concept').value.ofType(Coding).code",
+            "operator": "contains",
+            "value": "233604007",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        }
+      ]
+    }
+  ]
+}

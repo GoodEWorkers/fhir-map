@@ -1,0 +1,56 @@
+meta {
+  name: transform With Translate
+  type: http
+  seq: 13
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "fml",
+        "valueString": "map \"http://example.org/sm-gender-translate\" = \"GenderTranslate\"\n\ngroup G(source src, target tgt) {\n  src.gender as g -> tgt.gender = translate(g, \"http://example.org/fhir/ConceptMap/address-use\", \"code\");\n}\n"
+      },
+      {
+        "name": "source",
+        "resource": {"gender": "home"}
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.gender: eq H
+}
+
+docs {
+  # $transform — uses the M5f `translate` transform
+
+  The `translate` transform delegates to the ConceptMap $translate engine
+  (M3 hot path). Here we lean on the seed `address-use` ConceptMap that
+  the earlier CRUD-folder tests created: `home` translates to `H` via
+  the FHIR↔v3 address-use map.
+
+  Composition lets a single $transform call:
+
+  1. Walk a FHIR resource via FHIRPath (M5c).
+  2. Bind values into local variables (M5d source.variable).
+  3. Run a vocabulary translation via the indexed Postgres mapping
+     table (M3) for each variable.
+  4. Build the target resource shape (M5d/f transforms).
+
+  All on one HTTP request, persisted ConceptMaps + ad-hoc inline FML.
+}

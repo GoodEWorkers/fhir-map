@@ -1,0 +1,78 @@
+meta {
+  name: resolver - transform Profile URL Type
+  type: http
+  seq: 16
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "sourceMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/profile-echo",
+          "name": "ProfileEcho",
+          "status": "active",
+          "group": [
+            {
+              "name": "Echo",
+              "input": [
+                {"name": "src", "type": "http://example.org/fhir/StructureDefinition/ResolverTestProfile", "mode": "source"},
+                {"name": "tgt", "mode": "target"}
+              ],
+              "rule": [
+                {
+                  "name": "copyId",
+                  "source": [{"context": "src", "element": "id", "variable": "v"}],
+                  "target": [{"context": "tgt", "element": "patientId", "transform": "copy", "parameter": [{"valueId": "v"}]}]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "name": "content",
+        "resource": {
+          "resourceType": "Patient",
+          "id": "p-profile-002"
+        }
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.patientId: eq p-profile-002
+}
+
+docs {
+  # $transform — custom profile URL as group input Type (CR-2.2-D14)
+
+  Demonstrates the full resolver chain for a non-HL7 profile:
+
+  1. The StructureMap group input declares
+     `type: "http://example.org/fhir/StructureDefinition/ResolverTestProfile"`.
+  2. The resolver calls `repo.FindByURL` (DB hit #1; process-cached after).
+  3. The profile's `type: "Patient"` is a short name → resolver returns
+     "Patient" without following baseDefinition further.
+  4. "Patient" == input `resourceType: "Patient"` → type-check passes.
+
+  Requires the profile created in `resolver - Register Profile` (seq 14).
+  Without that registration, the resolver fails to find the URL and
+  returns 422 (see `resolver - transform Unknown Canonical URL`).
+}

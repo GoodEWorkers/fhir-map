@@ -1,0 +1,54 @@
+meta {
+  name: 28_dateOp_arithmetic
+  type: http
+  seq: 28
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/dateop-real",
+          "name": "DateOpReal",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [{"name": "src", "mode": "source"}, {"name": "tgt", "mode": "target"}],
+            "rule": [{
+              "name": "minus",
+              "source": [{"context": "src", "element": "today", "variable": "d"}],
+              "target": [{"context": "tgt", "element": "lastYear", "transform": "dateOp",
+                          "parameter": [{"valueId": "d"}, {"valueString": "-"}, {"valueString": "P1Y"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "today": "2024-05-16"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.lastYear: eq "2023-05-16"
+}
+
+docs {
+  dateOp(date, "-", "P1Y") — subtract one year. M6.Fix.4 supports Y/M/D
+  duration components.
+}

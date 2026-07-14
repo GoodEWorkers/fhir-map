@@ -1,0 +1,68 @@
+{
+  "resourceType": "TestScript",
+  "id": "fhir-map-03-translate-not-found",
+  "url": "http://goodeworkers.github.io/fhir-map/testscripts/03-translate-not-found",
+  "version": "1.0",
+  "name": "FhirMapTranslateNotFound",
+  "title": "fhir-map: ConceptMap $translate — ConceptMap Not Found",
+  "status": "active",
+  "experimental": true,
+  "date": "2026-05-27",
+  "publisher": "fhir-map",
+  "description": "POST instance-level $translate targeting a non-existent ConceptMap id; assert HTTP 404 with an OperationOutcome whose issue code is not-found.",
+  "fixture": [
+    {
+      "id": "translate-input",
+      "autocreate": false,
+      "autodelete": false,
+      "resource": {
+        "reference": "Parameters/translate-not-found-input",
+        "display": "Parameters: sourceCode + sourceSystem (no url; instance-level translate)"
+      }
+    }
+  ],
+  "test": [
+    {
+      "id": "test-03",
+      "name": "Instance $translate on a missing ConceptMap yields 404 not-found",
+      "action": [
+        {
+          "operation": {
+            "resource": "ConceptMap",
+            "description": "POST $translate on a non-existent ConceptMap instance id",
+            "encodeRequestUrl": true,
+            "params": "/does-not-exist-9999/$translate",
+            "sourceId": "translate-input",
+            "responseId": "translate-response"
+          }
+        },
+        {
+          "assert": {
+            "description": "HTTP status is 404 Not Found",
+            "response": "notFound",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        },
+        {
+          "assert": {
+            "description": "Response is an OperationOutcome",
+            "resource": "OperationOutcome",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        },
+        {
+          "assert": {
+            "description": "OperationOutcome issue code is not-found",
+            "expression": "OperationOutcome.issue.code",
+            "operator": "contains",
+            "value": "not-found",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        }
+      ]
+    }
+  ]
+}

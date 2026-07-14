@@ -1,0 +1,54 @@
+meta {
+  name: transform R4 Accepts source and content
+  type: http
+  seq: 13
+}
+
+post {
+  url: {{baseUrl}}/fhir/R4/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {"name": "source", "valueUri": "http://example.org/StructureMap/qr-to-patient-transform"},
+      {
+        "name": "content",
+        "resource": {
+          "resourceType": "QuestionnaireResponse",
+          "item": [
+            {"linkId": "first", "answer": [{"valueString": "Ada"}]},
+            {"linkId": "last",  "answer": [{"valueString": "Lovelace"}]}
+          ]
+        }
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.firstName: eq Ada
+  res.body.lastName: eq Lovelace
+}
+
+docs {
+  # /fhir/R4/$transform with R4 spec parameter names
+
+  R4 names the canonical-URL parameter `source` and the input-resource
+  parameter `content`. This test confirms our R4 tree resolves the
+  persisted StructureMap (seeded by T_StructureMap/Create Transform Map)
+  via the spec-conformant body and runs the transform end-to-end.
+
+  Relies on the StructureMap at
+  http://example.org/StructureMap/qr-to-patient-transform existing —
+  ensure T_StructureMap runs before W_Conformance in the suite order.
+}

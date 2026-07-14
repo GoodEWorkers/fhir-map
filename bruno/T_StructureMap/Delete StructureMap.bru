@@ -1,0 +1,24 @@
+meta {
+  name: Delete StructureMap
+  type: http
+  seq: 8
+}
+
+delete {
+  url: {{baseUrl}}/fhir/R5/StructureMap/{{structureMapId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 204
+}
+
+docs {
+  # Delete StructureMap
+
+  Soft-delete. The row gets a `deleted_at` timestamp so subsequent Reads
+  return 404, but the history timeline preserves the full create→update→
+  delete sequence (a 'delete' entry is appended in the same transaction
+  as the soft-delete UPDATE).
+}

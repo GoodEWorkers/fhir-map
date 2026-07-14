@@ -1,0 +1,50 @@
+meta {
+  name: transform R4 Rejects sourceMap
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/fhir/R4/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "sourceMap",
+        "resource": {"resourceType": "StructureMap"}
+      },
+      {
+        "name": "content",
+        "resource": {"value": "ignored"}
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.resourceType: eq OperationOutcome
+  res.body.issue[0].code: eq not-supported
+}
+
+docs {
+  # /fhir/R4/$transform rejects R5-only parameters
+
+  The FHIR R4 4.0.1 OperationDefinition for StructureMap-transform names
+  only `source` (canonical URL) and `content` (input resource). The R5
+  parameters `sourceMap`, `srcMap`, and `supportingMap` do not exist in
+  R4 and must be rejected with 400 OperationOutcome `not-supported`.
+
+  Mirrors HAPI's pickOne policy that prevents R4 and R5 parameter sets
+  from being silently mixed.
+}

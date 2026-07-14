@@ -1,0 +1,23 @@
+meta {
+  name: Translate by Code (R4)
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/fhir/R4/ConceptMap/$translate?url=http://example.org/fhir/ConceptMap/address-use&code=home&system=http://hl7.org/fhir/address-use
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq Parameters
+  res.body.parameter[0].name: eq result
+  res.body.parameter[0].valueBoolean: eq true
+  res.body.parameter[1].part[0].name: eq equivalence
+}

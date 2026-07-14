@@ -1,0 +1,104 @@
+meta {
+  name: Create ConceptMap
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/fhir/ConceptMap
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "ConceptMap",
+    "url": "http://example.org/fhir/ConceptMap/address-use",
+    "version": "1.0.0",
+    "name": "AddressUseMapping",
+    "title": "Address Use Mapping",
+    "status": "draft",
+    "experimental": true,
+    "description": "A mapping between address use codes",
+    "sourceScopeUri": "http://hl7.org/fhir/ValueSet/address-use",
+    "targetScopeUri": "http://terminology.hl7.org/ValueSet/v3-AddressUse",
+    "group": [
+      {
+        "source": "http://hl7.org/fhir/address-use",
+        "target": "http://terminology.hl7.org/CodeSystem/v3-AddressUse",
+        "element": [
+          {
+            "code": "home",
+            "display": "Home",
+            "target": [
+              {
+                "code": "H",
+                "display": "home address",
+                "relationship": "equivalent"
+              }
+            ]
+          },
+          {
+            "code": "work",
+            "display": "Work",
+            "target": [
+              {
+                "code": "WP",
+                "display": "work place",
+                "relationship": "equivalent"
+              }
+            ]
+          },
+          {
+            "code": "temp",
+            "display": "Temporary",
+            "target": [
+              {
+                "code": "TMP",
+                "display": "temporary address",
+                "relationship": "equivalent"
+              }
+            ]
+          },
+          {
+            "code": "old",
+            "display": "Old / Incorrect",
+            "target": [
+              {
+                "code": "BAD",
+                "display": "bad address",
+                "relationship": "not-related-to",
+                "comment": "In the HL7 v3 AD, old is handled by the usablePeriod element"
+              }
+            ]
+          }
+        ],
+        "unmapped": {
+          "mode": "fixed",
+          "code": "temp",
+          "display": "temp",
+          "relationship": "related-to"
+        }
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.headers["content-type"]: contains application/fhir+json
+  res.headers["location"]: isDefined
+  res.headers["etag"]: isDefined
+  res.body.resourceType: eq ConceptMap
+  res.body.id: isDefined
+  res.body.meta.versionId: eq "1"
+}
+
+script:post-response {
+  bru.setVar("conceptMapId", res.body.id);
+}

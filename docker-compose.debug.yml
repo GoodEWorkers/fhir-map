@@ -1,0 +1,6 @@
+services:
+  server:
+    environment:
+      LOG_LEVEL: debug
+      APP_ENV: development
+      LOG_FORMAT: json

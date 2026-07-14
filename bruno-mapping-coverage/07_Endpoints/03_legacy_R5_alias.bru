@@ -1,0 +1,39 @@
+meta {
+  name: 03_legacy_R5_alias
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/fhir/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "fml",
+        "valueString": "map \"http://example.org/fml/legacy\" = \"Legacy\"\ngroup main(source src, target tgt) {\n  src.z as v -> tgt.w = copy(v);\n}\n"
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "z": "v"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.w: eq v
+}
+
+docs {
+  /fhir/StructureMap/... — legacy R5 alias kept for pre-M2b Bruno
+  compat. Should behave identically to /fhir/R5/StructureMap/...
+}

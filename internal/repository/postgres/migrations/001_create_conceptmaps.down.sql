@@ -1,0 +1,13 @@
+DROP INDEX IF EXISTS idx_concept_maps_target_systems;
+DROP INDEX IF EXISTS idx_concept_maps_source_systems;
+DROP INDEX IF EXISTS idx_concept_maps_target_codes;
+DROP INDEX IF EXISTS idx_concept_maps_source_codes;
+DROP INDEX IF EXISTS idx_concept_maps_updated_at;
+DROP INDEX IF EXISTS idx_concept_maps_target_scope;
+DROP INDEX IF EXISTS idx_concept_maps_source_scope;
+DROP INDEX IF EXISTS idx_concept_maps_publisher;
+DROP INDEX IF EXISTS idx_concept_maps_status;
+DROP INDEX IF EXISTS idx_concept_maps_name;
+DROP INDEX IF EXISTS idx_concept_maps_url_version;
+DROP INDEX IF EXISTS idx_concept_maps_url;
+DROP TABLE IF EXISTS concept_maps;

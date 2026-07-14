@@ -1,0 +1,100 @@
+meta {
+  name: Translate Batch 50 Codes
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/fhir/ConceptMap/$translate-batch
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {"name": "url", "valueUri": "http://example.org/fhir/ConceptMap/address-use"},
+      {"name": "code", "part": [{"name": "code", "valueCode": "home"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "work"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "temp"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "old"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "home"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "work"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "temp"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "old"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "home"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "work"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "temp"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "old"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "home"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "work"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "temp"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "old"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "home"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "work"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "temp"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "old"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "home"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "work"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "temp"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "old"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "home"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "work"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "temp"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "old"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "home"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "work"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "temp"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "old"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "home"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "work"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "temp"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "old"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "home"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "work"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "temp"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "old"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "home"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "work"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "temp"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "old"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "home"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "work"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "temp"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "old"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "home"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]},
+      {"name": "code", "part": [{"name": "code", "valueCode": "work"}, {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}]}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq Parameters
+  res.body.parameter[0].name: eq result
+  res.body.parameter[0].valueBoolean: eq true
+  res.body.parameter[50].name: eq translate
+}
+
+docs {
+  # $translate-batch — 50 probes in one request
+
+  50 (system, code) probes against the same ConceptMap. On the server side
+  this collapses to **one** `unnest WITH ORDINALITY` JOIN against
+  `concept_map_mappings` — see `postgres.MappingStore.BatchQueryForward`.
+
+  Compare with calling `$translate` 50 times:
+  - 50 HTTP requests vs 1
+  - 50 SQL roundtrips vs 1
+  - 50 ConceptMap-by-URL resolutions vs 1
+  - 50 request_id allocations + 50 log lines vs 1
+
+  For an ETL job translating millions of codes against a stable ConceptMap,
+  this is the difference between a 10-minute job and an 8-hour one.
+}

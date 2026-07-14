@@ -1,0 +1,50 @@
+meta {
+  name: Translate Multi-Coding CodeableConcept
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/fhir/ConceptMap/$translate
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "url",
+        "valueUri": "http://example.org/fhir/ConceptMap/address-use"
+      },
+      {
+        "name": "sourceCodeableConcept",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/address-use",
+              "code": "home"
+            },
+            {
+              "system": "http://hl7.org/fhir/address-use",
+              "code": "work"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq Parameters
+  res.body.parameter[0].name: eq result
+  res.body.parameter[0].valueBoolean: eq true
+}

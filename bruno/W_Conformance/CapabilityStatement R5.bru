@@ -1,0 +1,47 @@
+meta {
+  name: CapabilityStatement R5
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/fhir/R5/metadata
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq CapabilityStatement
+  res.body.fhirVersion: eq 5.0.0
+  res.body.kind: eq instance
+  res.body.rest[0].mode: eq server
+  res.body.rest[0].resource[0].type: eq ConceptMap
+  res.body.rest[0].resource[1].type: eq StructureMap
+  res.body.rest[0].resource[1].operation[0].name: eq transform
+  res.body.rest[0].resource[1].operation[0].extension[0].valueString: eq source
+  res.body.rest[0].resource[1].operation[0].extension[1].valueString: eq sourceMap
+  res.body.rest[0].resource[1].operation[0].extension[2].valueString: eq srcMap
+  res.body.rest[0].resource[1].operation[0].extension[3].valueString: eq supportingMap
+  res.body.rest[0].resource[1].operation[0].extension[4].valueString: eq content
+  res.body.rest[0].resource[2].type: eq StructureDefinition
+  res.body.rest[0].resource[2].interaction[0].code: eq create
+  res.body.rest[0].resource[2].interaction[6].code: eq history-instance
+  res.body.rest[0].resource[2].interaction[7].code: eq history-type
+  res.body.rest[0].operation[0].name: eq transform
+  res.body.rest[0].operation[0].extension[0].valueBoolean: eq true
+}
+
+docs {
+  # CapabilityStatement — R5 tree
+
+  Every conformant FHIR server publishes its capability surface at
+  `/metadata`. The R5 tree advertises `fhirVersion = 5.0.0` and lists the
+  ConceptMap resource with its interactions, search params, and the two
+  operations we expose: `translate` (standard) and `translate-batch`
+  (non-standard, see Y_Batch/ folder).
+}

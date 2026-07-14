@@ -1,0 +1,33 @@
+{
+  "resourceType": "ConceptMap",
+  "id": "conformance-cm-r5",
+  "url": "http://example.org/fhir/ConceptMap/conformance-r5",
+  "version": "1.0.0",
+  "name": "ConformanceConceptMapR5",
+  "title": "Conformance ConceptMap (R5)",
+  "status": "active",
+  "experimental": true,
+  "date": "2026-05-27",
+  "description": "Minimal R5 ConceptMap used by the conformance E2E harness. Maps ICD-10 J18.9 to SNOMED CT 233604007 using the R5 relationship vocabulary.",
+  "sourceScopeUri": "http://hl7.org/fhir/sid/icd-10",
+  "targetScopeUri": "http://snomed.info/sct",
+  "group": [
+    {
+      "source": "http://hl7.org/fhir/sid/icd-10",
+      "target": "http://snomed.info/sct",
+      "element": [
+        {
+          "code": "J18.9",
+          "display": "Pneumonia, unspecified organism",
+          "target": [
+            {
+              "code": "233604007",
+              "display": "Pneumonia",
+              "relationship": "equivalent"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

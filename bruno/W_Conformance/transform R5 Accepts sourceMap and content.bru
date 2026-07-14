@@ -1,0 +1,71 @@
+meta {
+  name: transform R5 Accepts sourceMap and content
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "sourceMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/m6-0-6-r5-inline",
+          "name": "M6_0_6_R5Inline",
+          "status": "active",
+          "group": [
+            {
+              "name": "g",
+              "input": [
+                {"name": "src", "mode": "source"},
+                {"name": "tgt", "mode": "target"}
+              ],
+              "rule": [
+                {
+                  "name": "value",
+                  "source": [{"context": "src", "element": "value", "variable": "v"}],
+                  "target": [{"context": "tgt", "element": "out", "transform": "copy", "parameter": [{"valueId": "v"}]}]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "name": "content",
+        "resource": {"value": "hello-r5"}
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.out: eq hello-r5
+}
+
+docs {
+  # $transform on /fhir/R5 — pure R5 spec parameter names
+
+  The R5 OperationDefinition for StructureMap-transform names the inline
+  map parameter `sourceMap` and the input resource parameter `content`.
+  HAPI uses `structureMap` and `source` for the same concepts; both
+  remain accepted, but a spec-conformant client should be able to talk
+  to us without using HAPI's synonyms.
+
+  This test asserts that an end-to-end transform runs when the request
+  body uses only the R5 spec names.
+}

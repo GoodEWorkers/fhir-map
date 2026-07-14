@@ -1,0 +1,55 @@
+meta {
+  name: 04_min_max_cardinality_GAP
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/minmax",
+          "name": "MinMax",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [{"name": "src", "mode": "source"}, {"name": "tgt", "mode": "target"}],
+            "rule": [{
+              "name": "r",
+              "source": [{"context": "src", "element": "items", "variable": "i",
+                          "min": 1, "max": "1"}],
+              "target": [{"context": "tgt", "element": "out", "transform": "evaluate",
+                          "parameter": [{"valueId": "i"}, {"valueString": "name"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "items": []}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 422
+}
+
+docs {
+  SPEC GAP — source.min=1 should reject empty bindings as a
+  cardinality violation. Server ignores min/max; rule short-circuits
+  silently.
+}

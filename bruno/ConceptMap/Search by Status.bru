@@ -1,0 +1,21 @@
+meta {
+  name: Search by Status
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/fhir/ConceptMap?status=active
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq Bundle
+  res.body.type: eq searchset
+}

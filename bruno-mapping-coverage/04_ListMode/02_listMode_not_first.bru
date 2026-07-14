@@ -1,0 +1,57 @@
+meta {
+  name: 02_listMode_not_first
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/lm-nf",
+          "name": "LMNF",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [{"name": "src", "mode": "source"}, {"name": "tgt", "mode": "target"}],
+            "rule": [{
+              "name": "r",
+              "source": [{"context": "src", "element": "items", "variable": "i", "listMode": "not_first"}],
+              "target": [{"context": "tgt", "element": "rest", "transform": "evaluate",
+                          "parameter": [{"valueId": "i"}, {"valueString": "name"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content",
+       "resource": {"resourceType": "Basic", "items": [{"name":"a"},{"name":"b"},{"name":"c"}]}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  source.listMode = not_first — drops the first element. Because the
+  rule fires once per binding (b, then c) and writes to the same
+  target.element, the surviving value is the last write ("c"). The
+  intermediate "b" write is overwritten. This is HAPI-compatible
+  best-effort; documenting that behaviour here.
+}

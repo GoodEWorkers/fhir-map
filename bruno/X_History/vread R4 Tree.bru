@@ -1,0 +1,35 @@
+meta {
+  name: vread R4 Tree
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/fhir/R4/ConceptMap/{{conceptMapId}}/_history/2
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq ConceptMap
+  res.body.status: eq active
+  res.body.group[0].element[0].target[0].equivalence: eq equivalent
+}
+
+docs {
+  # vread on the R4 URL tree projects the historical snapshot to R4 wire format
+
+  Reading version 2 of the seed resource via the R4 tree returns the same
+  data as the R5 tree but with the M2a R4 projection applied: each
+  `target.relationship` is rewritten as `target.equivalence` with the
+  vocabulary translated through the M2a matrix.
+
+  This proves the R4 projection is consistent across the read-side: live
+  reads (M2b), search bundle entries (M2b), AND historical snapshots
+  (this test) all emit the R4 vocabulary correctly.
+}

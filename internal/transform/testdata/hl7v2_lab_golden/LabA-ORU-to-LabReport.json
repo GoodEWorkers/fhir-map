@@ -1,0 +1,1443 @@
+{
+ "resourceType": "StructureMap",
+ "id": "LabA-ORU-to-LabReport",
+ "url": "http://example.org/fhir/R4/lab-ig/StructureMap/LabA-ORU-to-LabReport",
+ "version": "1.0.0",
+ "name": "LabA_ORU_to_LabReport",
+ "title": "HL7v2.3 ORU from LabA to HL7 Europe Laboratory resources",
+ "status": "draft",
+ "description": "Transforms an HL7v2.3 ORU message from LabA into the HL7 Europe Laboratory resources with LOINC codes.",
+ "structure": [
+  {
+   "url": "https://example.org",
+   "mode": "source"
+  },
+  {
+   "url": "http://hl7.eu/fhir/laboratory/StructureDefinition/Composition-eu-lab",
+   "mode": "target",
+   "alias": "compositionTarget"
+  },
+  {
+   "url": "http://hl7.eu/fhir/laboratory/StructureDefinition/DiagnosticReport-eu-lab",
+   "mode": "target",
+   "alias": "diagnosticReportTarget"
+  },
+  {
+   "url": "http://hl7.eu/fhir/laboratory/StructureDefinition/ServiceRequest-eu-lab",
+   "mode": "target",
+   "alias": "serviceRequestTarget"
+  },
+  {
+   "url": "http://hl7.eu/fhir/laboratory/StructureDefinition/Specimen-eu-lab",
+   "mode": "target",
+   "alias": "specimenTarget"
+  },
+  {
+   "url": "http://hl7.eu/fhir/laboratory/StructureDefinition/Patient-eu-lab",
+   "mode": "target",
+   "alias": "patientTarget"
+  },
+  {
+   "url": "http://hl7.eu/fhir/laboratory/StructureDefinition/Observation-resultslab-eu-lab",
+   "mode": "target",
+   "alias": "observationTarget"
+  }
+ ],
+ "import": [
+  "http://example.org/fhir/R4/lab-ig/StructureMap/LabA-MSH-to-LabReport",
+  "http://example.org/fhir/R4/lab-ig/StructureMap/LabA-OBX-to-LabReport-Observation",
+  "http://example.org/fhir/R4/lab-ig/StructureMap/LabA-ORC-to-LabReport-ServiceRequest",
+  "http://example.org/fhir/R4/lab-ig/StructureMap/LabA-PID-to-LabReport-Patient",
+  "http://example.org/fhir/R4/lab-ig/StructureMap/LabA-OBR-to-LabReport"
+ ],
+ "group": [
+  {
+   "name": "main",
+   "typeMode": "types",
+   "input": [
+    {
+     "name": "source",
+     "type": "HL7v2",
+     "mode": "source"
+    },
+    {
+     "name": "target",
+     "type": "Bundle",
+     "mode": "target"
+    }
+   ],
+   "rule": [
+    {
+     "name": "bundleResource",
+     "source": [
+      {
+       "context": "source",
+       "type": "string",
+       "element": "MSH",
+       "variable": "resource",
+       "condition": "$this.exists()"
+      }
+     ],
+     "target": [
+      {
+       "context": "target",
+       "element": "entry[+].resource",
+       "variable": "CompositionTarget",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "Composition"
+        }
+       ]
+      },
+      {
+       "context": "CompositionTarget",
+       "element": "id",
+       "variable": "CompositionID",
+       "transform": "uuid"
+      },
+      {
+       "context": "target",
+       "element": "entry[=].fullUrl",
+       "variable": "CompositionFullUrl",
+       "transform": "append",
+       "parameter": [
+        {
+         "valueString": "urn:uuid:"
+        },
+        {
+         "valueId": "CompositionID"
+        }
+       ]
+      },
+      {
+       "context": "CompositionTarget",
+       "element": "status",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "final"
+        }
+       ]
+      },
+      {
+       "context": "CompositionTarget",
+       "element": "title",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "Laboratory Report"
+        }
+       ]
+      },
+      {
+       "context": "CompositionTarget",
+       "element": "meta.profile",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "http://hl7.eu/fhir/laboratory/StructureDefinition/Composition-eu-lab"
+        }
+       ]
+      },
+      {
+       "context": "target",
+       "element": "type",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "document"
+        }
+       ]
+      },
+      {
+       "context": "target",
+       "element": "identifier[+].value",
+       "transform": "uuid"
+      },
+      {
+       "context": "target",
+       "element": "identifier[=].system",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "http://example.org"
+        }
+       ]
+      },
+      {
+       "context": "target",
+       "element": "meta.profile",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "http://hl7.eu/fhir/laboratory/StructureDefinition/Bundle-eu-lab"
+        }
+       ]
+      },
+      {
+       "context": "target",
+       "element": "entry[+].resource",
+       "variable": "DiagnosticReportTarget",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "DiagnosticReport"
+        }
+       ]
+      },
+      {
+       "context": "DiagnosticReportTarget",
+       "element": "id",
+       "variable": "DiagnosticReportID",
+       "transform": "uuid"
+      },
+      {
+       "context": "target",
+       "element": "entry[=].fullUrl",
+       "variable": "DiagnosticReportFullUrl",
+       "transform": "append",
+       "parameter": [
+        {
+         "valueString": "urn:uuid:"
+        },
+        {
+         "valueId": "DiagnosticReportID"
+        }
+       ]
+      },
+      {
+       "context": "DiagnosticReportTarget",
+       "element": "meta.profile",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "http://hl7.eu/fhir/laboratory/StructureDefinition/DiagnosticReport-eu-lab"
+        }
+       ]
+      },
+      {
+       "context": "DiagnosticReportTarget",
+       "element": "status",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "registered"
+        }
+       ]
+      },
+      {
+       "context": "DiagnosticReportTarget",
+       "element": "extension[+].url",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "http://hl7.org/fhir/5.0/StructureDefinition/extension-DiagnosticReport.composition"
+        }
+       ]
+      },
+      {
+       "context": "DiagnosticReportTarget",
+       "element": "extension[=].value",
+       "variable": "extDRReference",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "Reference"
+        }
+       ]
+      },
+      {
+       "context": "extDRReference",
+       "element": "reference",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueId": "CompositionFullUrl"
+        }
+       ]
+      },
+      {
+       "context": "CompositionTarget",
+       "element": "extension[+].url",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "http://hl7.eu/fhir/laboratory/StructureDefinition/composition-diagnosticReportReference"
+        }
+       ]
+      },
+      {
+       "context": "CompositionTarget",
+       "element": "extension[=].value",
+       "variable": "extDRReference",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "Reference"
+        }
+       ]
+      },
+      {
+       "context": "extDRReference",
+       "element": "reference",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueId": "DiagnosticReportFullUrl"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "orcRecord",
+     "source": [
+      {
+       "context": "source",
+       "type": "string",
+       "element": "ORC",
+       "variable": "resource",
+       "condition": "$this.exists()"
+      }
+     ],
+     "target": [
+      {
+       "context": "target",
+       "element": "entry[+].resource",
+       "variable": "ServiceRequestTarget",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "ServiceRequest"
+        }
+       ]
+      },
+      {
+       "context": "ServiceRequestTarget",
+       "element": "id",
+       "variable": "ServiceRequestID",
+       "transform": "uuid"
+      },
+      {
+       "context": "target",
+       "element": "entry[=].fullUrl",
+       "variable": "ServiceRequestFullUrl",
+       "transform": "append",
+       "parameter": [
+        {
+         "valueString": "urn:uuid:"
+        },
+        {
+         "valueId": "ServiceRequestID"
+        }
+       ]
+      },
+      {
+       "context": "ServiceRequestTarget",
+       "element": "status",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "draft"
+        }
+       ]
+      },
+      {
+       "context": "ServiceRequestTarget",
+       "element": "intent",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "order"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "labReportResource",
+     "source": [
+      {
+       "context": "source",
+       "type": "string",
+       "element": "PID",
+       "variable": "resource",
+       "condition": "$this.exists()"
+      }
+     ],
+     "target": [
+      {
+       "context": "target",
+       "element": "entry[+].resource",
+       "variable": "PatientTarget",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "Patient"
+        }
+       ]
+      },
+      {
+       "context": "PatientTarget",
+       "element": "id",
+       "variable": "PatientID",
+       "transform": "uuid"
+      },
+      {
+       "context": "target",
+       "element": "entry[=].fullUrl",
+       "variable": "PatientFullUrl",
+       "transform": "append",
+       "parameter": [
+        {
+         "valueString": "urn:uuid:"
+        },
+        {
+         "valueId": "PatientID"
+        }
+       ]
+      },
+      {
+       "context": "PatientTarget",
+       "element": "meta.profile",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "http://hl7.eu/fhir/laboratory/StructureDefinition/Patient-eu-lab"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "obrRecord",
+     "source": [
+      {
+       "context": "source",
+       "type": "string",
+       "element": "OBR",
+       "variable": "obr",
+       "condition": "$this.exists()"
+      }
+     ],
+     "target": [
+      {
+       "context": "target",
+       "element": "entry[+].resource",
+       "variable": "ServiceRequestTarget",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "ServiceRequest"
+        }
+       ]
+      },
+      {
+       "context": "ServiceRequestTarget",
+       "element": "id",
+       "variable": "ServiceRequestID",
+       "transform": "uuid"
+      },
+      {
+       "context": "target",
+       "element": "entry[=].fullUrl",
+       "variable": "ServiceRequestFullUrl",
+       "transform": "append",
+       "parameter": [
+        {
+         "valueString": "urn:uuid:"
+        },
+        {
+         "valueId": "ServiceRequestID"
+        }
+       ]
+      },
+      {
+       "context": "ServiceRequestTarget",
+       "element": "status",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "active"
+        }
+       ]
+      },
+      {
+       "context": "ServiceRequestTarget",
+       "element": "intent",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "order"
+        }
+       ]
+      },
+      {
+       "context": "ServiceRequestTarget",
+       "element": "subject.reference",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueId": "PatientFullUrl"
+        }
+       ]
+      },
+      {
+       "context": "CompositionTarget",
+       "element": "extension[+].url",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "http://hl7.eu/fhir/StructureDefinition/composition-basedOn-order-or-requisition"
+        }
+       ]
+      },
+      {
+       "context": "CompositionTarget",
+       "element": "extension[=].value",
+       "variable": "extDRReference",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "Reference"
+        }
+       ]
+      },
+      {
+       "context": "extDRReference",
+       "element": "reference",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueId": "ServiceRequestFullUrl"
+        }
+       ]
+      },
+      {
+       "context": "target",
+       "element": "entry[+].resource",
+       "variable": "SpecimenTarget",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "Specimen"
+        }
+       ]
+      },
+      {
+       "context": "SpecimenTarget",
+       "element": "id",
+       "variable": "SpecimenID",
+       "transform": "uuid"
+      },
+      {
+       "context": "target",
+       "element": "entry[=].fullUrl",
+       "variable": "SpecimenFullUrl",
+       "transform": "append",
+       "parameter": [
+        {
+         "valueString": "urn:uuid:"
+        },
+        {
+         "valueId": "SpecimenID"
+        }
+       ]
+      },
+      {
+       "context": "SpecimenTarget",
+       "element": "meta.profile",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "http://hl7.eu/fhir/laboratory/StructureDefinition/Specimen-eu-lab"
+        }
+       ]
+      },
+      {
+       "context": "SpecimenTarget",
+       "element": "subject.reference",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueId": "PatientFullUrl"
+        }
+       ]
+      },
+      {
+       "context": "DiagnosticReportTarget",
+       "element": "subject.reference",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueId": "PatientFullUrl"
+        }
+       ]
+      },
+      {
+       "context": "CompositionTarget",
+       "element": "subject.reference",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueId": "PatientFullUrl"
+        }
+       ]
+      },
+      {
+       "context": "DiagnosticReportTarget",
+       "element": "specimen[+].reference",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueId": "SpecimenFullUrl"
+        }
+       ]
+      }
+     ],
+     "rule": [
+      {
+       "name": "obr23ToServiceRequestIdentifier",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-2",
+         "variable": "placerOrderNumber",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "ServiceRequestTarget",
+         "element": "identifier[+].type.coding[+].code",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "PLAC"
+          }
+         ]
+        },
+        {
+         "context": "ServiceRequestTarget",
+         "element": "identifier[=].type.coding[=].system",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+          }
+         ]
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr2ToIdentifierValue",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-2-1",
+           "variable": "placerOrderNumberValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberValue"
+            }
+           ]
+          },
+          {
+           "context": "SpecimenTarget",
+           "element": "accessionIdentifier.value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr2ToIdentifierValueDR",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-2-1",
+           "variable": "placerOrderNumberValue",
+           "condition": "$this.exists() and ($this in %DiagnosticReportTarget.identifier.value).not()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[+].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "PLAC"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr2ToIdentifierSystem",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-2-2",
+           "variable": "placerOrderNumberSystem",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].system",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "placerOrderNumberSystem"
+            }
+           ]
+          },
+          {
+           "context": "SpecimenTarget",
+           "element": "accessionIdentifier.system",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "placerOrderNumberSystem"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr2ToIdentifierSystemDR",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-2-2",
+           "variable": "placerOrderNumberSystem",
+           "condition": "$this.exists() and ($this in %DiagnosticReportTarget.identifier.system).not() and %DiagnosticReportTarget.identifier.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].system",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "placerOrderNumberSystem"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr2ToIdentifierTypeCoding0",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-2-3",
+           "variable": "placerOrderNumberTypeCoding0",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberTypeCoding0"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberTypeCoding0"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "SpecimenTarget",
+           "element": "accessionIdentifier.type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberTypeCoding0"
+            }
+           ]
+          },
+          {
+           "context": "SpecimenTarget",
+           "element": "accessionIdentifier.type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr2ToIdentifierTypeCoding1",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-2-4",
+           "variable": "placerOrderNumberTypeCoding1",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberTypeCoding1"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberTypeCoding1"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "SpecimenTarget",
+           "element": "accessionIdentifier.type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberTypeCoding1"
+            }
+           ]
+          },
+          {
+           "context": "SpecimenTarget",
+           "element": "accessionIdentifier.type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr3ToServiceRequestIdentifierFiller",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-3",
+         "variable": "fillerOrderNumber",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "ServiceRequestTarget",
+         "element": "identifier[+].type.coding[+].code",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "FILL"
+          }
+         ]
+        },
+        {
+         "context": "ServiceRequestTarget",
+         "element": "identifier[=].type.coding[=].system",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+          }
+         ]
+        }
+       ],
+       "rule": [
+        {
+         "name": "obr3ToIdentifierValue",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-3-1",
+           "variable": "fillerOrderNumberValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "fillerOrderNumberValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr3ToIdentifierValueDR",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-3-1",
+           "variable": "fillerOrderNumberValue",
+           "condition": "$this.exists() and ($this in %DiagnosticReportTarget.identifier.value).not()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[+].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "FILL"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "fillerOrderNumberValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr3ToIdentifierSystem",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-3-2",
+           "variable": "fillerOrderNumberSystem",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].system",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "fillerOrderNumberSystem"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr3ToIdentifierSystemDR",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-3-2",
+           "variable": "fillerOrderNumberSystem",
+           "condition": "$this.exists() and ($this in %DiagnosticReportTarget.identifier.system).not() and %DiagnosticReportTarget.identifier.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].system",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "fillerOrderNumberSystem"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr3ToIdentifierTypeCoding0",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-3-3",
+           "variable": "fillerOrderNumberTypeCoding0",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "fillerOrderNumberTypeCoding0"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "fillerOrderNumberTypeCoding0"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obr3ToIdentifierTypeCoding1",
+         "source": [
+          {
+           "context": "obr",
+           "type": "string",
+           "element": "OBR-3-4",
+           "variable": "fillerOrderNumberTypeCoding1",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "fillerOrderNumberTypeCoding1"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "fillerOrderNumberTypeCoding1"
+            }
+           ]
+          },
+          {
+           "context": "DiagnosticReportTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr24ToCategory",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-24",
+         "variable": "obr24DiagnosticServiceSectionID",
+         "condition": "$this.exists() and ($this in %DiagnosticReportTarget.category.coding.code).not() and $this in ('AU' | 'BG' | 'BLB' | 'CG' | 'CUS' | 'CTH' | 'CT' | 'CH' | 'CP' | 'EC' | 'EN' | 'GE' | 'HM' | 'IMG' | 'ICU' | 'IMM' | 'LAB' | 'MB' | 'MCB' | 'MYC' | 'NMS' | 'NMR' | 'NRS' | 'OUS' | 'OT' | 'OTH' | 'OSL' | 'PAR' | 'PHR' | 'PAT' | 'PT' | 'PHY' | 'PF' | 'RAD' | 'RX' | 'RUS' | 'RC' | 'RT' | 'SR' | 'SP' | 'TX' | 'VUS' | 'VR' | 'URN' | 'XRC')"
+        }
+       ],
+       "target": [
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "category[+].coding[+].code",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "obr24DiagnosticServiceSectionID"
+          }
+         ]
+        },
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "category[=].coding[=].system",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://terminology.hl7.org/CodeSystem/v2-0074"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr24ToCategoryCustom",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-24",
+         "variable": "obr24DiagnosticServiceSectionID",
+         "condition": "$this.exists() and ($this in %DiagnosticReportTarget.category.coding.code).not() and ($this in ('AU' | 'BG' | 'BLB' | 'CG' | 'CUS' | 'CTH' | 'CT' | 'CH' | 'CP' | 'EC' | 'EN' | 'GE' | 'HM' | 'IMG' | 'ICU' | 'IMM' | 'LAB' | 'MB' | 'MCB' | 'MYC' | 'NMS' | 'NMR' | 'NRS' | 'OUS' | 'OT' | 'OTH' | 'OSL' | 'PAR' | 'PHR' | 'PAT' | 'PT' | 'PHY' | 'PF' | 'RAD' | 'RX' | 'RUS' | 'RC' | 'RT' | 'SR' | 'SP' | 'TX' | 'VUS' | 'VR' | 'URN' | 'XRC')).not()"
+        }
+       ],
+       "target": [
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "category[+].coding[+].code",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "obr24DiagnosticServiceSectionID"
+          }
+         ]
+        },
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "category[=].coding[=].system",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://example.org/fhir/labasystem/"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obr24ToCategoryLoinc",
+       "source": [
+        {
+         "context": "obr",
+         "type": "string",
+         "element": "OBR-24",
+         "variable": "obr24DiagnosticServiceSectionID",
+         "condition": "$this.exists() and %DiagnosticReportTarget.category.coding.exists(code='26436-6' and system ='http://loinc.org').not()"
+        }
+       ],
+       "target": [
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "category[+].coding[+].code",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "26436-6"
+          }
+         ]
+        },
+        {
+         "context": "DiagnosticReportTarget",
+         "element": "category[=].coding[=].system",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://loinc.org"
+          }
+         ]
+        },
+        {
+         "context": "CompositionTarget",
+         "element": "category[+].coding[+].code",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "26436-6"
+          }
+         ]
+        },
+        {
+         "context": "CompositionTarget",
+         "element": "category[=].coding[=].system",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://loinc.org"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "labReportObservationResource",
+     "source": [
+      {
+       "context": "source",
+       "type": "string",
+       "element": "OBX",
+       "variable": "obs",
+       "condition": "$this.exists()"
+      }
+     ],
+     "target": [
+      {
+       "context": "target",
+       "element": "entry[+].resource",
+       "variable": "ObservationTarget",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "Observation"
+        }
+       ]
+      },
+      {
+       "context": "ObservationTarget",
+       "element": "id",
+       "variable": "ObservationID",
+       "transform": "uuid"
+      },
+      {
+       "context": "target",
+       "element": "entry[=].fullUrl",
+       "variable": "ObservationFullUrl",
+       "transform": "append",
+       "parameter": [
+        {
+         "valueString": "urn:uuid:"
+        },
+        {
+         "valueId": "ObservationID"
+        }
+       ]
+      },
+      {
+       "context": "ObservationTarget",
+       "element": "category[+].coding",
+       "transform": "c",
+       "parameter": [
+        {
+         "valueString": "http://terminology.hl7.org/CodeSystem/observation-category"
+        },
+        {
+         "valueString": "laboratory"
+        }
+       ]
+      },
+      {
+       "context": "ObservationTarget",
+       "element": "meta.profile",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "http://hl7.eu/fhir/laboratory/StructureDefinition/Observation-resultslab-eu-lab"
+        }
+       ]
+      },
+      {
+       "context": "ObservationTarget",
+       "element": "subject.reference",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueId": "PatientFullUrl"
+        }
+       ]
+      },
+      {
+       "context": "DiagnosticReportTarget",
+       "element": "result[+].reference",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueId": "ObservationFullUrl"
+        }
+       ]
+      },
+      {
+       "context": "CompositionTarget",
+       "element": "section.entry[+].reference",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueId": "ObservationFullUrl"
+        }
+       ]
+      },
+      {
+       "context": "CompositionTarget",
+       "element": "section.title",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "Laboratory Results"
+        }
+       ]
+      },
+      {
+       "context": "CompositionTarget",
+       "element": "section.code",
+       "transform": "cc",
+       "parameter": [
+        {
+         "valueString": "http://loinc.org"
+        },
+        {
+         "valueString": "26436-6"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

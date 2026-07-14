@@ -1,0 +1,39 @@
+{
+  "resourceType": "StructureMap",
+  "id": "conformance-sm-r4",
+  "url": "http://example.org/fhir/StructureMap/conformance-r4",
+  "name": "ConformanceStructureMapR4",
+  "title": "Conformance StructureMap (R4)",
+  "status": "active",
+  "experimental": true,
+  "description": "Minimal R4 StructureMap with a single group used by the conformance E2E harness. No versionAlgorithm (R5-only) field.",
+  "structure": [
+    {"url": "http://hl7.org/fhir/StructureDefinition/Patient", "mode": "source", "alias": "src"},
+    {"url": "http://hl7.org/fhir/StructureDefinition/Patient", "mode": "target", "alias": "tgt"}
+  ],
+  "group": [
+    {
+      "name": "main",
+      "typeMode": "none",
+      "input": [
+        {"name": "source", "type": "src", "mode": "source"},
+        {"name": "target", "type": "tgt", "mode": "target"}
+      ],
+      "rule": [
+        {
+          "name": "copyId",
+          "source": [{"context": "source", "element": "id", "variable": "v"}],
+          "target": [
+            {
+              "context": "target",
+              "contextType": "variable",
+              "element": "id",
+              "transform": "copy",
+              "parameter": [{"valueId": "v"}]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

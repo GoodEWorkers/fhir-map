@@ -1,0 +1,55 @@
+meta {
+  name: 05_polymorphic_type_dispatch_GAP
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/poly",
+          "name": "PolyTest",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [{"name": "src", "mode": "source"}, {"name": "tgt", "mode": "target"}],
+            "rule": [{
+              "name": "r",
+              "source": [{"context": "src", "element": "value", "type": "string", "variable": "v"}],
+              "target": [{"context": "tgt", "element": "s", "transform": "copy",
+                          "parameter": [{"valueId": "v"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "value": 42}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  SPEC GAP — source.type is a polymorphic dispatch hint: a rule with
+  type="string" should fire only when the actual source value is a
+  string. Server ignores source.type, so this rule fires on an int
+  payload.
+}

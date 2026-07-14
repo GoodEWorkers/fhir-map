@@ -1,0 +1,19 @@
+meta {
+  name: 01_Delete sentinel StructureMap
+  type: http
+  seq: 1
+}
+
+delete {
+  url: {{baseUrl}}/fhir/R5/StructureMap/{{sentinelMapId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 204
+}
+
+docs {
+  Tear down the sentinel StructureMap seeded in 01_Setup.
+}

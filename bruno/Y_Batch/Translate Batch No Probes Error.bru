@@ -1,0 +1,40 @@
+meta {
+  name: Translate Batch No Probes Error
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/fhir/ConceptMap/$translate-batch
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {"name": "url", "valueUri": "http://example.org/fhir/ConceptMap/address-use"}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 422
+  res.body.resourceType: eq OperationOutcome
+  res.body.issue[0].code: eq invalid
+}
+
+docs {
+  # $translate-batch — no `code` parameters returns 400
+
+  A batch with zero probes has no work to do and is treated as malformed.
+  The handler rejects it with 400 OperationOutcome. This also catches the
+  common client mistake of forgetting to wrap each probe in a `code`
+  parameter with a `part` block.
+}

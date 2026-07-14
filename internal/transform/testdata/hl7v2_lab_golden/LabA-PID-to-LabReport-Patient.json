@@ -1,0 +1,2663 @@
+{
+ "resourceType": "StructureMap",
+ "id": "LabA-PID-to-LabReport-Patient",
+ "url": "http://example.org/fhir/R4/lab-ig/StructureMap/LabA-PID-to-LabReport-Patient",
+ "version": "1.0.0",
+ "name": "LabA_PID_to_LabReport_Patient",
+ "title": "HL7v2.3 PID to HL7 Europe Laboratory resource Patient",
+ "status": "draft",
+ "description": "Transforms an HL7v2.3 PID segment into the HL7 Europe Laboratory Patient resource.",
+ "structure": [
+  {
+   "url": "https://example.org",
+   "mode": "source"
+  },
+  {
+   "url": "http://hl7.eu/fhir/laboratory/StructureDefinition/Patient-eu-lab",
+   "mode": "target",
+   "alias": "target"
+  }
+ ],
+ "group": [
+  {
+   "name": "main",
+   "typeMode": "types",
+   "input": [
+    {
+     "name": "source",
+     "type": "HL7v2",
+     "mode": "source"
+    },
+    {
+     "name": "target",
+     "type": "Bundle",
+     "mode": "target"
+    }
+   ],
+   "rule": [
+    {
+     "name": "labReportResource",
+     "source": [
+      {
+       "context": "source",
+       "type": "string",
+       "element": "PID",
+       "variable": "resource",
+       "condition": "$this.exists()"
+      }
+     ],
+     "target": [
+      {
+       "context": "target",
+       "element": "entry[+].resource",
+       "variable": "PatientTarget",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "Patient"
+        }
+       ]
+      },
+      {
+       "context": "PatientTarget",
+       "element": "id",
+       "variable": "PatientID",
+       "transform": "uuid"
+      },
+      {
+       "context": "target",
+       "element": "entry[=].fullUrl",
+       "variable": "PatientFullUrl",
+       "transform": "append",
+       "parameter": [
+        {
+         "valueString": "http://example.org/fhir/Patient/"
+        },
+        {
+         "valueId": "PatientID"
+        }
+       ]
+      }
+     ],
+     "rule": [
+      {
+       "name": "pid2ToPatientIdentifier0",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "PID-2",
+         "variable": "patientIdExternal",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "pid2ToIdentifier0Value",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2-1",
+           "variable": "patientIdExternalValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "identifier[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid2ToIdentifier0Extension0",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2-2",
+           "variable": "patientIdExternalExtension0",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/identifier-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalExtension0"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid2ToIdentifier0Extension1",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2-3",
+           "variable": "patientIdExternalExtension1",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/namingsystem-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalExtension1"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid2ToIdentifier0AssigningAuthority",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2-4",
+           "variable": "idExternalAssigningAuthority",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "namespaceIDToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-2-4-1",
+             "variable": "externalNamespaceID",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "PatientTarget",
+             "element": "identifier[=].assigner.display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "externalNamespaceID"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "universalIDToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-2-4-2",
+             "variable": "externalUniversalID",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "PatientTarget",
+             "element": "identifier[=].assigner.identifier.value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "externalUniversalID"
+              }
+             ]
+            },
+            {
+             "context": "PatientTarget",
+             "element": "identifier[=].assigner.identifier.system",
+             "transform": "append",
+             "parameter": [
+              {
+               "valueString": "http://example.org/fhir/labasystem/"
+              },
+              {
+               "valueId": "externalUniversalID"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "universalIDTypeToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-2-4-3",
+             "variable": "externalUniversalIDType",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "PatientTarget",
+             "element": "identifier[=].assigner.identifier.type.coding[+].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+              }
+             ]
+            },
+            {
+             "context": "PatientTarget",
+             "element": "identifier[=].assigner.identifier.type.coding[=].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "externalUniversalIDType"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid2ToIdentifier0TypeCode",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2-5",
+           "variable": "patientIdExternalIdentifierTypeCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalIdentifierTypeCode"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "pid3ToPatientIdentifier1",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "PID-3",
+         "variable": "patientIdInternal",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "pid3ToIdentifier1Value",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3-1",
+           "variable": "patientIdInternalValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "identifier[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid3ToIdentifier1Extension0",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3-2",
+           "variable": "patientIdInternalExtension0",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/identifier-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalExtension0"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid3ToIdentifier1Extension1",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3-3",
+           "variable": "patientIdInternalExtension1",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/namingsystem-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalExtension1"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid3ToIdentifier1AssigningAuthority",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3-4",
+           "variable": "internalAssigningAuthority",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "namespaceIDToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-3-4-1",
+             "variable": "internalNamespaceID",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "PatientTarget",
+             "element": "identifier[=].assigner.display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "internalNamespaceID"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "universalIDToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-3-4-2",
+             "variable": "internalUniversalID",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "PatientTarget",
+             "element": "identifier[=].assigner.identifier.value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "internalUniversalID"
+              }
+             ]
+            },
+            {
+             "context": "PatientTarget",
+             "element": "identifier[=].assigner.identifier.system",
+             "transform": "append",
+             "parameter": [
+              {
+               "valueString": "http://example.org/fhir/labasystem/"
+              },
+              {
+               "valueId": "internalUniversalID"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "universalIDTypeToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-3-4-3",
+             "variable": "internalUniversalIDType",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "PatientTarget",
+             "element": "identifier[=].assigner.identifier.type.coding[+].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+              }
+             ]
+            },
+            {
+             "context": "PatientTarget",
+             "element": "identifier[=].assigner.identifier.type.coding[=].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "internalUniversalIDType"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid3ToIdentifier1TypeCode",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3-5",
+           "variable": "patientIdInternalIdentifierTypeCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalIdentifierTypeCode"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "pid4ToPatientIdentifier2",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "PID-4",
+         "variable": "alternatePatientID",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "pid4ToIdentifier2Value",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-4-1",
+           "variable": "alternatePatientIDValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "identifier[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "alternatePatientIDValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid4ToIdentifier2Extension0",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-4-2",
+           "variable": "alternatePatientIDExtension0",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/identifier-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "alternatePatientIDExtension0"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid4ToIdentifier2Extension1",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-4-3",
+           "variable": "alternatePatientIDExtension1",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/namingsystem-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "alternatePatientIDExtension1"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid4ToIdentifier2AssigningAuthority",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-4-4",
+           "variable": "alternateAssigningAuthority",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "namespaceIDToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-4-4-1",
+             "variable": "alternateNamespaceID",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "PatientTarget",
+             "element": "identifier[=].assigner.display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "alternateNamespaceID"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "universalIDToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-4-4-2",
+             "variable": "alternateUniversalID",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "PatientTarget",
+             "element": "identifier[=].assigner.identifier.value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "alternateUniversalID"
+              }
+             ]
+            },
+            {
+             "context": "PatientTarget",
+             "element": "identifier[=].assigner.identifier.system",
+             "transform": "append",
+             "parameter": [
+              {
+               "valueString": "http://example.org/fhir/labasystem/"
+              },
+              {
+               "valueId": "alternateUniversalID"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "universalIDTypeToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-4-4-3",
+             "variable": "alternateUniversalIDType",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "PatientTarget",
+             "element": "identifier[=].assigner.identifier.type.coding[+].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+              }
+             ]
+            },
+            {
+             "context": "PatientTarget",
+             "element": "identifier[=].assigner.identifier.type.coding[=].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "alternateUniversalIDType"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid4ToIdentifier2TypeCode",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-4-5",
+           "variable": "alternatePatientIDIdentifierTypeCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "alternatePatientIDIdentifierTypeCode"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "pid5ToPatientName",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "PID-5",
+         "variable": "patientName",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "pid5ToFamilyName",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-5-1",
+           "variable": "patientFamilyName",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "name[+].family",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientFamilyName"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid5ToGivenName",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-5-2",
+           "variable": "patientGivenName",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "name[=].given[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientGivenName"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "pid7ToPatientDateOfBirth",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "PID-7",
+         "variable": "dateOfBirth",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "PatientTarget",
+         "element": "birthDate",
+         "transform": "dateOp",
+         "parameter": [
+          {
+           "valueId": "dateOfBirth"
+          },
+          {
+           "valueString": "yyyyMMdd"
+          },
+          {
+           "valueString": "yyyy-MM-dd"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "pid8ToPatientGender",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "PID-8",
+         "variable": "sex",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "pid8ToPatientGenderFemale",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-8",
+           "variable": "eqGenderF8",
+           "condition": "$this = 'F'"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "gender",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "female"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid8ToPatientGenderMale",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-8",
+           "variable": "eqGenderM8",
+           "condition": "$this = 'M'"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "gender",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "male"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid8ToPatientGenderOther",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-8",
+           "variable": "eqGenderO8",
+           "condition": "$this = 'O'"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "gender",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "other"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid8ToPatientGenderUnknown",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-8",
+           "variable": "eqGenderU8",
+           "condition": "$this = 'U'"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "gender",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "unknown"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "pid9ToPatientAlias",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "PID-9",
+         "variable": "patientAlias",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "pid9ToFamilyName1",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-9-1",
+           "variable": "patientAliasFamilyName",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "name[+].family",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientAliasFamilyName"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid9ToGivenName1",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-9-2",
+           "variable": "patientAliasGivenName",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "name[=].given[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientAliasGivenName"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "pid11ToPatientAddress",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "PID-11",
+         "variable": "patientAddress",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "pid11ToAddressTelecomLine0",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-11-1",
+           "variable": "patientAddressLine0",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "address[+].line[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientAddressLine0"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid11ToAddressTelecomLine1",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-11-2",
+           "variable": "patientAddressLine1",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "address[=].line[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientAddressLine1"
+            }
+           ]
+          }
+         ],
+         "rule": [
+          {
+           "name": "pid11ToAddressTelecomLineExtension3",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-11-10",
+             "variable": "patientAddressExtension3",
+             "condition": "$this.exists() and (%patientAddressLine0.exists() or %patientAddressLine1.exists())"
+            }
+           ],
+           "target": [
+            {
+             "context": "PatientTarget",
+             "element": "address[=].line[=].extension[+].url",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-censusTract"
+              }
+             ]
+            },
+            {
+             "context": "PatientTarget",
+             "element": "address[=].line[=].extension[=].value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "patientAddressExtension3"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid11ToAddressTelecomCity",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-11-3",
+           "variable": "patientAddressCity",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "address[=].city",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientAddressCity"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid11ToAddressTelecomState",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-11-4",
+           "variable": "patientAddressState",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "address[=].state",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientAddressState"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid11ToAddressTelecomPostalCode",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-11-5",
+           "variable": "patientAddressPostalCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "address[=].postalCode",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientAddressPostalCode"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid11ToAddressTelecomCountry",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-11-6",
+           "variable": "patientAddressCountry",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "address[=].country",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientAddressCountry"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid11ToAddressTelecomType",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-11-7",
+           "variable": "patientAddressType",
+           "condition": "$this = 'M' or $this = 'SH'"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "address[=].type",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientAddressType"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid11ToAddressTelecomUseHome",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-11-7",
+           "variable": "eqTypeH11",
+           "condition": "$this = 'H'"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "address[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "home"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid11ToAddressTelecomUseWorkB",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-11-7",
+           "variable": "eqTypeB11",
+           "condition": "$this = 'B'"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "address[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "work"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid11ToAddressTelecomUseWorkO",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-11-7",
+           "variable": "eqTypeO11",
+           "condition": "$this = 'O'"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "address[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "work"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid11ToAddressTelecomUseTemp",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-11-7",
+           "variable": "eqTypeC11",
+           "condition": "$this = 'C'"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "address[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "temp"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid11ToAddressTelecomUseBilling",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-11-7",
+           "variable": "eqTypeM11",
+           "condition": "$this = 'M'"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "address[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "billing"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid11ToAddressTelecomExtension0",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-11-7",
+           "variable": "patientAddressExtension0",
+           "condition": "$this = 'HV'"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "address[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/iso21090-AD-use"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "address[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientAddressExtension0"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid11ToAddressTelecomExtension1",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-11-7",
+           "variable": "patientAddressExtension1",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "address[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0190"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "address[=].extension[=].value",
+           "transform": "cc",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0190"
+            },
+            {
+             "valueId": "patientAddressExtension1"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid11ToAddressTelecomDistrict",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-11-9",
+           "variable": "patientAddressDistrict",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "address[=].district",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientAddressDistrict"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "pid13ToPatientPhoneNumberHome",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "PID-13",
+         "variable": "phoneNumberHome",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "pid13ToAddressTelecom0TelephoneValue",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-13-1",
+           "variable": "telephoneNumberHomeValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "telephoneNumberHomeValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid13ToAddressTelecom0UsePRN",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-13-2",
+           "variable": "eqUsePRN13",
+           "condition": "$this = 'PRN' and %telephoneNumberHomeValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "home"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid13ToAddressTelecom0UseWPN",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-13-2",
+           "variable": "eqUseWPN13",
+           "condition": "$this = 'WPN' and %telephoneNumberHomeValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "work"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid13ToAddressTelecom0UseBPN",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-13-2",
+           "variable": "eqUseBPN13",
+           "condition": "$this = 'BPN' and %telephoneNumberHomeValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "mobile"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid13ToAddressTelecom0UseEMR",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-13-2",
+           "variable": "eqUseEMR13",
+           "condition": "$this = 'EMR' and %telephoneNumberHomeValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "home"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid13ToAddressTelecom0UseVHN",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-13-2",
+           "variable": "eqUseVHN13",
+           "condition": "$this = 'VHN' and %telephoneNumberHomeValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "temp"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid13ToAddressTelecom0UseORN",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-13-2",
+           "variable": "eqUseORN13",
+           "condition": "$this = 'ORN' and %telephoneNumberHomeValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "home"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid13ToAddressTelecom0UseASN",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-13-2",
+           "variable": "eqUseASN13",
+           "condition": "$this = 'ASN' and %telephoneNumberHomeValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "work"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid13ToAddressTelecom0UseNET",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-13-2",
+           "variable": "eqUseNET13",
+           "condition": "$this = 'NET' and %telephoneNumberHomeValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "home"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid13ToAddressTelecom0System",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-13-3",
+           "variable": "eqTypePH13",
+           "condition": "$this = 'PH' and %telephoneNumberHomeValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "phone"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid13ToAddressTelecom0SystemFax",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-13-3",
+           "variable": "eqTypeFX13",
+           "condition": "$this = 'FX' and %telephoneNumberHomeValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "fax"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid13ToAddressTelecom0SystemEmail",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-13-3",
+           "variable": "eqTypeEM13",
+           "condition": "$this = 'Internet' and %telephoneNumberHomeValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "email"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid13ToAddressTelecom0SystemPager",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-13-3",
+           "variable": "eqTypeBP13",
+           "condition": "$this = 'BP' and %telephoneNumberHomeValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "pager"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid13ToAddressTelecom0Extension0",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-13-5",
+           "variable": "phoneNumberHomeExtension0",
+           "condition": "$this.exists() and %telephoneNumberHomeValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/contactpoint-country"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "phoneNumberHomeExtension0"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid13ToAddressTelecom0Extension1",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-13-6",
+           "variable": "phoneNumberHomeExtension1",
+           "condition": "$this.exists() and %telephoneNumberHomeValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/contactpoint-area"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "phoneNumberHomeExtension1"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid13ToAddressTelecom0Extension2",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-13-8",
+           "variable": "phoneNumberHomeExtension2",
+           "condition": "$this.exists() and %telephoneNumberHomeValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/contactpoint-extension"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "phoneNumberHomeExtension2"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid13ToAddressTelecom1EmailValue",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-13-4",
+           "variable": "emailAdressValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "emailAdressValue"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "email"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid13ToAddressTelecom2PhoneValue",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-13-7",
+           "variable": "phoneNumberHomeValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "phoneNumberHomeValue"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "phone"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "pid14ToPatientPhoneNumberBusiness",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "PID-14",
+         "variable": "phoneNumberBusiness",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "pid14ToAddressTelecom3TelephoneValue",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-14-1",
+           "variable": "telephoneNumberBusinessValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "telephoneNumberBusinessValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid14ToAddressTelecom3UsePRN",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-14-2",
+           "variable": "eqUsePRN14",
+           "condition": "$this = 'PRN' and %telephoneNumberBusinessValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "home"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid14ToAddressTelecom3UseWPN",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-14-2",
+           "variable": "eqUseWPN14",
+           "condition": "$this = 'WPN' and %telephoneNumberBusinessValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "work"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid14ToAddressTelecom3UseBPN",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-14-2",
+           "variable": "eqUseBPN14",
+           "condition": "$this = 'BPN' and %telephoneNumberBusinessValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "mobile"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid14ToAddressTelecom3UseEMR",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-14-2",
+           "variable": "eqUseEMR14",
+           "condition": "$this = 'EMR' and %telephoneNumberBusinessValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "home"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid14ToAddressTelecom3UseVHN",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-14-2",
+           "variable": "eqUseVHN14",
+           "condition": "$this = 'VHN' and %telephoneNumberBusinessValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "temp"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid14ToAddressTelecom3UseORN",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-14-2",
+           "variable": "eqUseORN14",
+           "condition": "$this = 'ORN' and %telephoneNumberBusinessValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "home"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid14ToAddressTelecom3UseASN",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-14-2",
+           "variable": "eqUseASN14",
+           "condition": "$this = 'ASN' and %telephoneNumberBusinessValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "work"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid14ToAddressTelecom3UseNET",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-14-2",
+           "variable": "eqUseNET14",
+           "condition": "$this = 'NET' and %telephoneNumberBusinessValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].use",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "home"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid14ToAddressTelecom3System",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-14-3",
+           "variable": "eqTypePH14",
+           "condition": "$this = 'PH' and %telephoneNumberBusinessValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "phone"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid14ToAddressTelecom3SystemFax",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-14-3",
+           "variable": "eqTypeFX14",
+           "condition": "$this = 'FX' and %telephoneNumberBusinessValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "fax"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid14ToAddressTelecom3SystemEmail",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-14-3",
+           "variable": "eqTypeEM14",
+           "condition": "$this = 'Internet' and %telephoneNumberBusinessValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "email"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid14ToAddressTelecom3SystemPager",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-14-3",
+           "variable": "eqTypeBP14",
+           "condition": "$this = 'BP' and %telephoneNumberBusinessValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "pager"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid14ToAddressTelecom3Extension0",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-14-5",
+           "variable": "phoneNumberBusinessExtension0",
+           "condition": "$this.exists() and %telephoneNumberBusinessValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/contactpoint-country"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "phoneNumberBusinessExtension0"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid14ToAddressTelecom3Extension1",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-14-6",
+           "variable": "phoneNumberBusinessExtension1",
+           "condition": "$this.exists() and %telephoneNumberBusinessValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/contactpoint-area"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "phoneNumberBusinessExtension1"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid14ToAddressTelecom3Extension2",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-14-8",
+           "variable": "phoneNumberBusinessExtension2",
+           "condition": "$this.exists() and %telephoneNumberBusinessValue.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/contactpoint-extension"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "phoneNumberBusinessExtension2"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid14ToAddressTelecom3EmailValue",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-14-4",
+           "variable": "businessEmailAdressValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "businessEmailAdressValue"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "email"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid14ToAddressTelecom3PhoneValue",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-14-7",
+           "variable": "phoneNumberBusinessValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "telecom[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "phoneNumberBusinessValue"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "telecom[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "phone"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "pid19ToPatientSSNNumber",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "PID-19",
+         "variable": "ssnNumber",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "PatientTarget",
+         "element": "identifier[+].value",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "ssnNumber"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "pid20ToPatientDriversLicenseNumber",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "PID-20",
+         "variable": "driversLicenseNumber",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "pid20ToIdentifier4Value",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-20-1",
+           "variable": "driversLicenseNumberValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "identifier[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "driversLicenseNumberValue"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].type.coding[+].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+           ]
+          },
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].type.coding[=].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "DL"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid20ToIdentifier4System",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-20-2",
+           "variable": "issuingStateProvinceCountry",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].system",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "issuingStateProvinceCountry"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid20ToIdentifier4ExpirationDate",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-20-3",
+           "variable": "driversLicenseNumberExpirationDate",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "PatientTarget",
+           "element": "identifier[=].period.end",
+           "transform": "dateOp",
+           "parameter": [
+            {
+             "valueId": "driversLicenseNumberExpirationDate"
+            },
+            {
+             "valueString": "yyyyMMdd"
+            },
+            {
+             "valueString": "yyyy-MM-dd"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

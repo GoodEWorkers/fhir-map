@@ -1,0 +1,41 @@
+meta {
+  name: CapabilityStatement R4
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/fhir/R4/metadata
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq CapabilityStatement
+  res.body.fhirVersion: eq 4.0.1
+  res.body.rest[0].resource[0].type: eq ConceptMap
+  res.body.rest[0].resource[1].type: eq StructureMap
+  res.body.rest[0].resource[1].operation[0].name: eq transform
+  res.body.rest[0].resource[1].operation[0].extension[0].valueString: eq source
+  res.body.rest[0].resource[1].operation[0].extension[1].valueString: eq content
+  res.body.rest[0].resource[2].type: eq StructureDefinition
+  res.body.rest[0].resource[2].interaction[0].code: eq create
+  res.body.rest[0].operation[0].name: eq transform
+  res.body.rest[0].operation[0].extension[0].valueBoolean: eq true
+}
+
+docs {
+  # CapabilityStatement — R4 tree
+
+  Identical structure to the R5 capability advertisement but with
+  `fhirVersion = 4.0.1`. The R4 tree exposes the same set of operations
+  and search params — the version string is the only visible difference
+  in this CapabilityStatement because all our R4-vs-R5 divergence
+  happens at the `$translate` response shape, not in the capability
+  document itself.
+}

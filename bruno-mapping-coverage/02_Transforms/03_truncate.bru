@@ -1,0 +1,57 @@
+meta {
+  name: 03_truncate
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/truncate-test",
+          "name": "TruncateTest",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "t",
+              "source": [{"context": "src", "element": "long", "variable": "v"}],
+              "target": [{"context": "tgt", "element": "short", "transform": "truncate",
+                          "parameter": [{"valueId": "v"}, {"valueInteger": 5}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "long": "abcdefghij"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.short: eq abcde
+}
+
+docs {
+  truncate(value, length) — keep the first N characters. Verifies
+  integer parameter resolution and string slicing.
+}

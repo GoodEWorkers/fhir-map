@@ -1,0 +1,62 @@
+meta {
+  name: Create StructureDefinition
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureDefinition
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "StructureDefinition",
+    "url": "http://example.org/fhir/StructureDefinition/TestPatientProfile",
+    "name": "TestPatientProfile",
+    "title": "Test Patient Profile",
+    "status": "draft",
+    "kind": "resource",
+    "type": "Patient",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Patient",
+    "derivation": "constraint"
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.headers["content-type"]: contains application/fhir+json
+  res.headers["location"]: isDefined
+  res.headers["etag"]: isDefined
+  res.body.resourceType: eq StructureDefinition
+  res.body.id: isDefined
+  res.body.url: eq http://example.org/fhir/StructureDefinition/TestPatientProfile
+  res.body.name: eq TestPatientProfile
+  res.body.status: eq draft
+  res.body.meta.versionId: eq "1"
+}
+
+script:post-response {
+  bru.setVar("sdId", res.body.id);
+  bru.setVar("sdETag", res.headers["etag"]);
+}
+
+docs {
+  # Create StructureDefinition
+
+  Registers a minimal R5 Patient profile in the StructureDefinition registry.
+  This is the real-world entry point for the canonical-URL type resolver:
+  once a profile is POSTed here, a StructureMap that declares
+  `input.type = "http://example.org/fhir/StructureDefinition/TestPatientProfile"`
+  will be accepted by `$transform` instead of returning 422.
+
+  The response carries `Location` and `ETag` headers (same pattern as
+  ConceptMap and StructureMap CRUD). The assigned `id` is stored in
+  `sdId` for the subsequent Read, Update, History, and Vread tests.
+}

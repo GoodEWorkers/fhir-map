@@ -1,0 +1,79 @@
+{
+  "resourceType": "TestScript",
+  "id": "fhir-map-04-translate-reverse",
+  "url": "http://goodeworkers.github.io/fhir-map/testscripts/04-translate-reverse",
+  "version": "1.0",
+  "name": "FhirMapTranslateReverse",
+  "title": "fhir-map: ConceptMap $translate — Reverse",
+  "status": "active",
+  "experimental": true,
+  "date": "2026-05-27",
+  "publisher": "fhir-map",
+  "description": "POST $translate with reverse=true and a valid target code; assert HTTP 200 with result=true and the source concept present in the returned match.",
+  "fixture": [
+    {
+      "id": "cm-icd10-to-snomed",
+      "autocreate": true,
+      "autodelete": true,
+      "resource": {
+        "reference": "ConceptMap/icd10-to-snomed",
+        "display": "ICD-10 to SNOMED CT ConceptMap"
+      }
+    },
+    {
+      "id": "translate-input",
+      "autocreate": false,
+      "autodelete": false,
+      "resource": {
+        "reference": "Parameters/translate-reverse-input",
+        "display": "Parameters: url + targetCode 233604007 + targetSystem SNOMED + reverse=true"
+      }
+    }
+  ],
+  "test": [
+    {
+      "id": "test-04",
+      "name": "Reverse translate SNOMED 233604007 back to ICD-10 J18.9",
+      "action": [
+        {
+          "operation": {
+            "resource": "ConceptMap",
+            "description": "POST $translate with reverse=true",
+            "encodeRequestUrl": true,
+            "params": "/$translate",
+            "sourceId": "translate-input",
+            "responseId": "translate-response"
+          }
+        },
+        {
+          "assert": {
+            "description": "HTTP status is 200 OK",
+            "response": "okay",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        },
+        {
+          "assert": {
+            "description": "result parameter is true (reverse mapping found)",
+            "expression": "Parameters.parameter.where(name='result').value.ofType(boolean)",
+            "operator": "equals",
+            "value": "true",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        },
+        {
+          "assert": {
+            "description": "A match part carries the source ICD-10 concept J18.9",
+            "expression": "Parameters.parameter.where(name='match').part.where(name='concept').value.ofType(Coding).code",
+            "operator": "contains",
+            "value": "J18.9",
+            "warningOnly": false,
+            "stopTestOnFail": true
+          }
+        }
+      ]
+    }
+  ]
+}

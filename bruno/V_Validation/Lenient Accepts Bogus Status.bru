@@ -1,0 +1,61 @@
+meta {
+  name: Lenient Accepts Bogus Status
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/fhir/ConceptMap?_validate=lenient
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "ConceptMap",
+    "url": "http://example.org/cm/lenient-accept",
+    "status": "not-a-real-status",
+    "group": [
+      {
+        "source": "http://s",
+        "target": "http://t",
+        "element": [
+          {"code": "A", "target": [{"code": "B", "relationship": "equivalent"}]}
+        ]
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.resourceType: eq ConceptMap
+  res.body.status: eq not-a-real-status
+}
+
+docs {
+  # Lenient validation accepts the same body the strict tier rejected
+
+  Adding `?_validate=lenient` opts the create/update into the lenient
+  validator. Lenient mode skips:
+
+  - status value-set binding (here we send `not-a-real-status` and it's
+    persisted verbatim)
+  - relationship vocabulary check (R4 `equivalence` spellings like
+    `subsumes`, `wider`, `narrower` are accepted)
+  - unmapped.mode enum
+
+  but **still enforces structural invariants**: required cardinalities, the
+  code+valueSet mutual-exclusion on Element, and that every target has
+  some qualifier (relationship or equivalence).
+
+  This is the path the fixture loader uses for the docs/conceptmap-*.json
+  corpus — several of those examples violate their own spec slightly.
+  Without lenient mode, fixtures couldn't load via the HTTP API; with it,
+  the strict default still protects normal client writes.
+}

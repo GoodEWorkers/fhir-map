@@ -1,0 +1,60 @@
+meta {
+  name: 04_escape
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/escape-test",
+          "name": "EscapeTest",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "e",
+              "source": [{"context": "src", "element": "raw", "variable": "v"}],
+              "target": [{"context": "tgt", "element": "safe", "transform": "escape",
+                          "parameter": [{"valueId": "v"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "raw": "<p>1 & 2</p>"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.safe: contains &lt;p&gt;
+  res.body.safe: contains &amp;
+}
+
+docs {
+  escape — converts &/</> to entities for safe HTML/XML embedding.
+  Spec defines escape(source, format1, format2); this server uses the
+  HAPI-style one-arg form. Note the spec gap: format1/format2 args are
+  not interpreted.
+}

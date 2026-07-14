@@ -1,0 +1,82 @@
+meta {
+  name: resolver - transform HL7 Canonical URL Type
+  type: http
+  seq: 15
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "sourceMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/hl7-canonical-echo",
+          "name": "HL7CanonicalEcho",
+          "status": "active",
+          "group": [
+            {
+              "name": "Echo",
+              "input": [
+                {"name": "src", "type": "http://hl7.org/fhir/StructureDefinition/Patient", "mode": "source"},
+                {"name": "tgt", "mode": "target"}
+              ],
+              "rule": [
+                {
+                  "name": "copyId",
+                  "source": [{"context": "src", "element": "id", "variable": "v"}],
+                  "target": [{"context": "tgt", "element": "patientId", "transform": "copy", "parameter": [{"valueId": "v"}]}]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "name": "content",
+        "resource": {
+          "resourceType": "Patient",
+          "id": "p-canonical-001"
+        }
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.patientId: eq p-canonical-001
+}
+
+docs {
+  # $transform — HL7 canonical URL as group input Type (CR-2.2-D14)
+
+  Story 2.4 fix for CR-2.2-D14. The inline StructureMap (via `sourceMap`
+  parameter) declares:
+
+    "input": [{"name": "src", "type": "http://hl7.org/fhir/StructureDefinition/Patient", "mode": "source"}]
+
+  Before Story 2.4 this returned 422 ErrInputTypeMismatch because the
+  engine did an exact-string compare of the canonical URL against
+  `resourceType: "Patient"`.
+
+  The fix: the resolver detects `strings.Contains(srcType, "://")`,
+  calls `resolver.ResolveType(ctx, "http://hl7.org/fhir/StructureDefinition/Patient")`,
+  finds `Patient` in the bundled HL7 R5 base-type fixture (no DB hit),
+  and the type-check passes.
+
+  The map echoes `src.id` into `tgt.patientId` to make the output
+  verifiable.
+}

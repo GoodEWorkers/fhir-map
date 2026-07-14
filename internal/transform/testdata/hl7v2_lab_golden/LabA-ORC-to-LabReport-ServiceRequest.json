@@ -1,0 +1,2463 @@
+{
+ "resourceType": "StructureMap",
+ "id": "LabA-ORC-to-LabReport-ServiceRequest",
+ "url": "http://example.org/fhir/R4/lab-ig/StructureMap/LabA-ORC-to-LabReport-ServiceRequest",
+ "version": "1.0.0",
+ "name": "LabA_ORC_to_LabReport_ServiceRequest",
+ "title": "HL7v2.3 ORC to HL7 Europe Laboratory ServiceRequest resource",
+ "status": "draft",
+ "description": "Transforms an HL7v2.3 ORC segment into the HL7 Europe Laboratory ServiceRequest.",
+ "structure": [
+  {
+   "url": "https://example.org",
+   "mode": "source"
+  },
+  {
+   "url": "http://hl7.eu/fhir/laboratory/StructureDefinition/ServiceRequest-eu-lab",
+   "mode": "target",
+   "alias": "ServiceRequestTarget"
+  }
+ ],
+ "group": [
+  {
+   "name": "main",
+   "typeMode": "types",
+   "input": [
+    {
+     "name": "source",
+     "type": "HL7v2",
+     "mode": "source"
+    },
+    {
+     "name": "target",
+     "type": "Bundle",
+     "mode": "target"
+    }
+   ],
+   "rule": [
+    {
+     "name": "orcRecord",
+     "source": [
+      {
+       "context": "source",
+       "type": "string",
+       "element": "ORC",
+       "variable": "resource",
+       "condition": "$this.exists()"
+      }
+     ],
+     "target": [
+      {
+       "context": "target",
+       "element": "entry[+].resource",
+       "variable": "ServiceRequestTarget",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "ServiceRequest"
+        }
+       ]
+      },
+      {
+       "context": "ServiceRequestTarget",
+       "element": "id",
+       "variable": "ServiceRequestID",
+       "transform": "uuid"
+      },
+      {
+       "context": "target",
+       "element": "entry[=].fullUrl",
+       "variable": "ServiceRequestFullUrl",
+       "transform": "append",
+       "parameter": [
+        {
+         "valueString": "http://example.org/fhir/ServiceRequest/"
+        },
+        {
+         "valueId": "ServiceRequestID"
+        }
+       ]
+      },
+      {
+       "context": "ServiceRequestTarget",
+       "element": "status",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "draft"
+        }
+       ]
+      },
+      {
+       "context": "ServiceRequestTarget",
+       "element": "intent",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "order"
+        }
+       ]
+      }
+     ],
+     "rule": [
+      {
+       "name": "pid2ToPatientIdentifier0",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "PID-2[0]",
+         "variable": "patientIdExternal",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "pid2ToIdentificationIdentifier0Value",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2[0]-1",
+           "variable": "patientIdExternalValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "subject.identifier[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid2ToIdentificationIdentifier0Extension0",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2[0]-2",
+           "variable": "patientIdExternalExtension0",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "subject.identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/identifier-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "subject.identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalExtension0"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid2ToIdentificationIdentifier0Extension1",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2[0]-3",
+           "variable": "patientIdExternalExtension1",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "subject.identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/namingsystem-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "subject.identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalExtension1"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid2ToIdentificationIdentifier0IdentifierTypeCode",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2[0]-5",
+           "variable": "patientIdExternalIdentifierTypeCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "subject.identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalIdentifierTypeCode"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "subject.identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid2ToIdentificationIdentifier0AssigningAuthority",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2[0]-4",
+           "variable": "assigningAuthority",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "namespaceIDToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-2[0]-4-1",
+             "variable": "assigningAuthorityIdNamespaceID",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "subject.identifier[=].assigner.display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdNamespaceID"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "universalIDToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-2[0]-4-2",
+             "variable": "assigningAuthorityIdUniversalID",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "subject.identifier[=].assigner.identifier.value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdUniversalID"
+              }
+             ]
+            },
+            {
+             "context": "ServiceRequestTarget",
+             "element": "subject.identifier[=].system",
+             "transform": "append",
+             "parameter": [
+              {
+               "valueString": "http://example.org/fhir/labasystem/"
+              },
+              {
+               "valueId": "assigningAuthorityIdUniversalID"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "universalIDTypeToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-2[0]-4-3",
+             "variable": "assigningAuthorityIdUniversalIDType",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "subject.identifier[=].assigner.identifier.type.coding[+].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+              }
+             ]
+            },
+            {
+             "context": "ServiceRequestTarget",
+             "element": "subject.identifier[=].assigner.identifier.type.coding[=].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdUniversalIDType"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "pid3ToPatientIdentifier0",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "PID-3[0]",
+         "variable": "patientIdInternal",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "pid3ToIdentificationIdentifier0Value",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3[0]-1",
+           "variable": "patientIdInternalValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "subject.identifier[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid3ToIdentificationIdentifier0Extension0",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3[0]-2",
+           "variable": "patientIdInternalExtension0",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "subject.identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/identifier-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "subject.identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalExtension0"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid3ToIdentificationIdentifier0Extension1",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3[0]-3",
+           "variable": "patientIdInternalExtension1",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "subject.identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/namingsystem-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "subject.identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalExtension1"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid3ToIdentificationIdentifier0IdentifierTypeCode",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3[0]-5",
+           "variable": "patientIdInternalIdentifierTypeCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "subject.identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalIdentifierTypeCode"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "subject.identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid3ToIdentificationIdentifier0AssigningAuthority",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3[0]-4",
+           "variable": "assigningAuthority",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "namespaceIDToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-3[0]-4-1",
+             "variable": "assigningAuthorityIdNamespaceID",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "subject.identifier[=].assigner.display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdNamespaceID"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "universalIDToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-3[0]-4-2",
+             "variable": "assigningAuthorityIdUniversalID",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "subject.identifier[=].assigner.identifier.value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdUniversalID"
+              }
+             ]
+            },
+            {
+             "context": "ServiceRequestTarget",
+             "element": "subject.identifier[=].system",
+             "transform": "append",
+             "parameter": [
+              {
+               "valueString": "http://example.org/fhir/labasystem/"
+              },
+              {
+               "valueId": "assigningAuthorityIdUniversalID"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "universalIDTypeToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-3[0]-4-3",
+             "variable": "assigningAuthorityIdUniversalIDType",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "subject.identifier[=].assigner.identifier.type.coding[+].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+              }
+             ]
+            },
+            {
+             "context": "ServiceRequestTarget",
+             "element": "subject.identifier[=].assigner.identifier.type.coding[=].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdUniversalIDType"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "orc1ToOrderControl",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "ORC-1",
+         "variable": "orderControl",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "orc1Active",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-1",
+           "variable": "orderControlActive",
+           "condition": "$this.exists() and ($this = 'AF' or $this = 'CA' or $this = 'HD' or $this = 'NW' or $this = 'OK' or $this = 'PR' or $this = 'PY' or $this = 'RL' or $this = 'RO' or $this = 'RQ')"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "active"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc1Revoked",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-1",
+           "variable": "orderControlRevoked",
+           "condition": "$this.exists() and ($this = 'CR' or $this = 'DC' or $this = 'DF' or $this = 'DR' or $this = 'OC' or $this = 'OD')"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "revoked"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc1Completed",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-1",
+           "variable": "orderControlCompleted",
+           "condition": "$this.exists() and ($this = 'FU')"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "completed"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc1OnHold",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-1",
+           "variable": "orderControlOnHold",
+           "condition": "$this.exists() and ($this = 'HR' or $this = 'OH')"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "on-hold"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc9ToOrderDateTime0",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-9",
+           "variable": "dateTimeOfTransaction",
+           "condition": "$this.exists() and %orderControl = 'NW'"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "authoredOn",
+           "transform": "dateOp",
+           "parameter": [
+            {
+             "valueId": "dateTimeOfTransaction"
+            },
+            {
+             "valueString": "yyyyMMddHHmm"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc9ToOrderDateTime0",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-9",
+           "variable": "dateTimeOfTransaction",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "extension[+].extension[+].value",
+           "transform": "dateOp",
+           "parameter": [
+            {
+             "valueId": "dateTimeOfTransaction"
+            },
+            {
+             "valueString": "yyyyMMddHHmm"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "extension[=].extension[=].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "date"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "extension[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "value"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "extension[=].extension[=].value",
+           "transform": "cc",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0119"
+            },
+            {
+             "valueId": "orderControl"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "extension[=].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/businessEvent"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "orc2ToOrderIdentifier0",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "ORC-2",
+         "variable": "placerOrderNumber",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "orc21",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-2-1",
+           "variable": "placerOrderNumberValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberValue"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "requisition.value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerOrderNumberValue"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "requisition.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "universalIDType",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-2-4",
+           "variable": "universalIDType",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[+].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[=].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "universalIDType"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "requisition.type.coding[+].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "requisition.type.coding[=].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "universalIDType"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "orc3ToOrderIdentifier1",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "ORC-3",
+         "variable": "fillerOrderNumber",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "orc31",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-3-1",
+           "variable": "fillerOrderNumberValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "fillerOrderNumberValue"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "universalIDType",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-3-4",
+           "variable": "universalIDType",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[+].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[=].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "universalIDType"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "orc4ToOrderIdentifier2",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "ORC-4",
+         "variable": "placerGroupNumber",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "orc41",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-4-1",
+           "variable": "placerGroupNumberValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "placerGroupNumberValue"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "universalIDType",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-4-4",
+           "variable": "universalIDType",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[+].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "identifier[=].type.coding[=].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "universalIDType"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "orc5ToOrderStatus",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "ORC-5",
+         "variable": "orderStatus",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "orc5Active",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-5",
+           "variable": "orderStatusActive",
+           "condition": "$this.exists() and ($this = 'A' or $this = 'IP' or $this = 'SC')"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "active"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc5Revoked",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-5",
+           "variable": "orderStatusRevoked",
+           "condition": "$this.exists() and ($this = 'CA' or $this = 'DC' or $this = 'RP')"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "revoked"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc5Completed",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-5",
+           "variable": "orderStatusCompleted",
+           "condition": "$this.exists() and ($this = 'CM')"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "completed"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc5OnHold",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-5",
+           "variable": "orderStatusOnHold",
+           "condition": "$this.exists() and ($this = 'HD')"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "on-hold"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc5Error",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-5",
+           "variable": "orderStatusError",
+           "condition": "$this.exists() and ($this = 'ER')"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "entered-in-error"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "orc7ToOrderQuantityTiming",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "ORC-7",
+         "variable": "quantityTiming",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "orc7Quantity",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-7-1",
+           "variable": "quantityTimingQuantity",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "quantity",
+           "variable": "quantityQuantity",
+           "transform": "create",
+           "parameter": [
+            {
+             "valueString": "Quantity"
+            }
+           ]
+          }
+         ],
+         "rule": [
+          {
+           "name": "orc7QuantityValue71",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-7-1",
+             "variable": "quantityTimingQuantityValue71",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "quantityQuantity",
+             "element": "value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "quantityTimingQuantityValue71"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "orc7QuantityValue",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-7-1-1",
+             "variable": "quantityTimingQuantityValue",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "quantityQuantity",
+             "element": "value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "quantityTimingQuantityValue"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "orc7QuantityUnits",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-7-1-2",
+             "variable": "quantityTimingQuantityUnits",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "quantityQuantity",
+             "element": "unit",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "quantityTimingQuantityUnits"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc7Interval",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-7-2",
+           "variable": "quantityTimingInterval",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "occurrence",
+           "variable": "occurrenceTiming",
+           "transform": "create",
+           "parameter": [
+            {
+             "valueString": "Timing"
+            }
+           ]
+          }
+         ],
+         "rule": [
+          {
+           "name": "orc7IntervalCode",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-7-2",
+             "variable": "quantityTimingIntervalCode",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "occurrenceTiming",
+             "element": "code",
+             "transform": "cc",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0335"
+              },
+              {
+               "valueId": "quantityTimingIntervalCode"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "orc7IntervalCode21",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-7-2-1",
+             "variable": "quantityTimingIntervalCode21",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "occurrenceTiming",
+             "element": "code",
+             "transform": "cc",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0335"
+              },
+              {
+               "valueId": "quantityTimingIntervalCode21"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "orc7IntervalExplicit",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-7-2-2",
+             "variable": "quantityTimingIntervalExplicit",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "occurrenceTiming",
+             "element": "repeat.timeOfDay",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "quantityTimingIntervalExplicit"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "orc7Start",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-7-4",
+             "variable": "quantityTimingStart",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "occurrenceTiming",
+             "element": "repeat.bounds",
+             "variable": "boundsPeriod",
+             "transform": "create",
+             "parameter": [
+              {
+               "valueString": "Period"
+              }
+             ]
+            },
+            {
+             "context": "boundsPeriod",
+             "element": "start",
+             "transform": "dateOp",
+             "parameter": [
+              {
+               "valueId": "quantityTimingStart"
+              },
+              {
+               "valueString": "yyyyMMddHHmm"
+              }
+             ]
+            }
+           ],
+           "rule": [
+            {
+             "name": "orc7End",
+             "source": [
+              {
+               "context": "source",
+               "type": "string",
+               "element": "ORC-7-5",
+               "variable": "quantityTimingEnd",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "boundsPeriod",
+               "element": "end",
+               "transform": "dateOp",
+               "parameter": [
+                {
+                 "valueId": "quantityTimingEnd"
+                },
+                {
+                 "valueString": "yyyyMMddHHmm"
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc7Priority",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-7-6",
+           "variable": "quantityTimingPriority",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "orc7PrioritySTAT",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-7-6",
+             "variable": "prioritySTAT",
+             "condition": "$this = 'S'"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "priority",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "stat"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "orc7PriorityRoutine",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-7-6",
+             "variable": "priorityRoutine",
+             "condition": "$this = 'R'"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "priority",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "routine"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "orc7PriorityASAP",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-7-6",
+             "variable": "priorityASAP",
+             "condition": "$this = 'A'"
+            }
+           ],
+           "target": [
+            {
+             "context": "ServiceRequestTarget",
+             "element": "priority",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "asap"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc7Text",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-7-8",
+           "variable": "quantityTimingText",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "note[+].text",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "quantityTimingText"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "orc12ToPlacerName",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "ORC-12",
+         "variable": "orderingProvider",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "orc121",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-12-1",
+           "variable": "idNumber",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "requester.identifier.value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "idNumber"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "orc14ToPlacerContacts",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "ORC-14",
+         "variable": "callbackPhone",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "ServiceRequestTarget",
+         "element": "extension[+].url",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://hl7.org/fhir/StructureDefinition/servicerequest-order-callback-phone-number"
+          }
+         ]
+        },
+        {
+         "context": "ServiceRequestTarget",
+         "element": "extension[=].value",
+         "variable": "contactPointExt",
+         "transform": "create",
+         "parameter": [
+          {
+           "valueString": "ContactPoint"
+          }
+         ]
+        }
+       ],
+       "rule": [
+        {
+         "name": "orc141",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-14-1",
+           "variable": "telephoneNumber",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "contactPointExt",
+           "element": "value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "telephoneNumber"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc142",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-14-2",
+           "variable": "telecomUse",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "orc142Home",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-14-2",
+             "variable": "telecomUseHome",
+             "condition": "$this.exists() and ($this = 'PRN')"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "use",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "home"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "orc142Work",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-14-2",
+             "variable": "telecomUseWork",
+             "condition": "$this.exists() and ($this = 'WPN')"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "use",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "work"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "orc142Mobile",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-14-2",
+             "variable": "telecomUseMobile",
+             "condition": "$this.exists() and ($this = 'PRS')"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "use",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "mobile"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc143",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-14-3",
+           "variable": "telecomEquipmentType",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "orc143Phone",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-14-3",
+             "variable": "telecomEquipmentTypePhone",
+             "condition": "$this = 'PH'"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "phone"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "orc143Fax",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-14-3",
+             "variable": "telecomEquipmentTypeFax",
+             "condition": "$this = 'FX'"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "fax"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "orc143Email",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-14-3",
+             "variable": "telecomEquipmentTypeEmail",
+             "condition": "$this = 'Internet' or $this = 'X.400'"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "email"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "orc143Pager",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-14-3",
+             "variable": "telecomEquipmentTypePager",
+             "condition": "$this = 'BP'"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "pager"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "orc143Cellular",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-14-3",
+             "variable": "telecomEquipmentTypeCellular",
+             "condition": "$this = 'CP'"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "mobile"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "orc143Modem",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-14-3",
+             "variable": "telecomEquipmentTypeModem",
+             "condition": "$this = 'MD' or $this = 'SAT' or $this = 'TDD' or $this = 'TTY'"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "other"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "orc144Email",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-14-4",
+             "variable": "emailAddress",
+             "condition": "$this.exists() and (%telecomEquipmentType = 'Internet' or %telecomEquipmentType = 'X.400')"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "emailAddress"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "orc147Phone",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "ORC-14-7",
+             "variable": "phoneNumber",
+             "condition": "$this.exists() and (%telecomEquipmentType = 'PH')"
+            }
+           ],
+           "target": [
+            {
+             "context": "contactPointExt",
+             "element": "value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "phoneNumber"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc145ToContactPointExtension",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-14-5",
+           "variable": "countryCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "contactPointExt",
+           "element": "extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/contactpoint-country"
+            }
+           ]
+          },
+          {
+           "context": "contactPointExt",
+           "element": "extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "countryCode"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc146ToContactPointExtension",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-14-6",
+           "variable": "areaCityCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "contactPointExt",
+           "element": "extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/contactpoint-area"
+            }
+           ]
+          },
+          {
+           "context": "contactPointExt",
+           "element": "extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "areaCityCode"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc148ToContactPointExtension",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-14-8",
+           "variable": "extensionNumber",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "contactPointExt",
+           "element": "extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/contactpoint-extension"
+            }
+           ]
+          },
+          {
+           "context": "contactPointExt",
+           "element": "extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "extensionNumber"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "orc15",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "ORC-15",
+         "variable": "orderEffectiveDateTime",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "ServiceRequestTarget",
+         "element": "authoredOn",
+         "transform": "dateOp",
+         "parameter": [
+          {
+           "valueId": "orderEffectiveDateTime"
+          },
+          {
+           "valueString": "yyyyMMddHHmm"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "orc16",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "ORC-16",
+         "variable": "orderControlReason",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "ServiceRequestTarget",
+         "element": "extension[+].url",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://hl7.org/fhir/StructureDefinition/request-statusReason"
+          }
+         ]
+        },
+        {
+         "context": "ServiceRequestTarget",
+         "element": "extension[=].value",
+         "variable": "requestStatusReason",
+         "transform": "create",
+         "parameter": [
+          {
+           "valueString": "CodeableConcept"
+          }
+         ]
+        }
+       ],
+       "rule": [
+        {
+         "name": "orc161",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-16-1",
+           "variable": "orderStatusIdentifier",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "requestStatusReason",
+           "element": "coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "orderStatusIdentifier"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc162",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-16-2",
+           "variable": "orderStatusText",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "requestStatusReason",
+           "element": "coding[=].display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "orderStatusText"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc163",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-16-3",
+           "variable": "orderStatusSystem",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "requestStatusReason",
+           "element": "coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "orderStatusSystem"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc164",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-16-4",
+           "variable": "orderStatusAlternateIdentifier",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "requestStatusReason",
+           "element": "coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "orderStatusAlternateIdentifier"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc165",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-16-5",
+           "variable": "orderStatusAlternateText",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "requestStatusReason",
+           "element": "coding[=].display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "orderStatusAlternateText"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc166",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-16-6",
+           "variable": "orderStatusAlternateSystem",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "requestStatusReason",
+           "element": "coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "orderStatusAlternateSystem"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "orc17ToPlacerOrg",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "ORC-17",
+         "variable": "enteringOrganization",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "orc171",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-17-1",
+           "variable": "idNumberOrganization",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "requester.identifier.assigner.identifier.value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "idNumberOrganization"
+            }
+           ]
+          },
+          {
+           "context": "ServiceRequestTarget",
+           "element": "requester.identifier.assigner.type",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "Organization"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc172",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-17-2",
+           "variable": "textEnteringOrganization",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "requester.identifier.assigner.display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "textEnteringOrganization"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "orc173",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "ORC-17-3",
+           "variable": "systemEnteringOrganization",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "requester.identifier.assigner.identifier.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "systemEnteringOrganization"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "nteOrder",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "NTE",
+         "variable": "noteOrder",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "nteComment",
+         "source": [
+          {
+           "context": "noteOrder",
+           "type": "string",
+           "element": "NTE-3",
+           "variable": "noteComment",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ServiceRequestTarget",
+           "element": "note[+].text",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "noteComment"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

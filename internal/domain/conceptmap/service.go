@@ -1,0 +1,122 @@
+package conceptmap
+
+import (
+	"context"
+	"errors"
+	"fmt"
+	"time"
+
+	"github.com/google/uuid"
+
+	"github.com/goodeworkers/fhir-map/pkg/fhir"
+)
+
+// Common errors returned by the service layer.
+var (
+	ErrNotFound      = errors.New("resource not found")
+	ErrGone          = errors.New("resource gone")
+	ErrInvalidInput  = errors.New("invalid input")
+	ErrUnprocessable = errors.New("unprocessable entity")
+	ErrConflict      = errors.New("resource conflict")
+)
+
+// Service implements the business logic for ConceptMap operations.
+type Service struct {
+	repo Repository
+}
+
+// NewService creates a new ConceptMap service.
+func NewService(repo Repository) *Service {
+	return &Service{repo: repo}
+}
+
+// Create validates and stores a new ConceptMap using strict validation.
+// CreateWithMode is the variant that lets callers opt into lenient validation.
+func (s *Service) Create(ctx context.Context, cm *ConceptMap) (*ConceptMap, error) {
+	return s.CreateWithMode(ctx, cm, ModeStrict)
+}
+
+// CreateWithMode is Create + an explicit ValidationMode argument.
+func (s *Service) CreateWithMode(ctx context.Context, cm *ConceptMap, mode ValidationMode) (*ConceptMap, error) {
+	cm.ResourceType = "ConceptMap"
+
+	if errs := cm.ValidateMode(mode); len(errs) > 0 {
+		return nil, fmt.Errorf("%w: %v", ErrUnprocessable, errs)
+	}
+
+	if cm.ID == "" {
+		cm.ID = uuid.New().String()
+	}
+
+	now := time.Now().UTC()
+	cm.CreatedAt = now
+	cm.UpdatedAt = now
+	cm.Meta = &fhir.Meta{
+		VersionID:   "1",
+		LastUpdated: now.Format(time.RFC3339),
+	}
+
+	return s.repo.Create(ctx, cm)
+}
+
+// Read retrieves a ConceptMap by ID.
+func (s *Service) Read(ctx context.Context, id string) (*ConceptMap, error) {
+	if id == "" {
+		return nil, fmt.Errorf("%w: id is required", ErrInvalidInput)
+	}
+	return s.repo.Read(ctx, id)
+}
+
+// Update replaces an existing ConceptMap using strict validation.
+func (s *Service) Update(ctx context.Context, id string, cm *ConceptMap) (*ConceptMap, error) {
+	return s.UpdateWithMode(ctx, id, cm, ModeStrict)
+}
+
+// UpdateWithMode is Update + an explicit ValidationMode argument.
+func (s *Service) UpdateWithMode(ctx context.Context, id string, cm *ConceptMap, mode ValidationMode) (*ConceptMap, error) {
+	if id == "" {
+		return nil, fmt.Errorf("%w: id is required", ErrInvalidInput)
+	}
+
+	cm.ResourceType = "ConceptMap"
+	cm.ID = id
+
+	if errs := cm.ValidateMode(mode); len(errs) > 0 {
+		return nil, fmt.Errorf("%w: %v", ErrUnprocessable, errs)
+	}
+
+	return s.repo.Update(ctx, id, cm)
+}
+
+// Delete removes a ConceptMap by ID.
+func (s *Service) Delete(ctx context.Context, id string) error {
+	if id == "" {
+		return fmt.Errorf("%w: id is required", ErrInvalidInput)
+	}
+	return s.repo.Delete(ctx, id)
+}
+
+// Search finds ConceptMaps matching the given parameters.
+func (s *Service) Search(ctx context.Context, params SearchParams) (*SearchResult, error) {
+	if params.Count <= 0 {
+		params.Count = 20
+	}
+	if params.Count > 1000 {
+		params.Count = 1000
+	}
+	if params.Offset < 0 {
+		params.Offset = 0
+	}
+	return s.repo.Search(ctx, params)
+}
+
+// FindByURL looks up a ConceptMap by its canonical URL.
+func (s *Service) FindByURL(ctx context.Context, url, version string) (*ConceptMap, error) {
+	if url == "" {
+		return nil, fmt.Errorf("%w: url is required", ErrInvalidInput)
+	}
+	return s.repo.FindByURL(ctx, url, version)
+}
+
+// Ensure fhir package is used for Meta type alias.
+var _ *fhir.Meta = nil

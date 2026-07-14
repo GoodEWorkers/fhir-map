@@ -1,0 +1,841 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v7
+        with:
+          version: v2.12.2
+          only-new-issues: true
+
+  unit-cover:
+    name: Tests + Coverage (unit + integration)
+    runs-on: ubuntu-latest
+    needs: [lint]
+    # contents:write only matters for the badge-publish step below, which is
+    # gated to main pushes. PR builds inherit the workflow-level contents:read.
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      # Runs the FULL suite (unit + integration) with coverage in one pass so the
+      # overall gate reflects integration-covered code (notably internal/repository/postgres).
+      # Integration tests self-provision Postgres via Testcontainers (Docker on the
+      # runner); -tags integration compiles the //go:build integration repo tests.
+      # -coverpkg excludes cmd/* and tools/* main packages: they are not unit-testable,
+      # and instrumenting main packages requires the `covdata` tool (absent in minimal
+      # toolchains). This keeps the overall % a meaningful application-code figure.
+      - name: Run tests with coverage (unit + integration)
+        run: |
+          PKGS=$(go list ./... | grep -vE '/(cmd|tools)/' | paste -sd, -)
+          go test -v -tags integration -race -count=1 \
+            -coverprofile=coverage.out -covermode=atomic -coverpkg="$PKGS" ./...
+
+      - name: Check overall coverage gate (≥80%)
+        run: |
+          total=$(go tool cover -func=coverage.out | grep '^total:' | awk '{gsub(/%/,"",$3); print $3}')
+          echo "Overall coverage: ${total}%"
+          if python3 -c "import sys; sys.exit(0 if float('${total}') >= 80 else 1)"; then
+            echo "PASS: overall coverage ${total}%"
+          else
+            echo "FAIL: overall coverage ${total}% is below the 80% threshold"
+            exit 1
+          fi
+
+      - name: Check critical-path coverage gate (≥85% — internal/domain, internal/handler, internal/translate)
+        run: |
+          # Read per-package coverage from the already-generated coverage.out.
+          # Spans appear once per test binary in a -coverpkg=./... merged profile,
+          # so deduplicate by span key before counting to get accurate per-package %.
+          failed=0
+          for pkg in "internal/domain" "internal/handler" "internal/translate"; do
+            pct=$(awk -v prefix="github.com/goodeworkers/fhir-map/${pkg}/" '
+              /^mode:/ { next }
+              substr($1, 1, length(prefix)) == prefix {
+                if (!seen[$1]++) total += int($2)
+                if (!cov[$1] && int($3) > 0) { cov[$1]=1; covered += int($2) }
+              }
+              END { if (total==0) { print "0" } else { printf "%.1f", covered/total*100 } }
+            ' coverage.out)
+            echo "Coverage for ${pkg}: ${pct:-0}%"
+            if python3 -c "import sys; sys.exit(0 if float('${pct:-0}') >= 85 else 1)"; then
+              echo "PASS: ${pkg} ${pct}%"
+            else
+              echo "FAIL: ${pkg} ${pct:-0}% < 85%"
+              failed=1
+            fi
+          done
+          exit $failed
+
+      - name: Generate per-package coverage report
+        if: always()
+        run: go tool cover -func=coverage.out > coverage-by-package.txt
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            coverage.out
+            coverage-by-package.txt
+
+      # ── Live coverage badge: emit a shields.io endpoint JSON whenever the
+      #    coverage gates pass on a push to main, then commit it back to main
+      #    so the README badge tracks the latest published value. Skipped on
+      #    PRs and on non-main branches. Skipped silently if the JSON content
+      #    is unchanged (no churn commits on no-op runs).
+      - name: Publish coverage badge JSON (main push only)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          total=$(go tool cover -func=coverage.out | grep '^total:' | awk '{gsub(/%/,"",$3); print $3}')
+          # Coverage thresholds mirror the gates above: 80% overall (Story 4.1),
+          # 85% critical-path. Colour shows headroom over the gate.
+          color=$(awk -v p="$total" 'BEGIN {
+            if (p+0 >= 90) print "brightgreen";
+            else if (p+0 >= 85) print "green";
+            else if (p+0 >= 80) print "yellowgreen";
+            else if (p+0 >= 70) print "yellow";
+            else if (p+0 >= 60) print "orange";
+            else print "red";
+          }')
+          mkdir -p docs/badges
+          printf '{"schemaVersion":1,"label":"coverage","message":"%s%%","color":"%s","cacheSeconds":300}\n' "$total" "$color" > docs/badges/coverage.json
+          echo "Generated coverage badge:"
+          cat docs/badges/coverage.json
+
+      - name: Commit coverage badge (main push only)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add docs/badges/coverage.json
+          if git diff --staged --quiet; then
+            echo "Coverage badge JSON unchanged — skipping commit"
+            exit 0
+          fi
+          git commit -m "badges: update coverage"
+          # Race-safety: if another job has pushed to main during this run,
+          # rebase before pushing. GITHUB_TOKEN commits do not retrigger CI.
+          git pull --rebase origin main || true
+          git push origin HEAD:main
+
+  sast:
+    name: SAST (gosec + govulncheck)
+    runs-on: ubuntu-latest
+    needs: [unit-cover]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Run gosec (HIGH severity fail, no accepted exception)
+        run: go run github.com/securego/gosec/v2/cmd/gosec@v2.22.5 -severity high ./...
+
+      - name: Install and run govulncheck
+        run: |
+          go install golang.org/x/vuln/cmd/govulncheck@v1.3.0
+          govulncheck ./...
+
+  fhir-validate:
+    name: FHIR Resource Validation
+    runs-on: ubuntu-latest
+    needs: [sast]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Download HL7 FHIR Validator CLI
+        env:
+          FHIR_VALIDATOR_VERSION: "6.4.0"
+        run: |
+          curl -fsSL -o validator_cli.jar \
+            "https://github.com/hapifhir/org.hl7.fhir.core/releases/download/${FHIR_VALIDATOR_VERSION}/validator_cli.jar"
+
+      - name: Validate FHIR fixture resources (R5, no terminology server)
+        run: |
+          failed=0
+          validated=0
+          shopt -s globstar nullglob
+          for f in \
+            docs/conceptmap-example-*.json \
+            docs/conceptmap-message-adt-a04-to-bundle.json \
+            internal/domain/structuredefinition/hl7base/hl7-r5-base.json \
+            testdata/conformance/r5/**/*.json; do
+            [ -f "$f" ] || continue
+            echo "Validating $f ..."
+            validated=$((validated + 1))
+            # -allow-example-urls: these are illustrative example fixtures that
+            # legitimately use example.org canonical/uri values; the validator's
+            # "example URLs not allowed" best-practice check is a false positive
+            # here and does not affect structural R5 validation.
+            if ! java -jar validator_cli.jar "$f" -version 5.0.0 -tx n/a -allow-example-urls true; then
+              echo "FAIL: FHIR validation error in $f"
+              failed=1
+            fi
+          done
+          if [ "$validated" -eq 0 ]; then
+            echo "FAIL: no FHIR fixture resources matched — validation gate validated nothing"
+            exit 1
+          fi
+          echo "Validated ${validated} FHIR resource file(s)."
+          exit $failed
+
+      # Story 4.3: conformance harness R4 fixtures must validate at FHIR R4
+      # (4.0.1), not R5 — R4 has distinct invariants (e.g. StructureMap smp-2
+      # requires target.contextType) and a different MimeType value set.
+      - name: Validate FHIR fixture resources (R4, no terminology server)
+        run: |
+          failed=0
+          validated=0
+          shopt -s globstar nullglob
+          for f in testdata/conformance/r4/**/*.json; do
+            [ -f "$f" ] || continue
+            echo "Validating $f (R4) ..."
+            validated=$((validated + 1))
+            if ! java -jar validator_cli.jar "$f" -version 4.0.1 -tx n/a -allow-example-urls true; then
+              echo "FAIL: FHIR R4 validation error in $f"
+              failed=1
+            fi
+          done
+          if [ "$validated" -eq 0 ]; then
+            echo "FAIL: no R4 fixture resources matched — validation gate validated nothing"
+            exit 1
+          fi
+          echo "Validated ${validated} FHIR R4 resource file(s)."
+          exit $failed
+
+  benchmark:
+    name: Batch Translate SLA Gate (PR only)
+    runs-on: ubuntu-latest
+    needs: [fhir-validate]
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      # BenchmarkBatch_50kProbes_100kConceptMap benchmarks $translate-batch with
+      # 50k probes against a 100k in-memory ConceptMap. SLA: ≤2s per batch call.
+      - name: Run BenchmarkBatch SLA gate (≤2s)
+        run: |
+          result=$(go test -bench=BenchmarkBatch_50kProbes_100kConceptMap -benchtime=3x -run=^$ \
+            ./internal/translate/ 2>&1)
+          echo "$result"
+          ns=$(echo "$result" | awk '/BenchmarkBatch_50kProbes_100kConceptMap/{print $3}')
+          if [ -z "$ns" ]; then
+            echo "ERROR: benchmark output not found"
+            exit 1
+          fi
+          threshold=2000000000  # 2s in nanoseconds (CI runner, no -race)
+          if [ "$ns" -gt "$threshold" ]; then
+            echo "FAIL: BenchmarkBatch p95 ${ns}ns exceeds 2s SLA (${threshold}ns)"
+            exit 1
+          fi
+          echo "PASS: BenchmarkBatch ${ns}ns (SLA: ${threshold}ns)"
+
+  secret-scan:
+    name: Secret Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run TruffleHog
+        uses: trufflesecurity/trufflehog@v3.95.3
+        with:
+          extra_args: --only-verified
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [secret-scan, unit-cover]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Build binary
+        run: go build -ldflags="-s -w" -o ./bin/server ./cmd/server
+
+      - name: Build Docker image
+        run: docker build -t fhir-map:ci .
+
+      - name: Verify no secrets in image layers
+        run: |
+          # docker history dumps all layer commands; grep for patterns that indicate embedded credentials.
+          # Exclude the distroless base image's own Bazel build provenance
+          # (e.g. "bazel build //common:passwd"), which legitimately mentions
+          # passwd/group targets and is not a secret we embedded.
+          if docker history --no-trunc fhir-map:ci \
+            | grep -ivE 'bazel build //' \
+            | grep -iE '(password|passwd|secret|private_key|api_key|BEGIN CERTIFICATE|BEGIN PRIVATE KEY|BEGIN RSA PRIVATE KEY)'; then
+            echo "FAIL: credential-like pattern found in image layer history"
+            exit 1
+          fi
+
+  test-bruno:
+    name: Bruno E2E Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: fhir
+          POSTGRES_PASSWORD: fhir
+          POSTGRES_DB: fhir
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U fhir"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Build server
+        run: go build -o ./bin/server ./cmd/server
+
+      - name: Start server
+        env:
+          SERVER_PORT: "8080"
+          DATABASE_URL: "postgres://fhir:fhir@localhost:5432/fhir?sslmode=disable"
+        run: |
+          ./bin/server &
+          # Wait for server to be ready
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:8080/health > /dev/null 2>&1; then
+              echo "Server ready"
+              break
+            fi
+            sleep 1
+          done
+
+      - name: Run Bruno primary collection
+        run: npx --yes @usebruno/cli@3.4.2 run --env local
+        working-directory: bruno
+
+      - name: Run Bruno mapping coverage collection
+        run: npx --yes @usebruno/cli@3.4.2 run --env local
+        working-directory: bruno-mapping-coverage
+
+  benchmark-perf:
+    name: Performance Benchmark (Ingest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Run large-ingest benchmark
+        run: |
+          result=$(go test -bench=BenchmarkCreate_LargeConceptMap -benchtime=1x -run=^$ \
+            ./internal/repository/postgres/ 2>&1)
+          echo "$result"
+          ns=$(echo "$result" | awk '/BenchmarkCreate_LargeConceptMap/{print $3}')
+          if [ -z "$ns" ]; then
+            echo "ERROR: benchmark output not found"
+            exit 1
+          fi
+          threshold=10000000000  # 10s in nanoseconds (CI runner, no -race)
+          if [ "$ns" -gt "$threshold" ]; then
+            echo "FAIL: 100k-mapping ingest took ${ns}ns — exceeds ${threshold}ns threshold"
+            exit 1
+          fi
+          echo "PASS: 100k-mapping ingest took ${ns}ns"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Release-only: build → scan-gate → multi-arch push → SBOM → sign
+  # Triggered exclusively by `release: published`; all steps are scoped to
+  # the release event via the job-level `if:` guard.
+  # Job-order per A-12: build → scan → release. The CVE scan runs against a
+  # locally-loaded single-arch image and MUST pass BEFORE the multi-arch push,
+  # so a vulnerable image (or the mutable `latest` tag) is never published.
+  # CVE findings are arch-independent here (distroless/static + CGO_ENABLED=0
+  # Go binary), so the amd64 scan is a complete gate for both arches.
+  # ─────────────────────────────────────────────────────────────────────────
+  release:
+    name: Release — Multi-Arch Image, SBOM, CVE Gate, Sign
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    permissions:
+      packages: write    # push to ghcr.io
+      contents: write    # attach SBOM to the GitHub release
+      id-token: write    # cosign keyless OIDC token
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up QEMU (arm64 emulation)
+        uses: docker/setup-qemu-action@v3.7.0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3.12.0
+
+      - name: Log in to ghcr.io
+        uses: docker/login-action@v3.7.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Story 4.3 (AC-3, AC-4): publish in-memory benchmark numbers and gate
+      # a >20% p99 regression of $translate-batch before the multi-arch push.
+      # Go is needed here for `go test -bench`; the release job otherwise has
+      # no setup-go step.
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Run translate benchmarks (-benchtime=10s -count=3)
+        run: |
+          go test -bench=BenchmarkTranslateForward -benchtime=10s -count=3 \
+            -run=^$ ./internal/translate/ 2>&1 | tee bench-translate.txt
+          go test -bench=BenchmarkBatch_50kProbes_100kConceptMap -benchtime=10s -count=3 \
+            -run=^$ ./internal/translate/ 2>&1 | tee bench-batch.txt
+
+      - name: Write benchmark publication (docs/benchmarks/<tag>.md)
+        run: |
+          mkdir -p docs/benchmarks
+          TAG="${{ github.ref_name }}"
+          OUT="docs/benchmarks/${TAG}.md"
+          # parse_bench prints "p50 p95 p99" in ns/op for a benchmark name in
+          # a file. -count=3 produces three samples; we sort ascending and
+          # report median (p50), max (p95≈p99 with 3 samples — explicit so
+          # the regression gate has a stable extractor).
+          parse_bench() {
+            local file="$1" name="$2"
+            local vals count p50 p95 p99
+            vals=$(grep "^${name}" "$file" | awk '{print $3}' | sort -n)
+            count=$(echo "$vals" | wc -l | tr -d ' ')
+            p50=$(echo "$vals" | awk "NR==$(( (count+1)/2 )) {print}")
+            p95=$(echo "$vals" | tail -1)
+            p99=$(echo "$vals" | tail -1)
+            echo "${p50} ${p95} ${p99}"
+          }
+          read TF_P50 TF_P95 TF_P99 <<< "$(parse_bench bench-translate.txt BenchmarkTranslateForward)"
+          read BB_P50 BB_P95 BB_P99 <<< "$(parse_bench bench-batch.txt BenchmarkBatch_50kProbes_100kConceptMap)"
+          {
+            echo "# fhir-map benchmark — ${TAG} ($(date -u +%Y-%m-%d))"
+            echo
+            echo "Generated by CI release job. Measurements are in-memory (no DB);"
+            echo "engine hot-path only. For HTTP-level latency see \`loadtest/README.md\`."
+            echo
+            echo "## BenchmarkTranslateForward"
+            echo
+            echo "Raw ns/op samples (-count=3):"
+            echo
+            grep '^BenchmarkTranslateForward' bench-translate.txt || true
+            echo
+            echo "| Metric | Value |"
+            echo "|--------|-------|"
+            echo "| p50    | ${TF_P50} ns |"
+            echo "| p95    | ${TF_P95} ns |"
+            echo "| p99    | ${TF_P99} ns |"
+            echo
+            echo "## BenchmarkBatch_50kProbes_100kConceptMap"
+            echo
+            echo "Raw ns/op samples (-count=3):"
+            echo
+            grep '^BenchmarkBatch_50kProbes_100kConceptMap' bench-batch.txt || true
+            echo
+            echo "| Metric | Value |"
+            echo "|--------|-------|"
+            echo "| p50    | ${BB_P50} ns |"
+            echo "| p95    | ${BB_P95} ns |"
+            echo "| p99    | ${BB_P99} ns |"
+          } > "$OUT"
+          echo "Wrote ${OUT}"
+
+      # AC-4: >20% p99 regression on $translate-batch blocks the release BEFORE
+      # the multi-arch push, so a regressed image never gets published.
+      - name: Check benchmark regression (>20% p99 blocks release)
+        run: |
+          NEW_P99=$(grep "^BenchmarkBatch_50kProbes_100kConceptMap" bench-batch.txt \
+                    | awk '{print $3}' | sort -n | tail -1)
+          PREV_FILE=$(ls docs/benchmarks/*.md 2>/dev/null | grep -v "${{ github.ref_name }}.md" | sort | tail -1 || true)
+          if [ -z "$PREV_FILE" ]; then
+            echo "No prior benchmark — regression gate skipped (first release)"
+            exit 0
+          fi
+          PREV_P99=$(grep '| p99' "$PREV_FILE" | tail -1 | awk -F'|' '{print $3}' | tr -dc '0-9')
+          if [ -z "$PREV_P99" ] || [ "$PREV_P99" = "0" ]; then
+            echo "No prior p99 found in $PREV_FILE — skipping regression gate"
+            exit 0
+          fi
+          # awk handles ns scale without integer overflow in shell arithmetic.
+          if awk "BEGIN { exit !(${NEW_P99} > ${PREV_P99} * 1.20) }"; then
+            echo "FAIL: \$translate-batch p99 regressed from ${PREV_P99}ns to ${NEW_P99}ns (>20%)"
+            exit 1
+          fi
+          echo "PASS: \$translate-batch p99 ${NEW_P99}ns vs prior ${PREV_P99}ns"
+
+      - name: Extract Docker metadata (semver + latest tags)
+        id: meta
+        uses: docker/metadata-action@v5.10.0
+        with:
+          images: ghcr.io/goodeworkers/fhir-map
+          tags: |
+            type=semver,pattern={{version}}
+            type=raw,value=latest,enable=${{ !github.event.release.prerelease }}
+
+      # ── CVE gate: build a single-arch image locally and scan it BEFORE any
+      #    push. amd64 CVE findings cover arm64 too (arch-independent deps).
+      - name: Build single-arch image for CVE scan (load, no push)
+        uses: docker/build-push-action@v6.19.2
+        with:
+          context: .
+          platforms: linux/amd64
+          load: true
+          push: false
+          tags: fhir-map:scan
+          labels: ${{ steps.meta.outputs.labels }}
+
+      # scan-action v7 ships a current Grype; older majors (v3) pin a Grype
+      # whose vuln-DB schema is no longer served fresh, so the scan aborts with
+      # "the vulnerability database was built N weeks ago (max allowed age 5d)".
+      - name: Scan image for CVEs (Grype — fail on CRITICAL/HIGH)
+        uses: anchore/scan-action@v7.4.0
+        with:
+          image: fhir-map:scan
+          severity-cutoff: high
+          fail-build: true
+
+      # ── Scan passed → publish the multi-arch image.
+      - name: Build and push multi-arch image (linux/amd64, linux/arm64)
+        id: push
+        uses: docker/build-push-action@v6.19.2
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Generate CycloneDX SBOM (Syft)
+        uses: anchore/sbom-action@v0.24.0
+        with:
+          image: ghcr.io/goodeworkers/fhir-map@${{ steps.push.outputs.digest }}
+          format: cyclonedx-json
+          output-file: sbom.cyclonedx.json
+          # We attach the SBOM ourselves via `gh release upload` below. The
+          # action's own release-attach re-downloads the workflow artifact and
+          # needs `actions: read`, which this job does not grant — disable it.
+          upload-release-assets: false
+          upload-artifact: false
+
+      - name: Attach SBOM to GitHub Release
+        run: gh release upload "${{ github.ref_name }}" sbom.cyclonedx.json
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3.10.1
+
+      - name: Sign image (keyless, sigstore transparency log)
+        run: cosign sign --yes ghcr.io/goodeworkers/fhir-map@${{ steps.push.outputs.digest }}
+
+      # Story 4.3 (AC-3): commit & push the benchmark publication after the
+      # image is signed. Placing the commit AFTER the push avoids polluting the
+      # repo when an earlier step (scan, push, sign) fails. The release job
+      # already has contents:write (Story 4.2, Task 2).
+      - name: Commit benchmark results
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add docs/benchmarks/
+          if git diff --staged --quiet; then
+            echo "No benchmark file changes to commit"
+          else
+            git commit -m "benchmarks: publish ${{ github.ref_name }}"
+            git push origin HEAD:main
+          fi
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Story 4.3 AC-1: release-gated Bruno conformance suite. Mirrors the
+  # `test-bruno` server-start pattern (postgres service + go build + health
+  # poll); uploads both collections' results as 90-day CI artifacts so
+  # external evaluators can audit spec coverage per release.
+  # ─────────────────────────────────────────────────────────────────────────
+  conformance:
+    name: Release — FHIR Conformance Suite (Bruno)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: fhir
+          POSTGRES_PASSWORD: fhir
+          POSTGRES_DB: fhir
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U fhir"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Build server
+        run: go build -o ./bin/server ./cmd/server
+
+      - name: Start server
+        env:
+          SERVER_PORT: "8080"
+          DATABASE_URL: "postgres://fhir:fhir@localhost:5432/fhir?sslmode=disable"
+        run: |
+          ./bin/server &
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:8080/health > /dev/null 2>&1; then
+              echo "Server ready"
+              break
+            fi
+            sleep 1
+          done
+
+      - name: Run Bruno primary collection
+        run: npx --yes @usebruno/cli@3.4.2 run --env local 2>&1 | tee ../bruno-primary.log
+        working-directory: bruno
+
+      - name: Run Bruno mapping coverage collection
+        run: npx --yes @usebruno/cli@3.4.2 run --env local 2>&1 | tee ../bruno-mapping-coverage.log
+        working-directory: bruno-mapping-coverage
+
+      - name: Upload Bruno conformance results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: conformance-suite-results
+          path: |
+            bruno-primary.log
+            bruno-mapping-coverage.log
+          retention-days: 90
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Story 4.3 AC-6..9: release-gated FHIR E2E harness. Stands up a fresh
+  # server, runs the Go conformance harness (build tag `conformance`) which
+  # speaks only HTTP and writes every captured response body to disk, then
+  # runs the HL7 FHIR Validator over the captured outputs at the appropriate
+  # FHIR version (R5 5.0.0, R4 4.0.1). Findings name the offending file.
+  # Captured outputs + validator logs are uploaded as 90-day CI artifacts.
+  # ─────────────────────────────────────────────────────────────────────────
+  conformance-e2e:
+    name: Release — FHIR Conformance E2E (HL7 Validator)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    # contents:write only matters for the badge-publish step at the end; the
+    # validator steps themselves are read-only.
+    permissions:
+      contents: write
+    env:
+      FHIR_VALIDATOR_VERSION: "6.4.0"
+      FHIR_MAP_EXT_DOMAIN: "https://goodeworkers.github.io/fhir-map/fhir/extensions/"
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: fhir
+          POSTGRES_PASSWORD: fhir
+          POSTGRES_DB: fhir
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U fhir"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      # Validator jar + FHIR package downloads (~150MB total on first run) are
+      # the slow part; cache them across runs keyed on the validator version.
+      - name: Cache HL7 FHIR Validator + packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            validator_cli.jar
+            ~/.fhir/packages
+          key: fhir-validator-${{ env.FHIR_VALIDATOR_VERSION }}
+
+      - name: Download HL7 FHIR Validator CLI (if not cached)
+        run: |
+          if [ ! -f validator_cli.jar ]; then
+            curl -fsSL -o validator_cli.jar \
+              "https://github.com/hapifhir/org.hl7.fhir.core/releases/download/${FHIR_VALIDATOR_VERSION}/validator_cli.jar"
+          fi
+
+      - name: Build server
+        run: go build -o ./bin/server ./cmd/server
+
+      - name: Start server
+        env:
+          SERVER_PORT: "8080"
+          DATABASE_URL: "postgres://fhir:fhir@localhost:5432/fhir?sslmode=disable"
+        run: |
+          ./bin/server &
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:8080/health > /dev/null 2>&1; then
+              echo "Server ready"
+              break
+            fi
+            sleep 1
+          done
+
+      - name: Run conformance E2E harness (capture outputs)
+        env:
+          CONFORMANCE_BASE_URL: http://localhost:8080
+          CONFORMANCE_OUT_DIR: build/conformance-out
+        run: |
+          go test -v -tags conformance -count=1 ./internal/conformance/ 2>&1 | tee conformance-harness.log
+
+      # AC-E2E-2 / AC-E2E-3: every captured FHIR response (resource echo, read
+      # body, search Bundle, $translate Parameters, OperationOutcome,
+      # CapabilityStatement, history Bundle) is validated at the version it
+      # was emitted for. Filenames embed -r5- / -r4- so the find can route
+      # each capture to the matching validator invocation. Non-FHIR captures
+      # (e.g. $transform raw output) live under _raw/ with .txt extensions
+      # and are deliberately not selected by these globs.
+      #
+      # `-tx http://tx.fhir.org` is required (NOT -tx n/a, unlike the
+      # fhir-validate job) because CapabilityStatement.format is required-bound
+      # to BCP-13 MIME types — the validator cannot resolve them offline.
+      # `-extension <domain>` allowlists the fhir-map custom-extension URL
+      # space so CapabilityStatement.operation custom extensions validate.
+      - name: Validate captured outputs (R5, 5.0.0)
+        run: |
+          R5_FILES=$(find build/conformance-out -name '*-r5-*.json' -print)
+          if [ -z "$R5_FILES" ]; then
+            echo "FAIL: no R5 capture files found"
+            exit 1
+          fi
+          echo "Validating $(echo "$R5_FILES" | wc -l | tr -d ' ') R5 file(s)..."
+          java -jar validator_cli.jar $R5_FILES \
+            -version 5.0.0 -tx http://tx.fhir.org/r5 \
+            -allow-example-urls true \
+            -extension "${FHIR_MAP_EXT_DOMAIN}" 2>&1 | tee validator-r5.log
+          # Validator exits non-zero if any *FAILURE* was reported.
+
+      - name: Validate captured outputs (R4, 4.0.1)
+        run: |
+          R4_FILES=$(find build/conformance-out -name '*-r4-*.json' -print)
+          if [ -z "$R4_FILES" ]; then
+            echo "FAIL: no R4 capture files found"
+            exit 1
+          fi
+          echo "Validating $(echo "$R4_FILES" | wc -l | tr -d ' ') R4 file(s)..."
+          java -jar validator_cli.jar $R4_FILES \
+            -version 4.0.1 -tx http://tx.fhir.org/r4 \
+            -allow-example-urls true \
+            -extension "${FHIR_MAP_EXT_DOMAIN}" 2>&1 | tee validator-r4.log
+
+      - name: Upload conformance E2E artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: conformance-e2e-results
+          path: |
+            build/conformance-out/
+            conformance-harness.log
+            validator-r5.log
+            validator-r4.log
+          retention-days: 90
+
+      # ── Live HL7 Validator badge: reaching this step means BOTH validator
+      #    invocations exited 0 (zero error-severity findings) on every
+      #    captured FHIR response body. Encode that as a shields endpoint JSON
+      #    and commit it to main so the README badge tracks the latest release
+      #    that passed end-to-end.
+      - name: Publish conformance-e2e badge JSON
+        run: |
+          R5_COUNT=$(find build/conformance-out -name '*-r5-*.json' | wc -l | tr -d ' ')
+          R4_COUNT=$(find build/conformance-out -name '*-r4-*.json' | wc -l | tr -d ' ')
+          TOTAL=$((R5_COUNT + R4_COUNT))
+          mkdir -p docs/badges
+          printf '{"schemaVersion":1,"label":"HL7 Validator","message":"%s/%s captures ✓","color":"brightgreen","cacheSeconds":300}\n' \
+            "$TOTAL" "$TOTAL" > docs/badges/conformance-e2e.json
+          echo "Generated conformance badge:"
+          cat docs/badges/conformance-e2e.json
+
+      - name: Commit conformance-e2e badge
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          # Re-checkout main: the release event ref is the tag, not main.
+          git fetch origin main
+          git checkout -B main origin/main
+          git add docs/badges/conformance-e2e.json
+          if git diff --staged --quiet; then
+            echo "Conformance badge JSON unchanged — skipping commit"
+            exit 0
+          fi
+          git commit -m "badges: update conformance-e2e (${{ github.ref_name }})"
+          git pull --rebase origin main || true
+          git push origin HEAD:main

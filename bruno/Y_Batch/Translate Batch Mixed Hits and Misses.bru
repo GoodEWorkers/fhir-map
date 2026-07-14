@@ -1,0 +1,68 @@
+meta {
+  name: Translate Batch Mixed Hits and Misses
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/fhir/ConceptMap/$translate-batch
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {"name": "url", "valueUri": "http://example.org/fhir/ConceptMap/address-use"},
+      {"name": "code", "part": [
+        {"name": "code", "valueCode": "home"},
+        {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}
+      ]},
+      {"name": "code", "part": [
+        {"name": "code", "valueCode": "bogus-1"},
+        {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}
+      ]},
+      {"name": "code", "part": [
+        {"name": "code", "valueCode": "work"},
+        {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}
+      ]},
+      {"name": "code", "part": [
+        {"name": "code", "valueCode": "bogus-2"},
+        {"name": "system", "valueUri": "http://hl7.org/fhir/address-use"}
+      ]}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq Parameters
+  res.body.parameter[0].name: eq result
+  res.body.parameter[0].valueBoolean: eq true
+  res.body.parameter[1].name: eq translate
+  res.body.parameter[1].part[1].name: eq result
+  res.body.parameter[1].part[1].valueBoolean: eq true
+  res.body.parameter[2].part[1].valueBoolean: eq false
+  res.body.parameter[3].part[1].valueBoolean: eq true
+  res.body.parameter[4].part[1].valueBoolean: eq false
+}
+
+docs {
+  # $translate-batch — independent per-probe results
+
+  Sends 4 probes in this order: `home` (hits), `bogus-1` (misses), `work`
+  (hits), `bogus-2` (misses). The handler must return per-probe results in
+  the same order with hit/miss correctly identified for each one — proving
+  that:
+
+  - Order is preserved: response index N corresponds to input index N.
+  - Per-probe `result` is independent — one probe missing does not affect
+    the boolean on any other probe.
+  - Overall `result` is the OR — true here because two probes hit.
+}

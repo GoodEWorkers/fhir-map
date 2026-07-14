@@ -1,0 +1,29 @@
+meta {
+  name: vread Not Found
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/fhir/R5/ConceptMap/{{conceptMapId}}/_history/999
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 404
+  res.body.resourceType: eq OperationOutcome
+}
+
+docs {
+  # vread — non-existent version returns 404
+
+  Asking for a version that was never produced returns 404 OperationOutcome
+  with `code = "not-found"`. The endpoint distinguishes "id never existed"
+  from "id exists, but not at that version" only via the OperationOutcome
+  diagnostics today.
+}

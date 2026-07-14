@@ -1,0 +1,53 @@
+meta {
+  name: 26_toDate
+  type: http
+  seq: 26
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/todate-fmt",
+          "name": "ToDateFmt",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [{"name": "src", "mode": "source"}, {"name": "tgt", "mode": "target"}],
+            "rule": [{
+              "name": "d",
+              "source": [{"context": "src", "element": "raw", "variable": "v"}],
+              "target": [{"context": "tgt", "element": "birthDate", "transform": "toDate",
+                          "parameter": [{"valueId": "v"}, {"valueString": "MM/dd/yyyy"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "raw": "05/16/2024"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.birthDate: eq "2024-05-16"
+}
+
+docs {
+  toDate(value, format) — M6.Fix.5. US-format MM/dd/yyyy → ISO date.
+}

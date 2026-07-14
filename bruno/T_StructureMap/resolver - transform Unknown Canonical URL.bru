@@ -1,0 +1,83 @@
+meta {
+  name: resolver - transform Unknown Canonical URL
+  type: http
+  seq: 17
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "sourceMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/unknown-type-test",
+          "name": "UnknownTypeTest",
+          "status": "active",
+          "group": [
+            {
+              "name": "g",
+              "input": [
+                {"name": "src", "type": "http://example.org/fhir/StructureDefinition/DoesNotExist", "mode": "source"},
+                {"name": "tgt", "mode": "target"}
+              ],
+              "rule": [
+                {
+                  "name": "copyId",
+                  "source": [{"context": "src", "element": "id", "variable": "v"}],
+                  "target": [{"context": "tgt", "element": "id", "transform": "copy", "parameter": [{"valueId": "v"}]}]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "name": "content",
+        "resource": {
+          "resourceType": "Patient",
+          "id": "p-unknown-003"
+        }
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 422
+  res.body.resourceType: eq OperationOutcome
+  res.body.issue[0].code: eq not-found
+  res.body.issue[0].diagnostics: contains http://example.org/fhir/StructureDefinition/DoesNotExist
+  res.body.issue[0].diagnostics: contains POST the StructureDefinition to /fhir/R5/StructureDefinition
+}
+
+docs {
+  # $transform — unknown canonical URL returns 422 with remediation (AC-3 / AC-5)
+
+  The StructureMap group input declares a canonical URL that is in neither
+  the bundled HL7 fixture nor the StructureDefinition registry.
+
+  Expected behaviour (Story 2.4 AC-3 + AC-5):
+  - HTTP 422 (ErrCanonicalResolution → wrapped into ErrMapNotFound at the
+    engine site → handleTransformError emits 422 code: not-found)
+  - `issue[0].code = "not-found"`
+  - `issue[0].diagnostics` MUST name the unresolved URL verbatim
+    (the URL is part of the public contract — not PHI, per SYM-GR-0013)
+  - `issue[0].diagnostics` MUST contain
+    "POST the StructureDefinition to /fhir/R5/StructureDefinition"
+    so operators know the exact remediation step
+
+  The resolver does NOT crash or emit 500 even with an empty registry.
+}

@@ -1,0 +1,32 @@
+{
+  "resourceType": "StructureDefinition",
+  "id": "conformance-sd-r4",
+  "url": "http://example.org/fhir/StructureDefinition/conformance-r4",
+  "version": "1.0.0",
+  "name": "ConformanceStructureDefinitionR4",
+  "title": "Conformance StructureDefinition (R4)",
+  "status": "active",
+  "experimental": true,
+  "description": "Minimal R4 StructureDefinition (constraint on Patient) used by the conformance E2E harness. No versionAlgorithm (R5-only) field.",
+  "fhirVersion": "4.0.1",
+  "kind": "resource",
+  "abstract": false,
+  "type": "Patient",
+  "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Patient",
+  "derivation": "constraint",
+  "differential": {
+    "element": [
+      {
+        "id": "Patient",
+        "path": "Patient",
+        "short": "Conformance test profile of Patient"
+      },
+      {
+        "id": "Patient.active",
+        "path": "Patient.active",
+        "min": 1,
+        "max": "1"
+      }
+    ]
+  }
+}

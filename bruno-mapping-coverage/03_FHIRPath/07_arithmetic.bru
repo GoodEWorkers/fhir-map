@@ -1,0 +1,59 @@
+meta {
+  name: 07_arithmetic
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/arith",
+          "name": "Arith",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "r",
+              "source": [{"context": "src", "variable": "s"}],
+              "target": [{"context": "tgt", "element": "year", "transform": "evaluate",
+                          "parameter": [{"valueId": "s"}, {"valueString": "a + b * 2 - 1"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "a": 10, "b": 5}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.year: eq 19
+}
+
+docs {
+  Arithmetic precedence: `a + b * 2 - 1` should yield 10 + 10 - 1 = 19
+  if `*` binds tighter than `+`/`-`. If the server short-cuts left-to-
+  right (no precedence) it would yield (((10+5)*2)-1)=29 — that's a
+  spec gap.
+}

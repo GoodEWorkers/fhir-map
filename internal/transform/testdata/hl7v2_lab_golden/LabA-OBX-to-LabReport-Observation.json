@@ -1,0 +1,6044 @@
+{
+ "resourceType": "StructureMap",
+ "id": "LabA-OBX-to-LabReport-Observation",
+ "contained": [
+  {
+   "resourceType": "ConceptMap",
+   "id": "#CM-LabA-blood-LabToLoinc",
+   "url": "http://example.org/fhir/R4/lab-ig/ConceptMap/CM-LabA-blood-LabToLoinc",
+   "name": "CM_LabA_blood_LabToLoinc",
+   "title": "LabA codes locaux de biologie vers LOINC",
+   "status": "draft",
+   "experimental": true,
+   "description": "ConceptMap reliant les codes locaux laboratoire LabA pour le sang (COS-LabA-LabAnalyses) aux codes LOINC (http://loinc.org) utilisés dans la spécification Postman vers V1 en faisant le lien avec les codes Reference (COS-LabAnalyses) du code Mirth.",
+   "group": [
+    {
+     "source": "http://example.org/fhir/R4/lab-ig/CodeSystem/COS-LabA-LabAnalyses",
+     "target": "http://loinc.org",
+     "element": [
+      {
+       "code": "K",
+       "display": "K",
+       "target": [
+        {
+         "code": "2823-3",
+         "equivalence": "equivalent",
+         "comment": "marker=potassium; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "KZ",
+       "display": "KZ",
+       "target": [
+        {
+         "code": "2823-3",
+         "equivalence": "equivalent",
+         "comment": "marker=potassium; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "NA",
+       "display": "NA",
+       "target": [
+        {
+         "code": "2951-2",
+         "equivalence": "equivalent",
+         "comment": "marker=sodium; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "NAZ",
+       "display": "NAZ",
+       "target": [
+        {
+         "code": "2951-2",
+         "equivalence": "equivalent",
+         "comment": "marker=sodium; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CL",
+       "display": "CL",
+       "target": [
+        {
+         "code": "2075-0",
+         "equivalence": "equivalent",
+         "comment": "marker=chloride; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CO2",
+       "display": "CO2",
+       "target": [
+        {
+         "code": "20565-8",
+         "equivalence": "equivalent",
+         "comment": "marker=total_co2; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "GL",
+       "display": "GL",
+       "target": [
+        {
+         "code": "14749-6",
+         "equivalence": "equivalent",
+         "comment": "marker=glucose; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "GLUU",
+       "display": "GLUU",
+       "target": [
+        {
+         "code": "14749-6",
+         "equivalence": "equivalent",
+         "comment": "marker=glucose; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZGL",
+       "display": "ZGL",
+       "target": [
+        {
+         "code": "14749-6",
+         "equivalence": "equivalent",
+         "comment": "marker=glucose; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "GLU",
+       "display": "GLU",
+       "target": [
+        {
+         "code": "14749-6",
+         "equivalence": "equivalent",
+         "comment": "marker=glucose; origin=mirth(mappingAnalyse); type=blood; note=GLU also appears as urine in mappingType"
+        }
+       ]
+      },
+      {
+       "code": "CR",
+       "display": "CR",
+       "target": [
+        {
+         "code": "14682-9",
+         "equivalence": "equivalent",
+         "comment": "marker=creatinine; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CRZ",
+       "display": "CRZ",
+       "target": [
+        {
+         "code": "14682-9",
+         "equivalence": "equivalent",
+         "comment": "marker=creatinine; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "UR",
+       "display": "UR",
+       "target": [
+        {
+         "code": "22700-9",
+         "equivalence": "equivalent",
+         "comment": "marker=urea; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZUR",
+       "display": "ZUR",
+       "target": [
+        {
+         "code": "22700-9",
+         "equivalence": "equivalent",
+         "comment": "marker=urea; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "AU",
+       "display": "AU",
+       "target": [
+        {
+         "code": "14933-6",
+         "equivalence": "equivalent",
+         "comment": "marker=uric_acid; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "AUZ",
+       "display": "AUZ",
+       "target": [
+        {
+         "code": "14933-6",
+         "equivalence": "equivalent",
+         "comment": "marker=uric_acid; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CA",
+       "display": "CA",
+       "target": [
+        {
+         "code": "2000-8",
+         "equivalence": "equivalent",
+         "comment": "marker=calcium; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CAZ",
+       "display": "CAZ",
+       "target": [
+        {
+         "code": "2000-8",
+         "equivalence": "equivalent",
+         "comment": "marker=calcium; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "P",
+       "display": "P",
+       "target": [
+        {
+         "code": "14879-1",
+         "equivalence": "equivalent",
+         "comment": "marker=phosphorus; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PZ",
+       "display": "PZ",
+       "target": [
+        {
+         "code": "14879-1",
+         "equivalence": "equivalent",
+         "comment": "marker=phosphorus; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "MG",
+       "display": "MG",
+       "target": [
+        {
+         "code": "2601-3",
+         "equivalence": "equivalent",
+         "comment": "marker=magnesium; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "MGZ",
+       "display": "MGZ",
+       "target": [
+        {
+         "code": "2601-3",
+         "equivalence": "equivalent",
+         "comment": "marker=magnesium; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PR",
+       "display": "PR",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "DPROT",
+       "display": "DPROT",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE",
+       "display": "PRTE",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE0",
+       "display": "PRTE0",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE1",
+       "display": "PRTE1",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE2",
+       "display": "PRTE2",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE3",
+       "display": "PRTE3",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE4",
+       "display": "PRTE4",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE5",
+       "display": "PRTE5",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE6",
+       "display": "PRTE6",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE7",
+       "display": "PRTE7",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE8",
+       "display": "PRTE8",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTE9",
+       "display": "PRTE9",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTEA",
+       "display": "PRTEA",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTEB",
+       "display": "PRTEB",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTEC",
+       "display": "PRTEC",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTED",
+       "display": "PRTED",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTEE",
+       "display": "PRTEE",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTEF",
+       "display": "PRTEF",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTEG",
+       "display": "PRTEG",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTEH",
+       "display": "PRTEH",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTEI",
+       "display": "PRTEI",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRTEJ",
+       "display": "PRTEJ",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PRZ",
+       "display": "PRZ",
+       "target": [
+        {
+         "code": "2885-2",
+         "equivalence": "equivalent",
+         "comment": "marker=protein; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CRP",
+       "display": "CRP",
+       "target": [
+        {
+         "code": "1988-5",
+         "equivalence": "equivalent",
+         "comment": "marker=crp; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CRPZ",
+       "display": "CRPZ",
+       "target": [
+        {
+         "code": "1988-5",
+         "equivalence": "equivalent",
+         "comment": "marker=crp; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "BT",
+       "display": "BT",
+       "target": [
+        {
+         "code": "14631-6",
+         "equivalence": "equivalent",
+         "comment": "marker=total_bilirubin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "BTZ",
+       "display": "BTZ",
+       "target": [
+        {
+         "code": "14631-6",
+         "equivalence": "equivalent",
+         "comment": "marker=total_bilirubin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "BIC",
+       "display": "BIC",
+       "target": [
+        {
+         "code": "29760-6",
+         "equivalence": "equivalent",
+         "comment": "marker=conjugated_bilirubin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "BICZ",
+       "display": "BICZ",
+       "target": [
+        {
+         "code": "29760-6",
+         "equivalence": "equivalent",
+         "comment": "marker=conjugated_bilirubin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TGP",
+       "display": "TGP",
+       "target": [
+        {
+         "code": "1742-6",
+         "equivalence": "equivalent",
+         "comment": "marker=alat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TGPZ",
+       "display": "TGPZ",
+       "target": [
+        {
+         "code": "1742-6",
+         "equivalence": "equivalent",
+         "comment": "marker=alat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZTGP",
+       "display": "ZTGP",
+       "target": [
+        {
+         "code": "1742-6",
+         "equivalence": "equivalent",
+         "comment": "marker=alat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ALAT",
+       "display": "ALAT",
+       "target": [
+        {
+         "code": "1742-6",
+         "equivalence": "equivalent",
+         "comment": "marker=alat; origin=mirth(mappingAnalyse); type=blood; note=mirth marker 'asal' aligned to ALT"
+        }
+       ]
+      },
+      {
+       "code": "ASAT",
+       "display": "ASAT",
+       "target": [
+        {
+         "code": "1920-8",
+         "equivalence": "equivalent",
+         "comment": "marker=asat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TGO",
+       "display": "TGO",
+       "target": [
+        {
+         "code": "1920-8",
+         "equivalence": "equivalent",
+         "comment": "marker=asat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TGOZ",
+       "display": "TGOZ",
+       "target": [
+        {
+         "code": "1920-8",
+         "equivalence": "equivalent",
+         "comment": "marker=asat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZTGO",
+       "display": "ZTGO",
+       "target": [
+        {
+         "code": "1920-8",
+         "equivalence": "equivalent",
+         "comment": "marker=asat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZASAT",
+       "display": "ZASAT",
+       "target": [
+        {
+         "code": "1920-8",
+         "equivalence": "equivalent",
+         "comment": "marker=asat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PAL",
+       "display": "PAL",
+       "target": [
+        {
+         "code": "6768-6",
+         "equivalence": "equivalent",
+         "comment": "marker=alkaline_phosphatase; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PALZ",
+       "display": "PALZ",
+       "target": [
+        {
+         "code": "6768-6",
+         "equivalence": "equivalent",
+         "comment": "marker=alkaline_phosphatase; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZPAL",
+       "display": "ZPAL",
+       "target": [
+        {
+         "code": "6768-6",
+         "equivalence": "equivalent",
+         "comment": "marker=alkaline_phosphatase; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "GGT",
+       "display": "GGT",
+       "target": [
+        {
+         "code": "2324-2",
+         "equivalence": "equivalent",
+         "comment": "marker=gamma_gt; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LDH",
+       "display": "LDH",
+       "target": [
+        {
+         "code": "2532-0",
+         "equivalence": "equivalent",
+         "comment": "marker=ldh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LDHZ",
+       "display": "LDHZ",
+       "target": [
+        {
+         "code": "2532-0",
+         "equivalence": "equivalent",
+         "comment": "marker=ldh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZLDH",
+       "display": "ZLDH",
+       "target": [
+        {
+         "code": "2532-0",
+         "equivalence": "equivalent",
+         "comment": "marker=ldh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CK",
+       "display": "CK",
+       "target": [
+        {
+         "code": "2157-6",
+         "equivalence": "equivalent",
+         "comment": "marker=cpk; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CPK",
+       "display": "CPK",
+       "target": [
+        {
+         "code": "2157-6",
+         "equivalence": "equivalent",
+         "comment": "marker=cpk; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CPKZ",
+       "display": "CPKZ",
+       "target": [
+        {
+         "code": "2157-6",
+         "equivalence": "equivalent",
+         "comment": "marker=cpk; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZCPK",
+       "display": "ZCPK",
+       "target": [
+        {
+         "code": "2157-6",
+         "equivalence": "equivalent",
+         "comment": "marker=cpk; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LIP",
+       "display": "LIP",
+       "target": [
+        {
+         "code": "3040-3",
+         "equivalence": "equivalent",
+         "comment": "marker=lipase; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LIPAS",
+       "display": "LIPAS",
+       "target": [
+        {
+         "code": "3040-3",
+         "equivalence": "equivalent",
+         "comment": "marker=lipase; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LIPAY",
+       "display": "LIPAY",
+       "target": [
+        {
+         "code": "3040-3",
+         "equivalence": "equivalent",
+         "comment": "marker=lipase; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZLIPA",
+       "display": "ZLIPA",
+       "target": [
+        {
+         "code": "3040-3",
+         "equivalence": "equivalent",
+         "comment": "marker=lipase; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZLILB",
+       "display": "ZLILB",
+       "target": [
+        {
+         "code": "3040-3",
+         "equivalence": "equivalent",
+         "comment": "marker=lipase; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CHOL",
+       "display": "CHOL",
+       "target": [
+        {
+         "code": "14647-2",
+         "equivalence": "equivalent",
+         "comment": "marker=total_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CHOLZ",
+       "display": "CHOLZ",
+       "target": [
+        {
+         "code": "14647-2",
+         "equivalence": "equivalent",
+         "comment": "marker=total_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CHOZL",
+       "display": "CHOZL",
+       "target": [
+        {
+         "code": "14647-2",
+         "equivalence": "equivalent",
+         "comment": "marker=total_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HDL",
+       "display": "HDL",
+       "target": [
+        {
+         "code": "14646-4",
+         "equivalence": "equivalent",
+         "comment": "marker=hdl_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HDLY",
+       "display": "HDLY",
+       "target": [
+        {
+         "code": "14646-4",
+         "equivalence": "equivalent",
+         "comment": "marker=hdl_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HDLZ",
+       "display": "HDLZ",
+       "target": [
+        {
+         "code": "14646-4",
+         "equivalence": "equivalent",
+         "comment": "marker=hdl_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HDLZY",
+       "display": "HDLZY",
+       "target": [
+        {
+         "code": "14646-4",
+         "equivalence": "equivalent",
+         "comment": "marker=hdl_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LDL",
+       "display": "LDL",
+       "target": [
+        {
+         "code": "22748-8",
+         "equivalence": "equivalent",
+         "comment": "marker=ldl_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "DLDL",
+       "display": "DLDL",
+       "target": [
+        {
+         "code": "22748-8",
+         "equivalence": "equivalent",
+         "comment": "marker=ldl_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LDL2",
+       "display": "LDL2",
+       "target": [
+        {
+         "code": "22748-8",
+         "equivalence": "equivalent",
+         "comment": "marker=ldl_cholesterol; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TRIG",
+       "display": "TRIG",
+       "target": [
+        {
+         "code": "14927-8",
+         "equivalence": "equivalent",
+         "comment": "marker=triglycerides; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TRIGY",
+       "display": "TRIGY",
+       "target": [
+        {
+         "code": "14927-8",
+         "equivalence": "equivalent",
+         "comment": "marker=triglycerides; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TRIGZ",
+       "display": "TRIGZ",
+       "target": [
+        {
+         "code": "14927-8",
+         "equivalence": "equivalent",
+         "comment": "marker=triglycerides; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "BNP1",
+       "display": "BNP1",
+       "target": [
+        {
+         "code": "33762-6",
+         "equivalence": "equivalent",
+         "comment": "marker=nt_probnp; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "BNP1Z",
+       "display": "BNP1Z",
+       "target": [
+        {
+         "code": "33762-6",
+         "equivalence": "equivalent",
+         "comment": "marker=nt_probnp; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSH",
+       "display": "TSH",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSH1",
+       "display": "TSH1",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSH2",
+       "display": "TSH2",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSH3",
+       "display": "TSH3",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSH4",
+       "display": "TSH4",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSH5",
+       "display": "TSH5",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSH6",
+       "display": "TSH6",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSH7",
+       "display": "TSH7",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSH8",
+       "display": "TSH8",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TSHE",
+       "display": "TSHE",
+       "target": [
+        {
+         "code": "11580-8",
+         "equivalence": "equivalent",
+         "comment": "marker=tsh; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TROPI",
+       "display": "TROPI",
+       "target": [
+        {
+         "code": "6598-7",
+         "equivalence": "equivalent",
+         "comment": "marker=troponin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TROP1",
+       "display": "TROP1",
+       "target": [
+        {
+         "code": "6598-7",
+         "equivalence": "equivalent",
+         "comment": "marker=troponin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TROPZ",
+       "display": "TROPZ",
+       "target": [
+        {
+         "code": "6598-7",
+         "equivalence": "equivalent",
+         "comment": "marker=troponin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ZTROZ",
+       "display": "ZTROZ",
+       "target": [
+        {
+         "code": "6598-7",
+         "equivalence": "equivalent",
+         "comment": "marker=troponin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HAPT",
+       "display": "HAPT",
+       "target": [
+        {
+         "code": "4542-7",
+         "equivalence": "equivalent",
+         "comment": "marker=haptoglobin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HAPTZ",
+       "display": "HAPTZ",
+       "target": [
+        {
+         "code": "4542-7",
+         "equivalence": "equivalent",
+         "comment": "marker=haptoglobin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "FER",
+       "display": "FER",
+       "target": [
+        {
+         "code": "2276-4",
+         "equivalence": "equivalent",
+         "comment": "marker=ferritin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "FERZ",
+       "display": "FERZ",
+       "target": [
+        {
+         "code": "2276-4",
+         "equivalence": "equivalent",
+         "comment": "marker=ferritin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "SAO2",
+       "display": "SAO2",
+       "target": [
+        {
+         "code": "2502-3",
+         "equivalence": "equivalent",
+         "comment": "marker=coeffsat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CST",
+       "display": "CST",
+       "target": [
+        {
+         "code": "2502-3",
+         "equivalence": "equivalent",
+         "comment": "marker=coeffsat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "SAO2Z",
+       "display": "SAO2Z",
+       "target": [
+        {
+         "code": "2502-3",
+         "equivalence": "equivalent",
+         "comment": "marker=coeffsat; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PTHE",
+       "display": "PTHE",
+       "target": [
+        {
+         "code": "14866-8",
+         "equivalence": "equivalent",
+         "comment": "marker=pth; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PTH1",
+       "display": "PTH1",
+       "target": [
+        {
+         "code": "14866-8",
+         "equivalence": "equivalent",
+         "comment": "marker=pth; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "25DE",
+       "display": "25DE",
+       "target": [
+        {
+         "code": "68438-1",
+         "equivalence": "equivalent",
+         "comment": "marker=hydroxy_vitamin_d; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "125D",
+       "display": "125D",
+       "target": [
+        {
+         "code": "14566-4",
+         "equivalence": "equivalent",
+         "comment": "marker=di_hydroxy_vitamin_d; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "125Z",
+       "display": "125Z",
+       "target": [
+        {
+         "code": "14566-4",
+         "equivalence": "equivalent",
+         "comment": "marker=di_hydroxy_vitamin_d; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "INR",
+       "display": "INR",
+       "target": [
+        {
+         "code": "6301-6",
+         "equivalence": "equivalent",
+         "comment": "marker=inr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "INR1",
+       "display": "INR1",
+       "target": [
+        {
+         "code": "6301-6",
+         "equivalence": "equivalent",
+         "comment": "marker=inr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TP1",
+       "display": "TP1",
+       "target": [
+        {
+         "code": "5894-1",
+         "equivalence": "equivalent",
+         "comment": "marker=tp; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "RTCA",
+       "display": "RTCA",
+       "target": [
+        {
+         "code": "63561-5",
+         "equivalence": "equivalent",
+         "comment": "marker=tca_ratio; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "RTCA2",
+       "display": "RTCA2",
+       "target": [
+        {
+         "code": "63561-5",
+         "equivalence": "equivalent",
+         "comment": "marker=tca_ratio; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TCA1",
+       "display": "TCA1",
+       "target": [
+        {
+         "code": "14979-9",
+         "equivalence": "equivalent",
+         "comment": "marker=patient_tca; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TCA2",
+       "display": "TCA2",
+       "target": [
+        {
+         "code": "14979-9",
+         "equivalence": "equivalent",
+         "comment": "marker=patient_tca; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TCA3",
+       "display": "TCA3",
+       "target": [
+        {
+         "code": "14979-9",
+         "equivalence": "equivalent",
+         "comment": "marker=patient_tca; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TTCA1",
+       "display": "TTCA1",
+       "target": [
+        {
+         "code": "13488-2",
+         "equivalence": "equivalent",
+         "comment": "marker=control_tca; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "FIB2",
+       "display": "FIB2",
+       "target": [
+        {
+         "code": "3255-7",
+         "equivalence": "equivalent",
+         "comment": "marker=fibrinogen_activity; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "FIB2Z",
+       "display": "FIB2Z",
+       "target": [
+        {
+         "code": "3255-7",
+         "equivalence": "equivalent",
+         "comment": "marker=fibrinogen_activity; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "RBC",
+       "display": "RBC",
+       "target": [
+        {
+         "code": "789-8",
+         "equivalence": "equivalent",
+         "comment": "marker=hematies; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "BHEMM",
+       "display": "BHEMM",
+       "target": [
+        {
+         "code": "789-8",
+         "equivalence": "equivalent",
+         "comment": "marker=hematies; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HEMAM",
+       "display": "HEMAM",
+       "target": [
+        {
+         "code": "789-8",
+         "equivalence": "equivalent",
+         "comment": "marker=hematies; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "B1HB",
+       "display": "B1HB",
+       "target": [
+        {
+         "code": "718-7",
+         "equivalence": "equivalent",
+         "comment": "marker=hemoglobin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HB",
+       "display": "HB",
+       "target": [
+        {
+         "code": "718-7",
+         "equivalence": "equivalent",
+         "comment": "marker=hemoglobin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HGB",
+       "display": "HGB",
+       "target": [
+        {
+         "code": "718-7",
+         "equivalence": "equivalent",
+         "comment": "marker=hemoglobin; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "0HCT2",
+       "display": "0HCT2",
+       "target": [
+        {
+         "code": "4544-3",
+         "equivalence": "equivalent",
+         "comment": "marker=hematocrit; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "0HCTC",
+       "display": "0HCTC",
+       "target": [
+        {
+         "code": "4544-3",
+         "equivalence": "equivalent",
+         "comment": "marker=hematocrit; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "0HTE",
+       "display": "0HTE",
+       "target": [
+        {
+         "code": "4544-3",
+         "equivalence": "equivalent",
+         "comment": "marker=hematocrit; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "7HCT",
+       "display": "7HCT",
+       "target": [
+        {
+         "code": "4544-3",
+         "equivalence": "equivalent",
+         "comment": "marker=hematocrit; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "9HCT",
+       "display": "9HCT",
+       "target": [
+        {
+         "code": "4544-3",
+         "equivalence": "equivalent",
+         "comment": "marker=hematocrit; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HEMB9",
+       "display": "HEMB9",
+       "target": [
+        {
+         "code": "4544-3",
+         "equivalence": "equivalent",
+         "comment": "marker=hematocrit; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HTE",
+       "display": "HTE",
+       "target": [
+        {
+         "code": "4544-3",
+         "equivalence": "equivalent",
+         "comment": "marker=hematocrit; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "0VMC",
+       "display": "0VMC",
+       "target": [
+        {
+         "code": "30428-7",
+         "equivalence": "equivalent",
+         "comment": "marker=vgm; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "VMC",
+       "display": "VMC",
+       "target": [
+        {
+         "code": "30428-7",
+         "equivalence": "equivalent",
+         "comment": "marker=vgm; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "0RETI",
+       "display": "0RETI",
+       "target": [
+        {
+         "code": "14196-0",
+         "equivalence": "equivalent",
+         "comment": "marker=reticulocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "RETA",
+       "display": "RETA",
+       "target": [
+        {
+         "code": "14196-0",
+         "equivalence": "equivalent",
+         "comment": "marker=reticulocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "RETAZ",
+       "display": "RETAZ",
+       "target": [
+        {
+         "code": "14196-0",
+         "equivalence": "equivalent",
+         "comment": "marker=reticulocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "RETP",
+       "display": "RETP",
+       "target": [
+        {
+         "code": "14196-0",
+         "equivalence": "equivalent",
+         "comment": "marker=reticulocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LEU",
+       "display": "LEU",
+       "target": [
+        {
+         "code": "6690-2",
+         "equivalence": "equivalent",
+         "comment": "marker=leukocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "WBC",
+       "display": "WBC",
+       "target": [
+        {
+         "code": "6690-2",
+         "equivalence": "equivalent",
+         "comment": "marker=leukocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "BLEUM",
+       "display": "BLEUM",
+       "target": [
+        {
+         "code": "6690-2",
+         "equivalence": "equivalent",
+         "comment": "marker=leukocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PNN",
+       "display": "PNN",
+       "target": [
+        {
+         "code": "26499-4",
+         "equivalence": "equivalent",
+         "comment": "marker=polynuclear_neutrophils; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "AGRAN",
+       "display": "AGRAN",
+       "target": [
+        {
+         "code": "26499-4",
+         "equivalence": "equivalent",
+         "comment": "marker=polynuclear_neutrophils; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PNEO",
+       "display": "PNEO",
+       "target": [
+        {
+         "code": "26449-9",
+         "equivalence": "equivalent",
+         "comment": "marker=polynuclear_eosinophils; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "AAEOS",
+       "display": "AAEOS",
+       "target": [
+        {
+         "code": "26449-9",
+         "equivalence": "equivalent",
+         "comment": "marker=polynuclear_eosinophils; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ABASO",
+       "display": "ABASO",
+       "target": [
+        {
+         "code": "26444-0",
+         "equivalence": "equivalent",
+         "comment": "marker=polynuclear_basophils; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ALYMP",
+       "display": "ALYMP",
+       "target": [
+        {
+         "code": "26474-7",
+         "equivalence": "equivalent",
+         "comment": "marker=lymphocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LYM",
+       "display": "LYM",
+       "target": [
+        {
+         "code": "26474-7",
+         "equivalence": "equivalent",
+         "comment": "marker=lymphocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "SPL",
+       "display": "SPL",
+       "target": [
+        {
+         "code": "26474-7",
+         "equivalence": "equivalent",
+         "comment": "marker=lymphocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "MONC",
+       "display": "MONC",
+       "target": [
+        {
+         "code": "26484-6",
+         "equivalence": "equivalent",
+         "comment": "marker=monocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "MONOC",
+       "display": "MONOC",
+       "target": [
+        {
+         "code": "26484-6",
+         "equivalence": "equivalent",
+         "comment": "marker=monocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "MONOP",
+       "display": "MONOP",
+       "target": [
+        {
+         "code": "26484-6",
+         "equivalence": "equivalent",
+         "comment": "marker=monocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "AMONO",
+       "display": "AMONO",
+       "target": [
+        {
+         "code": "26484-6",
+         "equivalence": "equivalent",
+         "comment": "marker=monocytes; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PLAQ",
+       "display": "PLAQ",
+       "target": [
+        {
+         "code": "777-3",
+         "equivalence": "equivalent",
+         "comment": "marker=platelets; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "DFG1",
+       "display": "DFG1",
+       "target": [
+        {
+         "code": "77147-7",
+         "equivalence": "equivalent",
+         "comment": "marker=egfr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CKF2",
+       "display": "CKF2",
+       "target": [
+        {
+         "code": "77147-7",
+         "equivalence": "equivalent",
+         "comment": "marker=egfr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "DFG2",
+       "display": "DFG2",
+       "target": [
+        {
+         "code": "77147-7",
+         "equivalence": "equivalent",
+         "comment": "marker=egfr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "DFG3A",
+       "display": "DFG3A",
+       "target": [
+        {
+         "code": "77147-7",
+         "equivalence": "equivalent",
+         "comment": "marker=egfr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "DFG3B",
+       "display": "DFG3B",
+       "target": [
+        {
+         "code": "77147-7",
+         "equivalence": "equivalent",
+         "comment": "marker=egfr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "DFG4",
+       "display": "DFG4",
+       "target": [
+        {
+         "code": "77147-7",
+         "equivalence": "equivalent",
+         "comment": "marker=egfr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "DFG5",
+       "display": "DFG5",
+       "target": [
+        {
+         "code": "77147-7",
+         "equivalence": "equivalent",
+         "comment": "marker=egfr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CKH2",
+       "display": "CKH2",
+       "target": [
+        {
+         "code": "77147-7",
+         "equivalence": "equivalent",
+         "comment": "marker=egfr; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TPSA",
+       "display": "TPSA",
+       "target": [
+        {
+         "code": "2857-1",
+         "equivalence": "equivalent",
+         "comment": "marker=psa; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TPSAX",
+       "display": "TPSAX",
+       "target": [
+        {
+         "code": "2857-1",
+         "equivalence": "equivalent",
+         "comment": "marker=psa; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TPSAZ",
+       "display": "TPSAZ",
+       "target": [
+        {
+         "code": "2857-1",
+         "equivalence": "equivalent",
+         "comment": "marker=psa; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ALB",
+       "display": "ALB",
+       "target": [
+        {
+         "code": "1751-7",
+         "equivalence": "equivalent",
+         "comment": "marker=albumine; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ALBC",
+       "display": "ALBC",
+       "target": [
+        {
+         "code": "1751-7",
+         "equivalence": "equivalent",
+         "comment": "marker=albumine; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "ALBZ",
+       "display": "ALBZ",
+       "target": [
+        {
+         "code": "1751-7",
+         "equivalence": "equivalent",
+         "comment": "marker=albumine; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CICD2",
+       "display": "CICD2",
+       "target": [
+        {
+         "code": "53573-2",
+         "equivalence": "equivalent",
+         "comment": "marker=ciclosporine_t0; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "CICT1",
+       "display": "CICT1",
+       "target": [
+        {
+         "code": "32997-9",
+         "equivalence": "equivalent",
+         "comment": "marker=ciclosporine_t2; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TACD2",
+       "display": "TACD2",
+       "target": [
+        {
+         "code": "11253-2",
+         "equivalence": "equivalent",
+         "comment": "marker=tacrolimus_t0; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "TACR1",
+       "display": "TACR1",
+       "target": [
+        {
+         "code": "11253-2",
+         "equivalence": "equivalent",
+         "comment": "marker=tacrolimus_t0; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "SIRD2",
+       "display": "SIRD2",
+       "target": [
+        {
+         "code": "29247-4",
+         "equivalence": "equivalent",
+         "comment": "marker=sirolimus_t0; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "EVED2",
+       "display": "EVED2",
+       "target": [
+        {
+         "code": "50544-6",
+         "equivalence": "equivalent",
+         "comment": "marker=everolimus_t0; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PBKST",
+       "display": "PBKST",
+       "target": [
+        {
+         "code": "62466-8",
+         "equivalence": "equivalent",
+         "comment": "marker=bk; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PBKST",
+       "display": "PBKST",
+       "target": [
+        {
+         "code": "32362-6",
+         "equivalence": "equivalent",
+         "comment": "marker=bk; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "PCSGT",
+       "display": "PCSGT",
+       "target": [
+        {
+         "code": "13949-3",
+         "equivalence": "equivalent",
+         "comment": "marker=cmv; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "S9",
+       "display": "S9",
+       "target": [
+        {
+         "code": "56888-1",
+         "equivalence": "equivalent",
+         "comment": "marker=vih; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "S9",
+       "display": "S9",
+       "target": [
+        {
+         "code": "29541-0",
+         "equivalence": "equivalent",
+         "comment": "marker=vih; origin=mirth(mappingAnalyse); type=blood0"
+        }
+       ]
+      },
+      {
+       "code": "S9",
+       "display": "S9",
+       "target": [
+        {
+         "code": "81652-0",
+         "equivalence": "equivalent",
+         "comment": "marker=vih; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LCOP",
+       "display": "LCOP",
+       "target": [
+        {
+         "code": "5196-1",
+         "equivalence": "equivalent",
+         "comment": "marker=vhb; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LCOP",
+       "display": "LCOP",
+       "target": [
+        {
+         "code": "103618-5",
+         "equivalence": "equivalent",
+         "comment": "marker=vhb; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "LHC",
+       "display": "LHC",
+       "target": [
+        {
+         "code": "42003-4",
+         "equivalence": "equivalent",
+         "comment": "marker=vhc; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      },
+      {
+       "code": "HC1",
+       "display": "HC1",
+       "target": [
+        {
+         "code": "42003-4",
+         "equivalence": "equivalent",
+         "comment": "marker=vhc; origin=mirth(mappingAnalyse); type=blood"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "url": "http://example.org/fhir/R4/lab-ig/StructureMap/LabA-OBX-to-LabReport-Observation",
+ "version": "1.0.0",
+ "name": "LabA_OBX_to_LabReport_Observation",
+ "title": "HL7v2.3 OBX from LabA to HL7 Europe Laboratory Observation resources",
+ "status": "draft",
+ "description": "Transforms an HL7v2.3 OBX from LabA segment into the HL7 Europe Laboratory Observation resources.",
+ "structure": [
+  {
+   "url": "https://example.org",
+   "mode": "source"
+  },
+  {
+   "url": "http://hl7.eu/fhir/laboratory/StructureDefinition/Observation-resultslab-eu-lab",
+   "mode": "target",
+   "alias": "ObservationTarget"
+  }
+ ],
+ "group": [
+  {
+   "name": "main",
+   "typeMode": "types",
+   "input": [
+    {
+     "name": "source",
+     "type": "HL7v2",
+     "mode": "source"
+    },
+    {
+     "name": "target",
+     "type": "Bundle",
+     "mode": "target"
+    }
+   ],
+   "rule": [
+    {
+     "name": "labReportObservationResource",
+     "source": [
+      {
+       "context": "source",
+       "type": "string",
+       "element": "OBX",
+       "variable": "obs",
+       "condition": "$this.exists()"
+      }
+     ],
+     "target": [
+      {
+       "context": "target",
+       "element": "id",
+       "transform": "uuid"
+      },
+      {
+       "context": "target",
+       "element": "type",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "document"
+        }
+       ]
+      },
+      {
+       "context": "target",
+       "element": "identifier[+].value",
+       "transform": "uuid"
+      },
+      {
+       "context": "target",
+       "element": "entry[+].resource",
+       "variable": "ObservationTarget",
+       "transform": "create",
+       "parameter": [
+        {
+         "valueString": "Observation"
+        }
+       ]
+      },
+      {
+       "context": "ObservationTarget",
+       "element": "id",
+       "variable": "ObservationID",
+       "transform": "uuid"
+      },
+      {
+       "context": "target",
+       "element": "entry[=].fullUrl",
+       "variable": "ObservationFullUrl",
+       "transform": "append",
+       "parameter": [
+        {
+         "valueString": "http://example.org/fhir/Observation/"
+        },
+        {
+         "valueId": "ObservationID"
+        }
+       ]
+      },
+      {
+       "context": "ObservationTarget",
+       "element": "category[+].coding",
+       "transform": "c",
+       "parameter": [
+        {
+         "valueString": "http://terminology.hl7.org/CodeSystem/observation-category"
+        },
+        {
+         "valueString": "laboratory"
+        }
+       ]
+      },
+      {
+       "context": "ObservationTarget",
+       "element": "meta.profile",
+       "transform": "copy",
+       "parameter": [
+        {
+         "valueString": "http://hl7.eu/fhir/laboratory/StructureDefinition/Observation-resultslab-eu-lab"
+        }
+       ]
+      }
+     ],
+     "rule": [
+      {
+       "name": "pid2ToPatientIdentifier0",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "PID-2[0]",
+         "variable": "patientIdExternal",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "pid2ToIdentificationIdentifier0Value",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2[0]-1",
+           "variable": "patientIdExternalValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "subject.identifier[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid2ToIdentificationIdentifier0Extension0",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2[0]-2",
+           "variable": "patientIdExternalExtension0",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "subject.identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/identifier-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "ObservationTarget",
+           "element": "subject.identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalExtension0"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid2ToIdentificationIdentifier0Extension1",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2[0]-3",
+           "variable": "patientIdExternalExtension1",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "subject.identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/namingsystem-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "ObservationTarget",
+           "element": "subject.identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalExtension1"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid2ToIdentificationIdentifier0IdentifierTypeCode",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2[0]-5",
+           "variable": "patientIdExternalIdentifierTypeCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "subject.identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdExternalIdentifierTypeCode"
+            }
+           ]
+          },
+          {
+           "context": "ObservationTarget",
+           "element": "subject.identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid2ToIdentificationIdentifier0AssigningAuthority",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-2[0]-4",
+           "variable": "assigningAuthority",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "namespaceIDToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-2[0]-4-1",
+             "variable": "assigningAuthorityIdNamespaceID",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ObservationTarget",
+             "element": "subject.identifier[=].assigner.display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdNamespaceID"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "universalIDToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-2[0]-4-2",
+             "variable": "assigningAuthorityIdUniversalID",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ObservationTarget",
+             "element": "subject.identifier[=].assigner.identifier.value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdUniversalID"
+              }
+             ]
+            },
+            {
+             "context": "ObservationTarget",
+             "element": "subject.identifier[=].system",
+             "transform": "append",
+             "parameter": [
+              {
+               "valueString": "http://example.org/fhir/labasystem/"
+              },
+              {
+               "valueId": "assigningAuthorityIdUniversalID"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "universalIDTypeToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-2[0]-4-3",
+             "variable": "assigningAuthorityIdUniversalIDType",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ObservationTarget",
+             "element": "subject.identifier[=].assigner.identifier.type.coding[+].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+              }
+             ]
+            },
+            {
+             "context": "ObservationTarget",
+             "element": "subject.identifier[=].assigner.identifier.type.coding[=].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdUniversalIDType"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "pid3ToPatientIdentifier0",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "PID-3[0]",
+         "variable": "patientIdInternal",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "pid3ToIdentificationIdentifier0Value",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3[0]-1",
+           "variable": "patientIdInternalValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "subject.identifier[+].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalValue"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid3ToIdentificationIdentifier0Extension0",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3[0]-2",
+           "variable": "patientIdInternalExtension0",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "subject.identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/identifier-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "ObservationTarget",
+           "element": "subject.identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalExtension0"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid3ToIdentificationIdentifier0Extension1",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3[0]-3",
+           "variable": "patientIdInternalExtension1",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "subject.identifier[=].extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/namingsystem-checkDigit"
+            }
+           ]
+          },
+          {
+           "context": "ObservationTarget",
+           "element": "subject.identifier[=].extension[=].value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalExtension1"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid3ToIdentificationIdentifier0IdentifierTypeCode",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3[0]-5",
+           "variable": "patientIdInternalIdentifierTypeCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "subject.identifier[=].type.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "patientIdInternalIdentifierTypeCode"
+            }
+           ]
+          },
+          {
+           "context": "ObservationTarget",
+           "element": "subject.identifier[=].type.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/v2-0203"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "pid3ToIdentificationIdentifier0AssigningAuthority",
+         "source": [
+          {
+           "context": "source",
+           "type": "string",
+           "element": "PID-3[0]-4",
+           "variable": "assigningAuthority",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "namespaceIDToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-3[0]-4-1",
+             "variable": "assigningAuthorityIdNamespaceID",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ObservationTarget",
+             "element": "subject.identifier[=].assigner.display",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdNamespaceID"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "universalIDToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-3[0]-4-2",
+             "variable": "assigningAuthorityIdUniversalID",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ObservationTarget",
+             "element": "subject.identifier[=].assigner.identifier.value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdUniversalID"
+              }
+             ]
+            },
+            {
+             "context": "ObservationTarget",
+             "element": "subject.identifier[=].system",
+             "transform": "append",
+             "parameter": [
+              {
+               "valueString": "http://example.org/fhir/labasystem/"
+              },
+              {
+               "valueId": "assigningAuthorityIdUniversalID"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "universalIDTypeToIdentifier",
+           "source": [
+            {
+             "context": "source",
+             "type": "string",
+             "element": "PID-3[0]-4-3",
+             "variable": "assigningAuthorityIdUniversalIDType",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ObservationTarget",
+             "element": "subject.identifier[=].assigner.identifier.type.coding[+].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0301"
+              }
+             ]
+            },
+            {
+             "context": "ObservationTarget",
+             "element": "subject.identifier[=].assigner.identifier.type.coding[=].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "assigningAuthorityIdUniversalIDType"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obx3ToObservationCode",
+       "source": [
+        {
+         "context": "obs",
+         "type": "string",
+         "element": "OBX-3",
+         "variable": "observationCode",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obx131",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-3-1",
+           "variable": "obs3Identifier",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "obx131Translate",
+           "source": [
+            {
+             "context": "obs",
+             "type": "string",
+             "element": "OBX-3-1",
+             "variable": "obs3Identifier",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ObservationTarget",
+             "element": "code.coding[+].code",
+             "transform": "translate",
+             "parameter": [
+              {
+               "valueId": "obs3Identifier"
+              },
+              {
+               "valueString": "#CM-LabA-blood-LabToLoinc"
+              },
+              {
+               "valueString": "code"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obx131Translate",
+           "source": [
+            {
+             "context": "obs",
+             "type": "string",
+             "element": "OBX-3-1",
+             "variable": "obs3Identifier",
+             "condition": "$this.exists() and %ObservationTarget.code.coding.code.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ObservationTarget",
+             "element": "code.coding[=].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://loinc.org"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx132",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-3-2",
+           "variable": "obs3Text",
+           "condition": "$this.exists() and %ObservationTarget.code.coding.code.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "code.coding[=].display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "obs3Text"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx131NoTranslate",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-3-1",
+           "variable": "obs3Identifier",
+           "condition": "$this.exists() and %ObservationTarget.code.coding.code.exists().not()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "code.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "obs3Identifier"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx132NoTranslate",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-3-2",
+           "variable": "obs3Text",
+           "condition": "$this.exists() and %ObservationTarget.code.coding.display.exists().not()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "code.coding[=].display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "obs3Text"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx133NoTranslate",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-3-3",
+           "variable": "obs3System",
+           "condition": "$this.exists() and $this = 'L' and %ObservationTarget.code.coding.system.exists().not()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "code.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx133NoTranslate",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-3-3",
+           "variable": "obs3System",
+           "condition": "$this.exists() and $this != 'L' and %ObservationTarget.code.coding.system.exists().not()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "code.coding[=].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "obs3System"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx134",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-3-4",
+           "variable": "obs3AlternateIdentifier",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "code.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "obs3AlternateIdentifier"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx135",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-3-5",
+           "variable": "obs3AlternateText",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "code.coding[=].display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "obs3AlternateText"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx136",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-3-6",
+           "variable": "obs3AlternateSystem",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "code.coding[=].system",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "obs3AlternateSystem"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obx4ToObservationSubId",
+       "source": [
+        {
+         "context": "obs",
+         "type": "string",
+         "element": "OBX-4",
+         "variable": "subId",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "ObservationTarget",
+         "element": "extension[+].url",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "https://hl7.org/fhir/extensions/StructureDefinition-observation-v2-subid"
+          }
+         ]
+        },
+        {
+         "context": "ObservationTarget",
+         "element": "extension[=].value",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "subId"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obx2ToValueType",
+       "source": [
+        {
+         "context": "obs",
+         "type": "string",
+         "element": "OBX-2",
+         "variable": "obx2type",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obx5ToValue",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-5",
+           "variable": "obsValue",
+           "condition": "$this.exists()"
+          }
+         ],
+         "rule": [
+          {
+           "name": "obx5ToValueQuantity",
+           "source": [
+            {
+             "context": "obs",
+             "type": "string",
+             "element": "OBX-5",
+             "variable": "valueQuantity",
+             "condition": "%obx2type = 'NM' and $this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ObservationTarget",
+             "element": "value",
+             "variable": "obsValueQuantity",
+             "transform": "create",
+             "parameter": [
+              {
+               "valueString": "Quantity"
+              }
+             ]
+            },
+            {
+             "context": "obsValueQuantity",
+             "element": "value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "valueQuantity"
+              }
+             ]
+            },
+            {
+             "context": "obsValueQuantity",
+             "element": "system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://unitsofmeasure.org"
+              }
+             ]
+            }
+           ],
+           "rule": [
+            {
+             "name": "obx6ToUnit",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-6",
+               "variable": "obx6Unit",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueQuantity",
+               "element": "unit",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "obx6Unit"
+                }
+               ]
+              },
+              {
+               "context": "obsValueQuantity",
+               "element": "code.extension.url",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueString": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                }
+               ]
+              },
+              {
+               "context": "obsValueQuantity",
+               "element": "code.extension.value",
+               "variable": "codeExtcode",
+               "transform": "create",
+               "parameter": [
+                {
+                 "valueString": "code"
+                }
+               ]
+              },
+              {
+               "context": "codeExtcode",
+               "element": "value",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueString": "unsupported"
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obx5ToValueString",
+           "source": [
+            {
+             "context": "obs",
+             "type": "string",
+             "element": "OBX-5",
+             "variable": "valueString",
+             "condition": "(%obx2type = 'ST' or %obx2type = 'FT' or %obx2type = 'TX') and $this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ObservationTarget",
+             "element": "value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "valueString"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obx5ToValueCodeableConcept",
+           "source": [
+            {
+             "context": "obs",
+             "type": "string",
+             "element": "OBX-5",
+             "variable": "valueCodeableConcept",
+             "condition": "(%obx2type = 'CF' or %obx2type = 'CNE' or %obx2type = 'CE' or %obx2type = 'CWE' or %obx2type = 'IS') and $this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ObservationTarget",
+             "element": "value",
+             "variable": "obsValueCodeableConcept",
+             "transform": "create",
+             "parameter": [
+              {
+               "valueString": "CodeableConcept"
+              }
+             ]
+            }
+           ],
+           "rule": [
+            {
+             "name": "obx51",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-1",
+               "variable": "obx51",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueCodeableConcept",
+               "element": "coding[+].code",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "obx51"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obx52",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-2",
+               "variable": "obx52",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueCodeableConcept",
+               "element": "coding[=].display",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "obx52"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obx53",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-3",
+               "variable": "obx53",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueCodeableConcept",
+               "element": "coding[=].system",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "obx53"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obx57",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-7",
+               "variable": "obx57",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueCodeableConcept",
+               "element": "coding[=].version",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "obx57"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obx54",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-4",
+               "variable": "obx54",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueCodeableConcept",
+               "element": "coding[+].code",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "obx54"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obx55",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-5",
+               "variable": "obx55",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueCodeableConcept",
+               "element": "coding[=].display",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "obx55"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obx56",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-6",
+               "variable": "obx56",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueCodeableConcept",
+               "element": "coding[=].system",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "obx56"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obx58",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-8",
+               "variable": "obx58",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueCodeableConcept",
+               "element": "coding[=].version",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "obx58"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obx59",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-9",
+               "variable": "obx59",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueCodeableConcept",
+               "element": "text",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "obx59"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obx510",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-10",
+               "variable": "obx510",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueCodeableConcept",
+               "element": "coding[+].code",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "obx510"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obx511",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-11",
+               "variable": "obx511",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueCodeableConcept",
+               "element": "coding[=].display",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "obx511"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obx512",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-12",
+               "variable": "obx512",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueCodeableConcept",
+               "element": "coding[=].system",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "obx512"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obx513",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-13",
+               "variable": "obx513",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueCodeableConcept",
+               "element": "coding[=].version",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "obx513"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obx5",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5",
+               "variable": "obx5",
+               "condition": "$this.exists() and %obx2type = 'IS'"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueCodeableConcept",
+               "element": "coding[+].code",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "obx5"
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obx5ToValuePeriod",
+           "source": [
+            {
+             "context": "obs",
+             "type": "string",
+             "element": "OBX-5",
+             "variable": "valuePeriod",
+             "condition": "%obx2type = 'DR' and $this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ObservationTarget",
+             "element": "value",
+             "variable": "obsValuePeriod",
+             "transform": "create",
+             "parameter": [
+              {
+               "valueString": "Period"
+              }
+             ]
+            }
+           ],
+           "rule": [
+            {
+             "name": "obx5ToValuePeriodStart",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-1",
+               "variable": "obsValuePeriodStart",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValuePeriod",
+               "element": "start",
+               "transform": "dateOp",
+               "parameter": [
+                {
+                 "valueId": "obsValuePeriodStart"
+                },
+                {
+                 "valueString": "yyyyMMdd"
+                },
+                {
+                 "valueString": "yyyy-MM-dd"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obx5ToValuePeriodEnd",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-2",
+               "variable": "obsValuePeriodEnd",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValuePeriod",
+               "element": "end",
+               "transform": "dateOp",
+               "parameter": [
+                {
+                 "valueId": "obsValuePeriodEnd"
+                },
+                {
+                 "valueString": "yyyyMMdd"
+                },
+                {
+                 "valueString": "yyyy-MM-dd"
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obx5ToValueDateTime",
+           "source": [
+            {
+             "context": "obs",
+             "type": "string",
+             "element": "OBX-5",
+             "variable": "obsValueDateTime",
+             "condition": "(%obx2type = 'DTM' or %obx2type = 'DT') and $this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ObservationTarget",
+             "element": "value",
+             "transform": "dateOp",
+             "parameter": [
+              {
+               "valueId": "obsValueDateTime"
+              },
+              {
+               "valueString": "yyyyMMddHHmmss"
+              },
+              {
+               "valueString": "yyyy-MM-dd'T'HH:mm:ssXXX"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obx5ToValueRange",
+           "source": [
+            {
+             "context": "obs",
+             "type": "string",
+             "element": "OBX-5",
+             "variable": "valueRange",
+             "condition": "%obx2type = 'NR' and $this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ObservationTarget",
+             "element": "value",
+             "variable": "obsValueRange",
+             "transform": "create",
+             "parameter": [
+              {
+               "valueString": "Range"
+              }
+             ]
+            }
+           ],
+           "rule": [
+            {
+             "name": "obx5ToValueRangeLow",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-1",
+               "variable": "valueRangeLow",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueRange",
+               "element": "low",
+               "variable": "obsValueRangeLowQuantity",
+               "transform": "create",
+               "parameter": [
+                {
+                 "valueString": "SimpleQuantity"
+                }
+               ]
+              },
+              {
+               "context": "obsValueRangeLowQuantity",
+               "element": "value",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "valueRangeLow"
+                }
+               ]
+              }
+             ],
+             "rule": [
+              {
+               "name": "obx6ToUnitLow",
+               "source": [
+                {
+                 "context": "obs",
+                 "type": "string",
+                 "element": "OBX-6",
+                 "variable": "obx6UnitLow",
+                 "condition": "$this.exists()"
+                }
+               ],
+               "target": [
+                {
+                 "context": "obsValueRangeLowQuantity",
+                 "element": "unit",
+                 "transform": "copy",
+                 "parameter": [
+                  {
+                   "valueId": "obx6UnitLow"
+                  }
+                 ]
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obx5ToValueRangeHigh",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-2",
+               "variable": "valueRangeHigh",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueRange",
+               "element": "high",
+               "variable": "obsValueRangeHighQuantity",
+               "transform": "create",
+               "parameter": [
+                {
+                 "valueString": "SimpleQuantity"
+                }
+               ]
+              },
+              {
+               "context": "obsValueRangeHighQuantity",
+               "element": "value",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "valueRangeHigh"
+                }
+               ]
+              }
+             ],
+             "rule": [
+              {
+               "name": "obx6ToUnitHigh",
+               "source": [
+                {
+                 "context": "obs",
+                 "type": "string",
+                 "element": "OBX-6",
+                 "variable": "obx6UnitHigh",
+                 "condition": "$this.exists()"
+                }
+               ],
+               "target": [
+                {
+                 "context": "obsValueRangeHighQuantity",
+                 "element": "unit",
+                 "transform": "copy",
+                 "parameter": [
+                  {
+                   "valueId": "obx6UnitHigh"
+                  }
+                 ]
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obx5ToValueString",
+           "source": [
+            {
+             "context": "obs",
+             "type": "string",
+             "element": "OBX-5",
+             "variable": "valueString",
+             "condition": "(%obx2type = 'VR') and $this.exists()"
+            }
+           ],
+           "rule": [
+            {
+             "name": "appendVR",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-1",
+               "variable": "valueStringVR1"
+              }
+             ],
+             "rule": [
+              {
+               "name": "appendVR2",
+               "source": [
+                {
+                 "context": "obs",
+                 "type": "string",
+                 "element": "OBX-5-2",
+                 "variable": "valueStringVR2"
+                }
+               ],
+               "target": [
+                {
+                 "context": "ObservationTarget",
+                 "element": "value",
+                 "transform": "append",
+                 "parameter": [
+                  {
+                   "valueId": "valueStringVR1"
+                  },
+                  {
+                   "valueString": "-"
+                  },
+                  {
+                   "valueId": "valueStringVR2"
+                  }
+                 ]
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obx5ToValueTime",
+           "source": [
+            {
+             "context": "obs",
+             "type": "string",
+             "element": "OBX-5",
+             "variable": "obsValueTime",
+             "condition": "%obx2type = 'TM' and $this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ObservationTarget",
+             "element": "value",
+             "transform": "dateOp",
+             "parameter": [
+              {
+               "valueId": "obsValueTime"
+              },
+              {
+               "valueString": "HHmmss"
+              },
+              {
+               "valueString": "HH:mm:ss"
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "extractOBX51",
+           "source": [
+            {
+             "context": "obs",
+             "type": "string",
+             "element": "OBX-5-1",
+             "variable": "obx51"
+            }
+           ],
+           "rule": [
+            {
+             "name": "extractOBX52",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-2",
+               "variable": "obx52"
+              }
+             ],
+             "rule": [
+              {
+               "name": "extractOBX53",
+               "source": [
+                {
+                 "context": "obs",
+                 "type": "string",
+                 "element": "OBX-5-3",
+                 "variable": "obx53"
+                }
+               ],
+               "rule": [
+                {
+                 "name": "extractOBX54",
+                 "source": [
+                  {
+                   "context": "obs",
+                   "type": "string",
+                   "element": "OBX-5-4",
+                   "variable": "obx54"
+                  }
+                 ],
+                 "rule": [
+                  {
+                   "name": "appendSNUnit",
+                   "source": [
+                    {
+                     "context": "obs",
+                     "type": "string",
+                     "element": "OBX-6",
+                     "variable": "snUnit"
+                    }
+                   ],
+                   "rule": [
+                    {
+                     "name": "obx5ToValueStringSN",
+                     "source": [
+                      {
+                       "context": "obs",
+                       "type": "string",
+                       "element": "OBX-5",
+                       "variable": "valueString",
+                       "condition": "$this.exists() and %obx2type = 'SN' and (%obx51 = '<>' or (%obx53 = '+' and %obx51 != '<>'))"
+                      }
+                     ],
+                     "target": [
+                      {
+                       "context": "ObservationTarget",
+                       "element": "value",
+                       "transform": "append",
+                       "parameter": [
+                        {
+                         "valueId": "obx51"
+                        },
+                        {
+                         "valueId": "obx52"
+                        },
+                        {
+                         "valueId": "obx53"
+                        },
+                        {
+                         "valueId": "obx54"
+                        },
+                        {
+                         "valueId": "snUnit"
+                        }
+                       ]
+                      }
+                     ]
+                    },
+                    {
+                     "name": "obx5ToValueRatioSN",
+                     "source": [
+                      {
+                       "context": "obs",
+                       "type": "string",
+                       "element": "OBX-5",
+                       "variable": "valueRatio",
+                       "condition": "(%obx2type = 'SN' and %obx51 != '<>' and (%obx53 = ':' or %obx53 = '/')) and $this.exists()"
+                      }
+                     ],
+                     "target": [
+                      {
+                       "context": "ObservationTarget",
+                       "element": "value",
+                       "variable": "obsValueRatio",
+                       "transform": "create",
+                       "parameter": [
+                        {
+                         "valueString": "Ratio"
+                        }
+                       ]
+                      }
+                     ],
+                     "rule": [
+                      {
+                       "name": "valueRatio",
+                       "source": [
+                        {
+                         "context": "obs",
+                         "type": "string",
+                         "element": "OBX-5",
+                         "variable": "valueRatioFull"
+                        }
+                       ],
+                       "target": [
+                        {
+                         "context": "obsValueRatio",
+                         "element": "numerator.value",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueId": "obx52"
+                          }
+                         ]
+                        },
+                        {
+                         "context": "obsValueRatio",
+                         "element": "numerator.system",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueString": "http://unitsofmeasure.org"
+                          }
+                         ]
+                        },
+                        {
+                         "context": "obsValueRatio",
+                         "element": "numerator.code",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueId": "snUnit"
+                          }
+                         ]
+                        },
+                        {
+                         "context": "obsValueRatio",
+                         "element": "denominator.value",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueId": "obx54"
+                          }
+                         ]
+                        },
+                        {
+                         "context": "obsValueRatio",
+                         "element": "denominator.system",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueString": "http://unitsofmeasure.org"
+                          }
+                         ]
+                        },
+                        {
+                         "context": "obsValueRatio",
+                         "element": "denominator.code",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueId": "snUnit"
+                          }
+                         ]
+                        }
+                       ]
+                      },
+                      {
+                       "name": "appendSN1",
+                       "source": [
+                        {
+                         "context": "obs",
+                         "type": "string",
+                         "element": "OBX-5-1",
+                         "variable": "obx51",
+                         "condition": "%obx51 != '='"
+                        }
+                       ],
+                       "target": [
+                        {
+                         "context": "obsValueRatio",
+                         "element": "numerator.comparator",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueId": "obx51"
+                          }
+                         ]
+                        }
+                       ]
+                      },
+                      {
+                       "name": "appendExtension",
+                       "source": [
+                        {
+                         "context": "obs",
+                         "type": "string",
+                         "element": "OBX-5",
+                         "variable": "valueRatio",
+                         "condition": "(%obx53 != '' or %obx54 != '') and $this.exists()"
+                        }
+                       ],
+                       "target": [
+                        {
+                         "context": "obsValueRatio",
+                         "element": "extension[+].value",
+                         "transform": "append",
+                         "parameter": [
+                          {
+                           "valueId": "obx51"
+                          },
+                          {
+                           "valueId": "obx52"
+                          },
+                          {
+                           "valueId": "obx53"
+                          },
+                          {
+                           "valueId": "obx54"
+                          }
+                         ]
+                        },
+                        {
+                         "context": "obsValueRatio",
+                         "element": "extension[=].url",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueString": "http://hl7.org/fhir/StructureDefinition/originalText"
+                          }
+                         ]
+                        }
+                       ]
+                      }
+                     ]
+                    },
+                    {
+                     "name": "obx5ToValueRangeSN",
+                     "source": [
+                      {
+                       "context": "obs",
+                       "type": "string",
+                       "element": "OBX-5",
+                       "variable": "valueRange",
+                       "condition": "(%obx2type = 'SN' and %obx51 != '<>' and %obx53 = '-') and $this.exists()"
+                      }
+                     ],
+                     "target": [
+                      {
+                       "context": "ObservationTarget",
+                       "element": "value",
+                       "variable": "obsValueRange",
+                       "transform": "create",
+                       "parameter": [
+                        {
+                         "valueString": "Range"
+                        }
+                       ]
+                      }
+                     ],
+                     "rule": [
+                      {
+                       "name": "valueRange",
+                       "source": [
+                        {
+                         "context": "obs",
+                         "type": "string",
+                         "element": "OBX-5",
+                         "variable": "valueRangeFull"
+                        }
+                       ],
+                       "target": [
+                        {
+                         "context": "obsValueRange",
+                         "element": "low.value",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueId": "obx52"
+                          }
+                         ]
+                        },
+                        {
+                         "context": "obsValueRange",
+                         "element": "low.system",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueString": "http://unitsofmeasure.org"
+                          }
+                         ]
+                        },
+                        {
+                         "context": "obsValueRange",
+                         "element": "low.code",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueId": "snUnit"
+                          }
+                         ]
+                        },
+                        {
+                         "context": "obsValueRange",
+                         "element": "high.value",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueId": "obx54"
+                          }
+                         ]
+                        },
+                        {
+                         "context": "obsValueRange",
+                         "element": "high.system",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueString": "http://unitsofmeasure.org"
+                          }
+                         ]
+                        },
+                        {
+                         "context": "obsValueRange",
+                         "element": "high.code",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueId": "snUnit"
+                          }
+                         ]
+                        }
+                       ]
+                      },
+                      {
+                       "name": "appendExtension",
+                       "source": [
+                        {
+                         "context": "obs",
+                         "type": "string",
+                         "element": "OBX-5",
+                         "variable": "valueRange",
+                         "condition": "(%obx51 != '' or %obx53 != '') and $this.exists()"
+                        }
+                       ],
+                       "target": [
+                        {
+                         "context": "obsValueRange",
+                         "element": "extension[+].value",
+                         "transform": "append",
+                         "parameter": [
+                          {
+                           "valueId": "obx51"
+                          },
+                          {
+                           "valueId": "obx52"
+                          },
+                          {
+                           "valueId": "obx53"
+                          },
+                          {
+                           "valueId": "obx54"
+                          }
+                         ]
+                        },
+                        {
+                         "context": "obsValueRange",
+                         "element": "extension[=].url",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueString": "http://hl7.org/fhir/StructureDefinition/originalText"
+                          }
+                         ]
+                        }
+                       ]
+                      }
+                     ]
+                    },
+                    {
+                     "name": "obx5ToValueQuantitySN",
+                     "source": [
+                      {
+                       "context": "obs",
+                       "type": "string",
+                       "element": "OBX-5",
+                       "variable": "valueQuantity",
+                       "condition": "(%obx2type = 'SN' and %obx51 != '<>' and (%obx53 != ':' and %obx53 != '/' and %obx53 != '-' and %obx53 != '+')) and $this.exists()"
+                      }
+                     ],
+                     "target": [
+                      {
+                       "context": "ObservationTarget",
+                       "element": "value",
+                       "variable": "obsValueQuantity",
+                       "transform": "create",
+                       "parameter": [
+                        {
+                         "valueString": "Quantity"
+                        }
+                       ]
+                      }
+                     ],
+                     "rule": [
+                      {
+                       "name": "valueQuantity",
+                       "source": [
+                        {
+                         "context": "obs",
+                         "type": "string",
+                         "element": "OBX-5",
+                         "variable": "valueQuantityFull"
+                        }
+                       ],
+                       "target": [
+                        {
+                         "context": "obsValueQuantity",
+                         "element": "comparator.value",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueId": "obx51"
+                          }
+                         ]
+                        },
+                        {
+                         "context": "obsValueQuantity",
+                         "element": "value",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueId": "obx52"
+                          }
+                         ]
+                        },
+                        {
+                         "context": "obsValueQuantity",
+                         "element": "system",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueString": "http://unitsofmeasure.org"
+                          }
+                         ]
+                        },
+                        {
+                         "context": "obsValueQuantity",
+                         "element": "code",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueId": "snUnit"
+                          }
+                         ]
+                        }
+                       ]
+                      },
+                      {
+                       "name": "appendExtension",
+                       "source": [
+                        {
+                         "context": "obs",
+                         "type": "string",
+                         "element": "OBX-5",
+                         "variable": "valueQuantity",
+                         "condition": "(%obx53 != '' or %obx54 != '') and $this.exists()"
+                        }
+                       ],
+                       "target": [
+                        {
+                         "context": "obsValueQuantity",
+                         "element": "extension[+].value",
+                         "transform": "append",
+                         "parameter": [
+                          {
+                           "valueId": "obx51"
+                          },
+                          {
+                           "valueId": "obx52"
+                          },
+                          {
+                           "valueId": "obx53"
+                          },
+                          {
+                           "valueId": "obx54"
+                          }
+                         ]
+                        },
+                        {
+                         "context": "obsValueQuantity",
+                         "element": "extension[=].url",
+                         "transform": "copy",
+                         "parameter": [
+                          {
+                           "valueString": "http://hl7.org/fhir/StructureDefinition/originalText"
+                          }
+                         ]
+                        }
+                       ]
+                      }
+                     ]
+                    },
+                    {
+                     "name": "obx5ToValueStringSN",
+                     "source": [
+                      {
+                       "context": "obs",
+                       "type": "string",
+                       "element": "OBX-5",
+                       "variable": "valueString",
+                       "condition": "(%obx2type = 'SN' and %ObservationTarget.value.exists().not()) and $this.exists()"
+                      }
+                     ],
+                     "target": [
+                      {
+                       "context": "ObservationTarget",
+                       "element": "value",
+                       "transform": "append",
+                       "parameter": [
+                        {
+                         "valueId": "obx51"
+                        },
+                        {
+                         "valueId": "obx52"
+                        },
+                        {
+                         "valueId": "obx53"
+                        },
+                        {
+                         "valueId": "obx54"
+                        },
+                        {
+                         "valueId": "snUnit"
+                        }
+                       ]
+                      }
+                     ]
+                    }
+                   ]
+                  }
+                 ]
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obx5ToValueSampledDataNA",
+           "source": [
+            {
+             "context": "obs",
+             "type": "string",
+             "element": "OBX-5",
+             "variable": "valueSampledData",
+             "condition": "(%obx2type = 'NA' and $this.exists())"
+            }
+           ],
+           "target": [
+            {
+             "context": "ObservationTarget",
+             "element": "value",
+             "variable": "obsValueSampledData",
+             "transform": "create",
+             "parameter": [
+              {
+               "valueString": "SampledData"
+              }
+             ]
+            }
+           ],
+           "rule": [
+            {
+             "name": "obx5",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5",
+               "variable": "obx5",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueSampledData",
+               "element": "data",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "obx5"
+                }
+               ]
+              },
+              {
+               "context": "obsValueSampledData",
+               "element": "dimensions",
+               "transform": "cast",
+               "parameter": [
+                {
+                 "valueString": "1"
+                },
+                {
+                 "valueString": "positiveInt"
+                }
+               ]
+              },
+              {
+               "context": "ObservationTarget",
+               "element": "dataAbsentReason.coding[+].system",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueString": "http://terminology.hl7.org/CodeSystem/data-absent-reason"
+                }
+               ]
+              },
+              {
+               "context": "ObservationTarget",
+               "element": "dataAbsentReason.coding[=].code",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueString": "not-asked"
+                }
+               ]
+              }
+             ],
+             "rule": [
+              {
+               "name": "obx6ToUnit",
+               "source": [
+                {
+                 "context": "obs",
+                 "type": "string",
+                 "element": "OBX-6",
+                 "variable": "obx6Unit"
+                }
+               ],
+               "target": [
+                {
+                 "context": "obsValueSampledData",
+                 "element": "origin.unit",
+                 "transform": "copy",
+                 "parameter": [
+                  {
+                   "valueId": "obx6Unit"
+                  }
+                 ]
+                }
+               ],
+               "rule": [
+                {
+                 "name": "obx51",
+                 "source": [
+                  {
+                   "context": "obs",
+                   "type": "string",
+                   "element": "OBX-5-1",
+                   "variable": "obx51",
+                   "condition": "$this.exists()"
+                  }
+                 ],
+                 "target": [
+                  {
+                   "context": "obsValueSampledData",
+                   "element": "data",
+                   "transform": "copy",
+                   "parameter": [
+                    {
+                     "valueId": "obx51"
+                    }
+                   ]
+                  }
+                 ],
+                 "rule": [
+                  {
+                   "name": "obx52",
+                   "source": [
+                    {
+                     "context": "obs",
+                     "type": "string",
+                     "element": "OBX-5-2",
+                     "variable": "obx52",
+                     "condition": "$this.exists()"
+                    }
+                   ],
+                   "target": [
+                    {
+                     "context": "obsValueSampledData",
+                     "element": "data",
+                     "transform": "append",
+                     "parameter": [
+                      {
+                       "valueId": "obx51"
+                      },
+                      {
+                       "valueString": "^"
+                      },
+                      {
+                       "valueId": "obx52"
+                      }
+                     ]
+                    }
+                   ],
+                   "rule": [
+                    {
+                     "name": "obx53",
+                     "source": [
+                      {
+                       "context": "obs",
+                       "type": "string",
+                       "element": "OBX-5-3",
+                       "variable": "obx53",
+                       "condition": "$this.exists()"
+                      }
+                     ],
+                     "target": [
+                      {
+                       "context": "obsValueSampledData",
+                       "element": "data",
+                       "transform": "append",
+                       "parameter": [
+                        {
+                         "valueId": "obx51"
+                        },
+                        {
+                         "valueString": "^"
+                        },
+                        {
+                         "valueId": "obx52"
+                        },
+                        {
+                         "valueString": "^"
+                        },
+                        {
+                         "valueId": "obx53"
+                        }
+                       ]
+                      }
+                     ],
+                     "rule": [
+                      {
+                       "name": "obx54",
+                       "source": [
+                        {
+                         "context": "obs",
+                         "type": "string",
+                         "element": "OBX-5-4",
+                         "variable": "obx54",
+                         "condition": "$this.exists()"
+                        }
+                       ],
+                       "target": [
+                        {
+                         "context": "obsValueSampledData",
+                         "element": "data",
+                         "transform": "append",
+                         "parameter": [
+                          {
+                           "valueId": "obx51"
+                          },
+                          {
+                           "valueString": "^"
+                          },
+                          {
+                           "valueId": "obx52"
+                          },
+                          {
+                           "valueString": "^"
+                          },
+                          {
+                           "valueId": "obx53"
+                          },
+                          {
+                           "valueString": "^"
+                          },
+                          {
+                           "valueId": "obx54"
+                          }
+                         ]
+                        }
+                       ]
+                      }
+                     ]
+                    }
+                   ]
+                  }
+                 ]
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obx5ToExtension",
+           "source": [
+            {
+             "context": "obs",
+             "type": "string",
+             "element": "OBX-5",
+             "variable": "valueAttachment",
+             "condition": "(%obx2type = 'ED') and $this.exists()"
+            }
+           ],
+           "rule": [
+            {
+             "name": "obx54",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-4",
+               "variable": "obx54",
+               "condition": "$this = 'Base64'"
+              }
+             ],
+             "target": [
+              {
+               "context": "ObservationTarget",
+               "element": "extension[+].url",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueString": "https://hl7.org/fhir/5.0/StructureDefinition/extension-Observation.valueAttachment"
+                }
+               ]
+              },
+              {
+               "context": "ObservationTarget",
+               "element": "extension[=].value",
+               "variable": "obsValueAttachment",
+               "transform": "create",
+               "parameter": [
+                {
+                 "valueString": "Attachment"
+                }
+               ]
+              }
+             ],
+             "rule": [
+              {
+               "name": "obx53",
+               "source": [
+                {
+                 "context": "obs",
+                 "type": "string",
+                 "element": "OBX-5-3",
+                 "variable": "obx53",
+                 "condition": "$this.exists()"
+                }
+               ],
+               "target": [
+                {
+                 "context": "obsValueAttachment",
+                 "element": "contentType",
+                 "transform": "copy",
+                 "parameter": [
+                  {
+                   "valueId": "obx53"
+                  }
+                 ]
+                }
+               ]
+              },
+              {
+               "name": "obx55",
+               "source": [
+                {
+                 "context": "obs",
+                 "type": "string",
+                 "element": "OBX-5-5",
+                 "variable": "obx55",
+                 "condition": "$this.exists()"
+                }
+               ],
+               "target": [
+                {
+                 "context": "obsValueAttachment",
+                 "element": "data",
+                 "transform": "cast",
+                 "parameter": [
+                  {
+                   "valueId": "obx55"
+                  },
+                  {
+                   "valueString": "base64Binary"
+                  }
+                 ]
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obx5ToExtension",
+           "source": [
+            {
+             "context": "obs",
+             "type": "string",
+             "element": "OBX-5",
+             "variable": "valueAttachment",
+             "condition": "(%obx2type = 'RP') and $this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ObservationTarget",
+             "element": "extension[+].url",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "https://hl7.org/fhir/5.0/StructureDefinition/extension-Observation.valueAttachment"
+              }
+             ]
+            },
+            {
+             "context": "ObservationTarget",
+             "element": "extension[=].value",
+             "variable": "obsValueAttachment",
+             "transform": "create",
+             "parameter": [
+              {
+               "valueString": "Attachment"
+              }
+             ]
+            }
+           ],
+           "rule": [
+            {
+             "name": "obx53",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-3",
+               "variable": "obx53",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueAttachment",
+               "element": "contentType",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "obx53"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obx55",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-5",
+               "variable": "obx55",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueAttachment",
+               "element": "data",
+               "transform": "cast",
+               "parameter": [
+                {
+                 "valueId": "obx55"
+                },
+                {
+                 "valueString": "base64Binary"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obx52",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-2",
+               "variable": "obx52",
+               "condition": "$this.exists() and %obsValueAttachment.contentType.exists().not()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsValueAttachment",
+               "element": "extension[+].url",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueString": "https://hl7.org/fhir/StructureDefinition/alternate-codes"
+                }
+               ]
+              },
+              {
+               "context": "obsValueAttachment",
+               "element": "extension[=].value",
+               "variable": "attachmentCodeableConcept",
+               "transform": "create",
+               "parameter": [
+                {
+                 "valueString": "CodeableConcept"
+                }
+               ]
+              }
+             ],
+             "rule": [
+              {
+               "name": "obx52Coding",
+               "source": [
+                {
+                 "context": "obs",
+                 "type": "string",
+                 "element": "OBX-5-2",
+                 "variable": "obx52",
+                 "condition": "$this.exists()"
+                }
+               ],
+               "target": [
+                {
+                 "context": "attachmentCodeableConcept",
+                 "element": "text",
+                 "transform": "copy",
+                 "parameter": [
+                  {
+                   "valueId": "obx52"
+                  }
+                 ]
+                }
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          {
+           "name": "obx5ToValueFIC",
+           "source": [
+            {
+             "context": "obs",
+             "type": "string",
+             "element": "OBX-5",
+             "variable": "file",
+             "condition": "(%obx2type = 'FIC') and $this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "ObservationTarget",
+             "element": "component[+].extension[+].url",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://hl7.org/fhir/5.0/StructureDefinition/extension-Observation.value[x]"
+              }
+             ]
+            },
+            {
+             "context": "ObservationTarget",
+             "element": "component[=].extension[=].value",
+             "variable": "obsCompValueAttachment",
+             "transform": "create",
+             "parameter": [
+              {
+               "valueString": "Attachment"
+              }
+             ]
+            },
+            {
+             "context": "ObservationTarget",
+             "element": "status",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "final"
+              }
+             ]
+            },
+            {
+             "context": "ObservationTarget",
+             "element": "code",
+             "transform": "cc",
+             "parameter": [
+              {
+               "valueString": "http://loinc.org"
+              },
+              {
+               "valueString": "11502-2"
+              }
+             ]
+            },
+            {
+             "context": "ObservationTarget",
+             "element": "performer.extension.url",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+              }
+             ]
+            },
+            {
+             "context": "ObservationTarget",
+             "element": "performer.extension.value",
+             "variable": "performerExtcode",
+             "transform": "create",
+             "parameter": [
+              {
+               "valueString": "code"
+              }
+             ]
+            },
+            {
+             "context": "performerExtcode",
+             "element": "value",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "unknown"
+              }
+             ]
+            }
+           ],
+           "rule": [
+            {
+             "name": "obx3ToDescription",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-3",
+               "variable": "fileDescription",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "ObservationTarget",
+               "element": "component[=].value",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "fileDescription"
+                }
+               ]
+              },
+              {
+               "context": "ObservationTarget",
+               "element": "component[=].code",
+               "transform": "cc",
+               "parameter": [
+                {
+                 "valueString": "http://loinc.org"
+                },
+                {
+                 "valueString": "11502-2"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obx52ToValue",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-2",
+               "variable": "fileName",
+               "condition": "$this.exists()"
+              }
+             ],
+             "target": [
+              {
+               "context": "obsCompValueAttachment",
+               "element": "title",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueId": "fileName"
+                }
+               ]
+              },
+              {
+               "context": "obsCompValueAttachment",
+               "element": "language",
+               "transform": "copy",
+               "parameter": [
+                {
+                 "valueString": "fr"
+                }
+               ]
+              }
+             ]
+            },
+            {
+             "name": "obx53ToFormat",
+             "source": [
+              {
+               "context": "obs",
+               "type": "string",
+               "element": "OBX-5-3",
+               "variable": "fileFormat",
+               "condition": "$this.exists()"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obxToObservationValueAbs",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-5",
+           "variable": "valueAbs",
+           "condition": "($this = ' ' or $this.exists().not()) and %ObservationTarget.value.exists().not()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "dataAbsentReason",
+           "transform": "cc",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/data-absent-reason"
+            },
+            {
+             "valueString": "unknown"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obx7ToObservationReferenceRange",
+       "source": [
+        {
+         "context": "obs",
+         "type": "string",
+         "element": "OBX-7",
+         "variable": "referenceRange",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "ObservationTarget",
+         "element": "referenceRange[+].text",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "referenceRange"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obx8ToObservationInterpretation0Coding",
+       "source": [
+        {
+         "context": "obs",
+         "type": "string",
+         "element": "OBX-8",
+         "variable": "interpretation",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "ObservationTarget",
+         "element": "interpretation[+].coding[+].code",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "interpretation"
+          }
+         ]
+        },
+        {
+         "context": "ObservationTarget",
+         "element": "interpretation[=].coding[=].system",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obx10ToObservationInterpretation1Coding",
+       "source": [
+        {
+         "context": "obs",
+         "type": "string",
+         "element": "OBX-10",
+         "variable": "natureOfAbnormalTest",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "ObservationTarget",
+         "element": "interpretation[+].coding[+].code",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueId": "natureOfAbnormalTest"
+          }
+         ]
+        },
+        {
+         "context": "ObservationTarget",
+         "element": "interpretation[=].coding[=].system",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://terminology.hl7.org/CodeSystem/v2-0080"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obx11ToObservationStatus",
+       "source": [
+        {
+         "context": "obs",
+         "type": "string",
+         "element": "OBX-11",
+         "variable": "observationStatus",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obx11Amended",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-11",
+           "variable": "status",
+           "condition": "$this.exists() and $this = 'A'"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "amended"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx11Corrected",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-11",
+           "variable": "status",
+           "condition": "$this.exists() and $this = 'C'"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "corrected"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx11Final",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-11",
+           "variable": "status",
+           "condition": "$this.exists() and $this = 'F'"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "final"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx11Preliminary",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-11",
+           "variable": "status",
+           "condition": "$this.exists() and $this = 'P'"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "preliminary"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx11Cancelled",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-11",
+           "variable": "status",
+           "condition": "$this.exists() and $this = 'X'"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "cancelled"
+            }
+           ]
+          },
+          {
+           "context": "ObservationTarget",
+           "element": "status.extension[+].url",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://hl7.org/fhir/StructureDefinition/alternate-codes"
+            }
+           ]
+          },
+          {
+           "context": "ObservationTarget",
+           "element": "status.extension[=].value",
+           "variable": "statusAltCodeableConcept",
+           "transform": "create",
+           "parameter": [
+            {
+             "valueString": "CodeableConcept"
+            }
+           ]
+          }
+         ],
+         "rule": [
+          {
+           "name": "obx11ExtensionValue",
+           "source": [
+            {
+             "context": "obs",
+             "type": "string",
+             "element": "OBX-11",
+             "variable": "status",
+             "condition": "$this.exists()"
+            }
+           ],
+           "target": [
+            {
+             "context": "statusAltCodeableConcept",
+             "element": "coding[+].code",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueId": "status"
+              }
+             ]
+            },
+            {
+             "context": "statusAltCodeableConcept",
+             "element": "coding[=].system",
+             "transform": "copy",
+             "parameter": [
+              {
+               "valueString": "http://terminology.hl7.org/CodeSystem/v2-0085"
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx11Error",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-11",
+           "variable": "status",
+           "condition": "$this.exists() and ($this = 'D' or $this = 'W')"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "status",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "entered-in-error"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx11Absent",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-11",
+           "variable": "status",
+           "condition": "$this.exists() and $this = 'N'"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "dataAbsentReason.coding[+].system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://terminology.hl7.org/CodeSystem/data-absent-reason"
+            }
+           ]
+          },
+          {
+           "context": "ObservationTarget",
+           "element": "dataAbsentReason.coding[=].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "not-asked"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obx14ToObservationEffectiveDateTime",
+       "source": [
+        {
+         "context": "obs",
+         "type": "string",
+         "element": "OBX-14",
+         "variable": "effectiveDateTime",
+         "condition": "$this.exists()"
+        }
+       ],
+       "target": [
+        {
+         "context": "ObservationTarget",
+         "element": "effective",
+         "transform": "dateOp",
+         "parameter": [
+          {
+           "valueId": "effectiveDateTime"
+          },
+          {
+           "valueString": "yyyyMMddHHmmss"
+          },
+          {
+           "valueString": "yyyy-MM-dd'T'HH:mm:ssXXX"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obx14ToObservationEffectiveAbs",
+       "source": [
+        {
+         "context": "obs",
+         "type": "string",
+         "element": "OBX",
+         "variable": "effectiveDateTime",
+         "condition": "$this.exists() and %ObservationTarget.effective.exists().not()"
+        }
+       ],
+       "target": [
+        {
+         "context": "ObservationTarget",
+         "element": "effective",
+         "variable": "effectiveExt",
+         "transform": "create",
+         "parameter": [
+          {
+           "valueString": "dateTime"
+          }
+         ]
+        },
+        {
+         "context": "effectiveExt",
+         "element": "extension.url",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+          }
+         ]
+        },
+        {
+         "context": "effectiveExt",
+         "element": "extension.value",
+         "variable": "effectiveExtcode",
+         "transform": "create",
+         "parameter": [
+          {
+           "valueString": "code"
+          }
+         ]
+        },
+        {
+         "context": "effectiveExtcode",
+         "element": "value",
+         "transform": "copy",
+         "parameter": [
+          {
+           "valueString": "unknown"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obx15ToObservationPerformer",
+       "source": [
+        {
+         "context": "obs",
+         "type": "string",
+         "element": "OBX-15",
+         "variable": "organization",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obx15ToObservationOrganizationID",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-15-1",
+           "variable": "organizationID",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "performer[+].type",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "Organization"
+            }
+           ]
+          },
+          {
+           "context": "ObservationTarget",
+           "element": "performer[=].identifier.value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "organizationID"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx15ToObservationOrganizationDisplay",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-15-2",
+           "variable": "organizationDisplay",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "performer[=].display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "organizationDisplay"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx15ToObservationOrganizationSystem",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-15-2",
+           "variable": "organizationSystem",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "performer[=].identifier.system",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "organizationSystem"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obx16ToObservationPerformer",
+       "source": [
+        {
+         "context": "obs",
+         "type": "string",
+         "element": "OBX-16",
+         "variable": "performer",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obx16ToObservationPerformerID",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-16-1",
+           "variable": "performerID",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "performer[+].type",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "Practitioner"
+            }
+           ]
+          },
+          {
+           "context": "ObservationTarget",
+           "element": "performer[=].identifier.value",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "performerID"
+            }
+           ]
+          },
+          {
+           "context": "ObservationTarget",
+           "element": "performer[=].identifier.system",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx16ToObservationPerformerDisplay",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-16-2",
+           "variable": "performerDisplayFN",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "performer[=].display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "performerDisplayFN"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "obx17ToObservationMethod",
+       "source": [
+        {
+         "context": "obs",
+         "type": "string",
+         "element": "OBX-17",
+         "variable": "observationMethod",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "obx17ToMethodCodingCode",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-17-1",
+           "variable": "observationMethodCode",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "method.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "observationMethodCode"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx17ToMethodCodingDisplay",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-17-2",
+           "variable": "observationMethodDisplay",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "method.coding[=].display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "observationMethodDisplay"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx17ToMethodCodingSystem",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-17-3",
+           "variable": "observationMethodSystem",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "method.coding[=].system",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "observationMethodSystem"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx17ToMethodCoding1Code",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-17-4",
+           "variable": "observationMethod1Code",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "method.coding[+].code",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "observationMethod1Code"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx17ToMethodCoding1Display",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-17-5",
+           "variable": "observationMethod1Display",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "method.coding[=].display",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "observationMethod1Display"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "name": "obx17ToMethodCoding1System",
+         "source": [
+          {
+           "context": "obs",
+           "type": "string",
+           "element": "OBX-17-6",
+           "variable": "observationMethod1System",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "method.coding[=].system",
+           "transform": "append",
+           "parameter": [
+            {
+             "valueString": "http://example.org/fhir/labasystem/"
+            },
+            {
+             "valueId": "observationMethod1System"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "nteObx",
+       "source": [
+        {
+         "context": "source",
+         "type": "string",
+         "element": "NTE",
+         "variable": "noteObx",
+         "condition": "$this.exists()"
+        }
+       ],
+       "rule": [
+        {
+         "name": "nteComment",
+         "source": [
+          {
+           "context": "noteObx",
+           "type": "string",
+           "element": "NTE-3",
+           "variable": "noteComment",
+           "condition": "$this.exists()"
+          }
+         ],
+         "target": [
+          {
+           "context": "ObservationTarget",
+           "element": "note[+].text",
+           "transform": "copy",
+           "parameter": [
+            {
+             "valueId": "noteComment"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,38 @@
+meta {
+  name: 05_R4_rejects_R5_param
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/fhir/R4/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {"name": "srcMap",       "valueString": "map \"http://x\" = \"X\"\ngroup g(source s) { s.a as v -> s.b = copy(v); }\n"},
+      {"name": "content",      "resource": {"resourceType": "Basic", "x": "v"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.resourceType: eq OperationOutcome
+  res.body.issue[0].code: eq not-supported
+}
+
+docs {
+  R4 must reject R5-only parameter names (`sourceMap`, `srcMap`,
+  `supportingMap`). HAPI extensions (`fml`, `structureMap`) stay
+  permitted because the existing Postman corpus depends on them.
+}

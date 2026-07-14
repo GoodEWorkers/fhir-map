@@ -1,0 +1,23 @@
+meta {
+  name: Read ConceptMap
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/fhir/ConceptMap/{{conceptMapId}}
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.headers["content-type"]: contains application/fhir+json
+  res.body.resourceType: eq ConceptMap
+  res.body.id: eq {{conceptMapId}}
+  res.body.status: eq draft
+}

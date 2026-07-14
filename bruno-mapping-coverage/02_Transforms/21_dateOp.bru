@@ -1,0 +1,58 @@
+meta {
+  name: 21_dateOp
+  type: http
+  seq: 21
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/dateop-test",
+          "name": "DateOpTest",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "d",
+              "source": [{"context": "src", "element": "dob", "variable": "d"}],
+              "target": [{"context": "tgt", "element": "birthDate", "transform": "dateOp",
+                          "parameter": [{"valueId": "d"}, {"valueString": "+"}, {"valueString": "P1D"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "dob": "2020-01-01"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.birthDate: eq "2020-01-02"
+}
+
+docs {
+  dateOp(date, op, duration) — ISO-8601 duration arithmetic. M6.Fix.4
+  added real semantics (single-arg form kept as passthrough back-compat).
+  `+P1D` adds one day to `2020-01-01` → `2020-01-02`.
+}

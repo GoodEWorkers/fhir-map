@@ -1,0 +1,30 @@
+meta {
+  name: Search by Status
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/fhir/R5/StructureMap?status=active
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+assert {
+  res.status: eq 200
+  res.body.resourceType: eq Bundle
+  res.body.type: eq searchset
+  res.body.total: gte 1
+}
+
+docs {
+  # Search StructureMap by status
+
+  StructureMap search supports the same canonical params as ConceptMap
+  (url, version, name, title, status, publisher, description, date,
+  identifier). Returns a FHIR Bundle of type=searchset.
+}

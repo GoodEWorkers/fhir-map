@@ -1,0 +1,56 @@
+meta {
+  name: 01_toDateTime_transform_GAP
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/todt",
+          "name": "ToDT",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [{"name": "src", "mode": "source"}, {"name": "tgt", "mode": "target"}],
+            "rule": [{
+              "name": "r",
+              "source": [{"context": "src", "element": "d", "variable": "v"}],
+              "target": [{"context": "tgt", "element": "when", "transform": "toDateTime",
+                          "parameter": [{"valueId": "v"}, {"valueString": "yyyy-MM-dd"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "d": "2024-05-16"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.when: isDefined
+}
+
+docs {
+  SPEC GAP — toDateTime(source, format) is in the R5 transform vocab.
+  Server lacks it. unixToDateTime/toDate/unixToDate/toTime/unixToTime
+  similarly missing. Bruno will get 422 with "transform not
+  recognised". Documenting the gap.
+}

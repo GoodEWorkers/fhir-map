@@ -1,0 +1,62 @@
+name: OpenSSF Scorecard
+
+# Scans the repository against the OpenSSF Scorecard supply-chain security
+# checks (binary artifacts, branch protection, dependency-update tool, signed
+# releases, pinned dependencies, SAST, vulnerability scanning, etc.) and
+# publishes the score to GitHub code scanning + the public OpenSSF API at
+# https://api.securityscorecards.dev/, which the shields.io badge then reads.
+#
+# Runs on every push to main and weekly on a low-traffic cron so the score
+# stays fresh without burning workflow minutes on PR builds.
+
+on:
+  push:
+    branches: [main]
+  branch_protection_rule:
+  schedule:
+    - cron: "29 3 * * 1" # Mondays 03:29 UTC
+
+permissions: read-all
+
+jobs:
+  scorecard:
+    name: OSSF Scorecard analysis
+    # Scorecard's GitHub API queries and publish_results only work on PUBLIC
+    # repos — on a private repo every run fails with "Resource not accessible
+    # by integration". Skip while private; push/branch_protection_rule runs
+    # auto-enable when the repo opens up. The schedule payload carries no
+    # repository object (and expression coercion makes `null == false` TRUE),
+    # so the cron is excluded explicitly — once public, pushes to main keep
+    # the score fresh; re-add the cron to the condition then if wanted.
+    if: ${{ github.event_name != 'schedule' && github.event.repository.private == false }}
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write # upload SARIF to GitHub code scanning
+      id-token: write # OIDC for the publicly-queryable score
+      contents: read
+      actions: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Run scorecard analysis
+        uses: ossf/scorecard-action@v2.4.0
+        with:
+          results_file: scorecard-results.sarif
+          results_format: sarif
+          publish_results: true # makes the score visible at api.securityscorecards.dev (required for the shields badge)
+
+      - name: Upload scorecard SARIF as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: scorecard-results
+          path: scorecard-results.sarif
+          retention-days: 30
+
+      - name: Upload scorecard SARIF to GitHub code scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: scorecard-results.sarif

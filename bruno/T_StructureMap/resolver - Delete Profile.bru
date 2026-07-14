@@ -1,0 +1,28 @@
+meta {
+  name: resolver - Delete Profile
+  type: http
+  seq: 18
+}
+
+delete {
+  url: {{baseUrl}}/fhir/R5/StructureDefinition/{{resolverProfileId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 204
+}
+
+docs {
+  # Cleanup — delete the resolver test profile
+
+  Soft-deletes the ResolverTestProfile created in seq 14 so the collection
+  is idempotent: re-running from scratch won't hit a 409 conflict on
+  the profile's canonical URL unique index.
+
+  The resolver's process-level cache still holds the resolved entry for
+  the duration of the current server process, but that is harmless — the
+  cache only affects performance, not correctness, and a fresh server
+  starts with an empty cache.
+}

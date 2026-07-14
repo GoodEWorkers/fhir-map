@@ -1,0 +1,59 @@
+meta {
+  name: 18_id
+  type: http
+  seq: 18
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/id-test",
+          "name": "IdTest",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "i",
+              "source": [{"context": "src", "element": "k", "variable": "v"}],
+              "target": [{"context": "tgt", "element": "id", "transform": "id",
+                          "parameter": [{"valueId": "v"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "k": "abc-123"}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: eq "abc-123"
+}
+
+docs {
+  id(value) — emit a string as an `id`-typed primitive. The server
+  currently passes through as a string (no type tag in the wire form).
+  SPEC GAP: the FHIR spec id(system, value, type?) form is for
+  Identifier construction, not the bare-string id() this server uses.
+}

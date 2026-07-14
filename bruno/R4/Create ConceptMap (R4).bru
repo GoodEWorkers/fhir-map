@@ -1,0 +1,57 @@
+meta {
+  name: Create ConceptMap (R4)
+  type: http
+  seq: 0
+}
+
+post {
+  url: {{baseUrl}}/fhir/R4/ConceptMap
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "ConceptMap",
+    "url": "http://example.org/fhir/ConceptMap/address-use",
+    "version": "1.0.0",
+    "name": "AddressUseMapping",
+    "status": "draft",
+    "group": [
+      {
+        "source": "http://hl7.org/fhir/address-use",
+        "target": "http://terminology.hl7.org/CodeSystem/v3-AddressUse",
+        "element": [
+          {
+            "code": "home",
+            "target": [
+              {"code": "H", "equivalence": "equivalent"}
+            ]
+          },
+          {
+            "code": "work",
+            "target": [
+              {"code": "WP", "equivalence": "equivalent"}
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.headers.location: isDefined
+}
+
+script:post-response {
+  // Use a dedicated variable so we don't overwrite `conceptMapId` which the
+  // CRUD lifecycle (Read, Update, _history, vread, Delete) already owns.
+  bru.setVar("r4ConceptMapId", res.body.id);
+}

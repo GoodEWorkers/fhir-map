@@ -1,0 +1,68 @@
+meta {
+  name: 15_check_GAP
+  type: http
+  seq: 15
+}
+
+post {
+  url: {{baseUrl}}/fhir/R5/StructureMap/$transform
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "structureMap",
+        "resource": {
+          "resourceType": "StructureMap",
+          "url": "http://example.org/sm/check",
+          "name": "CheckTest",
+          "status": "active",
+          "group": [{
+            "name": "main",
+            "input": [
+              {"name": "src", "mode": "source"},
+              {"name": "tgt", "mode": "target"}
+            ],
+            "rule": [{
+              "name": "r",
+              "source": [{"context": "src", "variable": "s",
+                          "check": "age > 0"}],
+              "target": [{"context": "tgt", "element": "age", "transform": "evaluate",
+                          "parameter": [{"valueId": "s"}, {"valueString": "age"}]}]
+            }]
+          }]
+        }
+      },
+      {"name": "content", "resource": {"resourceType": "Basic", "age": -1}}
+    ]
+  }
+}
+
+assert {
+  res.status: eq 422
+}
+
+docs {
+  SPEC GAP — source.check on an element-less source. M6.Fix.1 added
+  check enforcement for sources that have an `element`, but
+  evalSource() in executor.go early-returns at `if src.Element == ""`
+  before reaching the check block. A check on a sourceless source
+  (which is spec-valid — the source represents the whole context
+  variable) is silently skipped.
+
+  With a negative age this rule should produce a 422 per spec; the
+  server returns 200.
+
+  Fix surface: move the check / cardinality / defaultValue / listMode
+  blocks above the early-return so they apply to both the
+  element-bound and the whole-context-bound source forms.
+}

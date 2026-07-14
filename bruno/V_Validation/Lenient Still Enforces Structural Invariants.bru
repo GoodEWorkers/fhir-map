@@ -1,0 +1,56 @@
+meta {
+  name: Lenient Still Enforces Structural Invariants
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/fhir/ConceptMap?_validate=lenient
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+  Accept: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "ConceptMap",
+    "url": "http://example.org/cm/lenient-invariant",
+    "status": "active",
+    "group": [
+      {
+        "source": "http://s",
+        "target": "http://t",
+        "element": [
+          {
+            "code": "A",
+            "valueSet": "http://example.org/vs/x",
+            "target": [{"code": "B", "relationship": "equivalent"}]
+          }
+        ]
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 422
+  res.body.resourceType: eq OperationOutcome
+}
+
+docs {
+  # Lenient mode is not a free pass
+
+  Even with `?_validate=lenient` the structural invariants still apply.
+  Here the Element has both `code` and `valueSet` set — which are
+  mutually-exclusive per the FHIR spec — so the request is rejected with
+  400 OperationOutcome.
+
+  This is the line in the sand: lenient relaxes vocabulary bindings but
+  not the fundamental data-model invariants that would make the resource
+  uninterpretable downstream (the engine's `extractMappings` flatten path
+  cannot meaningfully consume both code and valueSet on the same Element).
+}
