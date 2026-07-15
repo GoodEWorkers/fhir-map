@@ -131,6 +131,8 @@ jobs:
 
       - name: Commit coverage badge (main push only)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          BADGE_DEPLOY_KEY: ${{ secrets.BADGE_DEPLOY_KEY }}
         run: |
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
@@ -140,8 +142,18 @@ jobs:
             exit 0
           fi
           git commit -m "badges: update coverage"
-          # Race-safety: if another job has pushed to main during this run,
-          # rebase before pushing. GITHUB_TOKEN commits do not retrigger CI.
+          # main is protected by a ruleset that requires PRs for humans. Push
+          # over SSH with a write deploy key, which is the ruleset's bypass
+          # actor, so CI can update the badge without a PR. GITHUB_TOKEN cannot
+          # be a bypass actor, hence the deploy key.
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$BADGE_DEPLOY_KEY" > ~/.ssh/badge_key
+          chmod 600 ~/.ssh/badge_key
+          ssh-keyscan -t ed25519 github.com >> ~/.ssh/known_hosts 2>/dev/null
+          export GIT_SSH_COMMAND="ssh -i ~/.ssh/badge_key -o IdentitiesOnly=yes"
+          git remote set-url origin git@github.com:GoodEWorkers/fhir-map.git
+          # Race-safety: if another job pushed to main during this run, rebase
+          # before pushing. Deploy-key commits do not retrigger CI.
           git pull --rebase origin main || true
           git push origin HEAD:main
 
