@@ -599,6 +599,8 @@ jobs:
       # repo when an earlier step (scan, push, sign) fails. The release job
       # already has contents:write (Story 4.2, Task 2).
       - name: Commit benchmark results
+        env:
+          BADGE_DEPLOY_KEY: ${{ secrets.BADGE_DEPLOY_KEY }}
         run: |
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
@@ -607,6 +609,16 @@ jobs:
             echo "No benchmark file changes to commit"
           else
             git commit -m "benchmarks: publish ${{ github.ref_name }}"
+            # main is protected by a ruleset that requires PRs for humans. Push
+            # over SSH with the write deploy key that is the ruleset's bypass
+            # actor; GITHUB_TOKEN cannot be a bypass actor.
+            mkdir -p ~/.ssh && chmod 700 ~/.ssh
+            printf '%s\n' "$BADGE_DEPLOY_KEY" > ~/.ssh/badge_key
+            chmod 600 ~/.ssh/badge_key
+            ssh-keyscan -t ed25519 github.com >> ~/.ssh/known_hosts 2>/dev/null
+            export GIT_SSH_COMMAND="ssh -i ~/.ssh/badge_key -o IdentitiesOnly=yes"
+            git remote set-url origin git@github.com:GoodEWorkers/fhir-map.git
+            git pull --rebase origin main || true
             git push origin HEAD:main
           fi
 
