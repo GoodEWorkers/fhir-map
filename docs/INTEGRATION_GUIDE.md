@@ -29,10 +29,16 @@
     *   Handling errors gracefully
 7.  [Reverse Translation](#reverse-translation)
 8.  [Vocabulary Projection (R4 ↔ R5)](#vocabulary-projection)
-9.  [Performance, Limits & Observability](#performance)
-10. [Configuration Reference](#configuration-reference)
-11. [Advanced: `dependsOn`, `product`, `unmapped` modes](#advanced-features)
-12. [Troubleshooting](#troubleshooting)
+9.  [Structural Transformation & StructureMaps ($transform)](#structural-transformation)
+    *   Invoking `$transform`
+    *   Server-local map resolution
+    *   `structureMapEndpoint` is ignored (HAPI migration)
+    *   Pre-deploying StructureMaps (`PUT` / `POST`)
+    *   How `import` resolves across the local store
+10. [Performance, Limits & Observability](#performance)
+11. [Configuration Reference](#configuration-reference)
+12. [Advanced: `dependsOn`, `product`, `unmapped` modes](#advanced-features)
+13. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -40,7 +46,7 @@
 
 ## 1. What is this service?
 
-This is a **fast, lightweight microservice** that implements the FHIR `ConceptMap` resource and the `$translate` operation. It serves as a **"terminology-brick"** in ETL pipelines.
+This is a **fast, lightweight microservice** that implements FHIR terminology translation (`ConceptMap` `$translate`) and structural transformation (`StructureMap` `$transform`). It serves as a **"transformation & terminology brick"** in ETL pipelines.
 
 **Problem it solves:**
 In healthcare ETL pipelines, data engineers constantly need to translate codes from one coding system to another (e.g., ICD-10 to SNOMED CT, HL7 v2 to FHIR). Writing this logic manually in every pipeline is slow, error-prone, and hard to maintain.
@@ -594,9 +600,106 @@ The server stores everything internally in **R5** format. This table shows how R
 
 ---
 
+<a id="structural-transformation"></a>
+
+## 9. Structural Transformation & StructureMaps ($transform)
+
+`fhir-map` supports the FHIR `$transform` operation to execute FHIR Mapping Language (FML) rules, transforming clinical messages and resources between schemas (e.g., HL7v2 / HPRIM → FHIR R4 Bundle, FHIR R4 → R5).
+
+### 9.1 Invoking `$transform`
+
+You can execute a transform at the type level (`/fhir/{version}/StructureMap/$transform`) or instance level (`/fhir/{version}/StructureMap/{id}/$transform`).
+
+**Type-level invocation with canonical URL (`POST`):**
+```bash
+curl -X POST http://localhost:8080/fhir/R5/StructureMap/\$transform \
+  -H "Content-Type: application/fhir+json" \
+  -d '{
+    "resourceType": "Parameters",
+    "parameter": [
+      {
+        "name": "map",
+        "valueUri": "http://example.org/fhir/StructureMap/hl7v2-to-bundle"
+      },
+      {
+        "name": "content",
+        "resource": { ... }
+      }
+    ]
+  }'
+```
+
+> **Compatibility Note:** `fhir-map` accepts both the FHIR specification's `content` parameter and HAPI FHIR's `source` / `input` parameter (`input.part[name=source].resource`) holding the source resource or a base64-encoded `Binary` carrying HL7v2/HPRIM text.
+
+### 9.2 Server-Local Map Resolution
+
+StructureMaps in `fhir-map` are **server-local**:
+* Every StructureMap referenced by `$transform` must be ingested into `fhir-map`'s database **prior** to execution.
+* Map deployment is a deploy-time or bootstrap step in your infrastructure (e.g., via `PUT /fhir/{version}/StructureMap/{id}` or during CI/CD).
+* At execution time, `fhir-map` resolves the canonical URL specified in `map` solely against its local PostgreSQL store (`FindByURL`). There is no outbound network egress and no remote fetch.
+
+If the referenced StructureMap is not stored locally, the server returns:
+```json
+{
+  "resourceType": "OperationOutcome",
+  "issue": [{
+    "severity": "error",
+    "code": "not-found",
+    "diagnostics": "Referenced StructureMap \"http://example.org/...\" is not loaded"
+  }]
+}
+```
+HTTP status code: `422 Unprocessable Entity`.
+
+### 9.3 `structureMapEndpoint` is Ignored (HAPI FHIR Migration Note)
+
+When migrating pipelines from **HAPI FHIR**, callers frequently provide a `structureMapEndpoint` (or `endpoint`) parameter in the request body pointing to an external FHIR server (e.g., `{ "name": "structureMapEndpoint", "resource": { "resourceType": "Endpoint", "address": "https://remote-server/fhir" } }`). HAPI uses this endpoint to resolve canonical URLs and imports dynamically across the network.
+
+In `fhir-map`:
+* `structureMapEndpoint` and `endpoint` are **parsed and recognized for client compatibility**, but have **no effect**.
+* `fhir-map` deliberately does **not** perform remote resolution at transform time. A local-only store ensures predictable sub-millisecond latency, eliminates outbound network egress, and removes external availability dependencies from the critical request path.
+* If your pipeline sends `structureMapEndpoint`, `fhir-map` will accept the request body without syntax errors, but will still resolve the map **only against its local store**. You must load your StructureMaps into `fhir-map` beforehand.
+
+### 9.4 Pre-deploying StructureMaps (`PUT` / `POST`)
+
+To load a StructureMap into `fhir-map`:
+
+```bash
+curl -X PUT http://localhost:8080/fhir/R5/StructureMap/hl7v2-to-bundle \
+  -H "Content-Type: application/fhir+json" \
+  -d '{
+    "resourceType": "StructureMap",
+    "id": "hl7v2-to-bundle",
+    "url": "http://example.org/fhir/StructureMap/hl7v2-to-bundle",
+    "name": "HL7v2ToBundle",
+    "status": "active",
+    "structure": [...],
+    "group": [...]
+  }'
+```
+
+You can also use `POST /fhir/R5/StructureMap` for server-assigned IDs.
+
+### 9.5 How `import` Resolves Across the Local Store
+
+StructureMaps can reference supporting maps using FML `import` statements (e.g., `import "http://example.org/fhir/StructureMap/common-elements"`).
+
+When executing a map that contains imports:
+1. **Local resolution:** The engine resolves every imported canonical URL via the local store (`MapResolver.FindByURL`).
+2. **Transitive resolution:** Imports of imported maps are resolved transitively using breadth-first search (BFS). Cyclic imports are safely detected and ignored.
+3. **Fail-closed:** If any imported map canonical cannot be found in the local store, the engine fails closed with:
+   ```
+   HTTP 422 Unprocessable Entity
+   OperationOutcome: not-found — StructureMap import "http://example.org/..." not found
+   ```
+   Missing imports will never silently degrade or produce partial output. Ensure all imported and supporting maps are loaded into `fhir-map`.
+4. **Scope & Merging:** Groups declared in imported maps are accessible across the execution scope (e.g., for dependent group calls `then groupName(...)`).
+
+---
+
 <a id="performance"></a>
 
-## 9. Performance, Limits & Observability
+## 10. Performance, Limits & Observability
 
 ### 9.1 Performance Characteristics
 
@@ -626,7 +729,7 @@ The server stores everything internally in **R5** format. This table shows how R
 
 <a id="configuration-reference"></a>
 
-## 10. Configuration Reference
+## 11. Configuration Reference
 
 All configuration is via environment variables.
 
@@ -652,7 +755,7 @@ All configuration is via environment variables.
 
 <a id="advanced-features"></a>
 
-## 11. Advanced: `dependsOn`, `product`, `unmapped` modes
+## 12. Advanced: `dependsOn`, `product`, `unmapped` modes
 
 ### 11.1 `dependsOn` (Dependency Filtering)
 
@@ -719,32 +822,42 @@ If your source data contains a `CodeableConcept` (a list of codings), you can pa
 
 <a id="troubleshooting"></a>
 
-## 12. Troubleshooting
+## 13. Troubleshooting
 
-### 12.1 "Resource not found" (404)
+### 13.1 "Resource not found" (404)
 
 *   **Cause:** The `url` in your `$translate` request does not match any `ConceptMap` in the database.
 *   **Fix:** Check the `url` field in your `ConceptMap` resource. Also verify the ConceptMap is loaded via `GET /fhir/R5/ConceptMap`.
 
-### 12.2 "Only negative matches found" (200)
+### 13.2 "Only negative matches found" (200)
 
 *   **Cause:** The code exists in the ConceptMap, but all mappings have a `relationship` of `not-related-to` (R5) or `unmatched` (R4).
 *   **Fix:** Check your `group.unmapped` strategy if you expect a fallback. Or verify your `ConceptMap` logic.
 
-### 12.3 "No mapping found for the provided concept" (200)
+### 13.3 "No mapping found for the provided concept" (200)
 
 *   **Cause:** The code/system combination is not present in the ConceptMap.
 *   **Fix:** If this is expected for some codes, ensure your `unmapped.mode` is set to `fixed` or `use-source-code`. If it's unexpected, check the `source` and `target` systems in your `ConceptMap` groups.
 
-### 12.4 "parameters X and Y are mutually exclusive" (400)
+### 13.4 "parameters X and Y are mutually exclusive" (400)
 
 *   **Cause:** You mixed R4 and R5 parameter names (e.g., `code` and `sourceCode`).
 *   **Fix:** Choose one vocabulary. For new ETL pipelines, we recommend **R5** (`sourceCode`, `sourceSystem`, etc.).
 
-### 12.5 Slow batch performance
+### 13.5 Slow batch performance
 
 *   **Cause:** Sending very large batches (e.g., > 1000 codes) in a single request.
 *   **Fix:** Chunk your data into smaller batches (100–500 codes) and parallelize requests if needed. The server is stateless and scales well horizontally.
+
+### 13.6 "Referenced StructureMap '...' is not loaded" (422)
+
+*   **Cause:** You called `$transform` with a `map` parameter, but that canonical URL is not stored locally in `fhir-map`. If you provided `structureMapEndpoint` (or `endpoint`), remember that it is ignored.
+*   **Fix:** Pre-load the StructureMap into `fhir-map` using `PUT /fhir/{version}/StructureMap/{id}` or `POST /fhir/{version}/StructureMap` before executing the transform.
+
+### 13.7 "StructureMap import '...' not found" (422)
+
+*   **Cause:** The StructureMap being executed contains an FML `import` statement referencing a canonical URL that is not present in `fhir-map`'s database.
+*   **Fix:** Load all imported and supporting StructureMaps into `fhir-map` prior to execution.
 
 ---
 
@@ -753,9 +866,11 @@ If your source data contains a `CodeableConcept` (a list of codings), you can pa
 ```
 FHIR Base URL:      http://localhost:8080/fhir/R5
 Health:             GET  /health
-Load Map:           POST /fhir/R5/ConceptMap
-Search Maps:        GET  /fhir/R5/ConceptMap
+Load ConceptMap:    POST /fhir/R5/ConceptMap
+Search ConceptMaps: GET  /fhir/R5/ConceptMap
 Translate (single): GET  /fhir/R5/ConceptMap/$translate?url=...&sourceSystem=...&sourceCode=...
 Translate (batch):  POST /fhir/R5/ConceptMap/$translate-batch
 Reverse:            GET  /fhir/R5/ConceptMap/$translate?...&reverse=true
-```
+Load StructureMap:  PUT  /fhir/R5/StructureMap/{id}
+Transform:          POST /fhir/R5/StructureMap/$transform
+```
