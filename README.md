@@ -222,6 +222,7 @@ One server, two clients. R4 and R5 differ in vocabulary (`equivalence` vs `relat
 SERVER_PORT=8080          # HTTP listen port
 SERVER_TRANSFORM_TIMEOUT=15s  # Per-request $transform execution budget (Go duration; default 15s, keep < SERVER_WRITE_TIMEOUT)
 SERVER_TRANSFORM_STRICT=false   # Fail-loud strict transform mode: coercion/unmapped-translate failures return 422 (default lenient/best-effort)
+SERVER_TRANSFORM_SERIALIZE_HL7V2=false  # When true, serialize HL7v2 target results to ER7 text (application/hl7-v2) via ToER7 (default false: JSON segment map)
 SERVER_TRANSFORM_VALIDATE_OUTPUT=off  # Output-validation gate: off (default) | lenient (validate + flag via Warning header) | strict (reject invalid output as 422)
 SERVER_MAX_BODY_BYTES=10485760  # Global request body cap in bytes (default 10 MiB; floored at 4 KiB)
 DB_HOST=localhost         # PostgreSQL host

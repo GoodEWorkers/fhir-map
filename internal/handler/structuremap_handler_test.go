@@ -2237,3 +2237,143 @@ func TestHandler_StructureMap_Update_IfMatchOnUnknown_Returns412(t *testing.T) {
 	defer resp.Body.Close()
 	assert.Equal(t, http.StatusPreconditionFailed, resp.StatusCode, "PUT with If-Match against non-existent must return 412")
 }
+
+// ─── HL7v2 ER7 Serialization on $transform (Issue #24) ───────────────────────
+
+func TestHandler_Transform_SerializeHL7v2(t *testing.T) {
+	setupServer := func(t *testing.T, serialize bool) *httptest.Server {
+		t.Helper()
+		repo := newSMInMemoryRepo()
+		service := structuremap.NewService(repo)
+		logger := slog.New(slog.NewTextHandler(io.Discard, nil))
+		eng := transform.NewEngine(nil)
+		mux := http.NewServeMux()
+		h := NewStructureMapHandler(service, "http://localhost", logger).
+			WithHistory(repo).
+			WithTransformEngine(eng).
+			WithSerializeHL7v2(serialize)
+		h.RegisterRoutes(mux)
+		h.RegisterRoutesAtPrefix(mux, "R5")
+		wrapped := Middleware(mux, MaxBodyBytesMiddleware(10<<20))
+		return httptest.NewServer(wrapped)
+	}
+
+	hl7Map := map[string]any{
+		"resourceType": "StructureMap",
+		"url":          "http://example.org/sm/to-hl7v2",
+		"name":         "ToHL7v2",
+		"status":       "active",
+		"group": []any{
+			map[string]any{
+				"name": "MapHL7",
+				"input": []any{
+					map[string]any{"name": "src", "mode": "source"},
+					map[string]any{"name": "tgt", "mode": "target"},
+				},
+				"rule": []any{
+					map[string]any{
+						"name":   "msh9",
+						"source": []any{map[string]any{"context": "src", "element": "msgType", "variable": "msgType"}},
+						"target": []any{map[string]any{"context": "tgt", "element": "MSH-9", "transform": "copy", "parameter": []any{map[string]any{"valueId": "msgType"}}}},
+					},
+					map[string]any{
+						"name":   "pid1",
+						"source": []any{map[string]any{"context": "src", "element": "id", "variable": "id"}},
+						"target": []any{map[string]any{"context": "tgt", "element": "PID-1", "transform": "copy", "parameter": []any{map[string]any{"valueId": "id"}}}},
+					},
+				},
+			},
+		},
+	}
+
+	reqPayload := map[string]any{
+		"resourceType": "Parameters",
+		"parameter": []any{
+			map[string]any{"name": "sourceMap", "resource": hl7Map},
+			map[string]any{"name": "content", "resource": map[string]any{"msgType": "ORU^R01", "id": "12345"}},
+		},
+	}
+	body, _ := json.Marshal(reqPayload)
+
+	t.Run("default disabled returns JSON segment map", func(t *testing.T) {
+		ts := setupServer(t, false)
+		defer ts.Close()
+
+		resp, err := http.Post(ts.URL+"/fhir/R5/StructureMap/$transform", "application/fhir+json", bytes.NewReader(body))
+		require.NoError(t, err)
+		defer resp.Body.Close()
+
+		assert.Equal(t, http.StatusOK, resp.StatusCode)
+		assert.Equal(t, "application/fhir+json", resp.Header.Get("Content-Type"))
+
+		var result map[string]any
+		require.NoError(t, json.NewDecoder(resp.Body).Decode(&result))
+		assert.Equal(t, "ORU^R01", result["MSH-9"])
+		assert.Equal(t, "12345", result["PID-1"])
+	})
+
+	t.Run("enabled returns ER7 text with application/hl7-v2 Content-Type", func(t *testing.T) {
+		ts := setupServer(t, true)
+		defer ts.Close()
+
+		resp, err := http.Post(ts.URL+"/fhir/R5/StructureMap/$transform", "application/fhir+json", bytes.NewReader(body))
+		require.NoError(t, err)
+		defer resp.Body.Close()
+
+		assert.Equal(t, http.StatusOK, resp.StatusCode)
+		assert.Equal(t, "application/hl7-v2", resp.Header.Get("Content-Type"))
+
+		respBody, err := io.ReadAll(resp.Body)
+		require.NoError(t, err)
+		er7Text := string(respBody)
+		assert.Contains(t, er7Text, "MSH|")
+		assert.Contains(t, er7Text, "ORU^R01")
+		assert.Contains(t, er7Text, "PID|12345")
+	})
+
+	t.Run("enabled with Accept text/plain returns text/plain Content-Type", func(t *testing.T) {
+		ts := setupServer(t, true)
+		defer ts.Close()
+
+		req, err := http.NewRequest(http.MethodPost, ts.URL+"/fhir/R5/StructureMap/$transform", bytes.NewReader(body))
+		require.NoError(t, err)
+		req.Header.Set("Content-Type", "application/fhir+json")
+		req.Header.Set("Accept", "text/plain")
+
+		resp, err := http.DefaultClient.Do(req)
+		require.NoError(t, err)
+		defer resp.Body.Close()
+
+		assert.Equal(t, http.StatusOK, resp.StatusCode)
+		assert.Equal(t, "text/plain", resp.Header.Get("Content-Type"))
+
+		respBody, err := io.ReadAll(resp.Body)
+		require.NoError(t, err)
+		assert.Contains(t, string(respBody), "MSH|")
+	})
+
+	t.Run("enabled but non-HL7v2 target returns application/fhir+json", func(t *testing.T) {
+		ts := setupServer(t, true)
+		defer ts.Close()
+
+		fhirReq := map[string]any{
+			"resourceType": "Parameters",
+			"parameter": []any{
+				map[string]any{"name": "sourceMap", "resource": qrToPatientInlineMap()},
+				map[string]any{"name": "content", "resource": qrToPatientContent()},
+			},
+		}
+		fhirBody, _ := json.Marshal(fhirReq)
+
+		resp, err := http.Post(ts.URL+"/fhir/R5/StructureMap/$transform", "application/fhir+json", bytes.NewReader(fhirBody))
+		require.NoError(t, err)
+		defer resp.Body.Close()
+
+		assert.Equal(t, http.StatusOK, resp.StatusCode)
+		assert.Equal(t, "application/fhir+json", resp.Header.Get("Content-Type"))
+
+		var result map[string]any
+		require.NoError(t, json.NewDecoder(resp.Body).Decode(&result))
+		assert.Equal(t, "Ada", result["firstName"])
+	})
+}

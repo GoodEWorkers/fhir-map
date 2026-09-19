@@ -637,6 +637,11 @@ All configuration is via environment variables.
 | `SERVER_WRITE_TIMEOUT` | `30s` | HTTP write timeout |
 | `SERVER_IDLE_TIMEOUT` | `120s` | HTTP idle timeout |
 | `SERVER_SHUTDOWN_TIMEOUT` | `15s` | Graceful shutdown deadline |
+| `SERVER_TRANSFORM_TIMEOUT` | `15s` | Per-request $transform execution budget (Go duration) |
+| `SERVER_TRANSFORM_STRICT` | `false` | Fail-loud strict transform mode (coercion/translate failures return 422) |
+| `SERVER_TRANSFORM_SERIALIZE_HL7V2` | `false` | Serialize HL7v2 target results to ER7 text (`application/hl7-v2`) via `ToER7` |
+| `SERVER_TRANSFORM_VALIDATE_OUTPUT` | `off` | Output-validation gate: `off`, `lenient`, or `strict` |
+| `SERVER_MAX_BODY_BYTES` | `10485760` | Global request body cap in bytes (default 10 MiB) |
 | `DB_HOST` | `localhost` | PostgreSQL host |
 | `DB_PORT` | `5432` | PostgreSQL port |
 | `DB_USER` | `fhir` | Database user |
