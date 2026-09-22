@@ -38,6 +38,12 @@ type ServerConfig struct {
 	// ETL pipeline can quarantine. Default false (lenient/best-effort).
 	// Override with SERVER_TRANSFORM_STRICT=true.
 	StrictTransform bool
+	// SerializeHL7v2 controls whether $transform output targets that have an
+	// HL7v2 shape (resourceType: "HL7v2" or MSH-* fields) are serialized to
+	// ER7 text (application/hl7-v2) via ToER7 rather than emitted as a JSON
+	// segment map. Default false (JSON segment map). Override with
+	// SERVER_TRANSFORM_SERIALIZE_HL7V2=true.
+	SerializeHL7v2 bool
 	// TransformOutputValidation controls the $transform output-validation gate
 	// (P0.2): "off" (default — output returned as-is, byte-identical), "lenient"
 	// (validate and flag issues via a Warning header + log, still returning the
@@ -106,6 +112,7 @@ func Load() Config {
 			ShutdownTimeout:           getEnvDuration("SERVER_SHUTDOWN_TIMEOUT", 15*time.Second),
 			TransformTimeout:          getEnvDuration("SERVER_TRANSFORM_TIMEOUT", 15*time.Second),
 			StrictTransform:           getEnvBool("SERVER_TRANSFORM_STRICT", false),
+			SerializeHL7v2:            getEnvBool("SERVER_TRANSFORM_SERIALIZE_HL7V2", false),
 			TransformOutputValidation: strings.ToLower(strings.TrimSpace(getEnv("SERVER_TRANSFORM_VALIDATE_OUTPUT", "off"))),
 			MaxBodyBytes:              clampMaxBodyBytes(int64(getEnvInt("SERVER_MAX_BODY_BYTES", 10<<20))), // 10 MiB default; clamped to a 4 KiB floor
 			TLSCertFile:               getEnv("TLS_CERT_FILE", ""),

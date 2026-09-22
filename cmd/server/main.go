@@ -144,8 +144,19 @@ func main() {
 		transform.WithStrictTransform(cfg.Server.StrictTransform),
 	)
 
-	smHandlerR5 := handler.NewStructureMapHandler(smService, baseURL, logger).WithHistory(smRepo).WithTransformEngine(transformEng).WithTransformTimeout(cfg.Server.TransformTimeout)
-	smHandlerR4 := handler.NewR4StructureMapHandler(smService, baseURL, logger).WithHistory(smRepo).WithTransformEngine(transformEng).WithTransformTimeout(cfg.Server.TransformTimeout)
+	smHandlerR5 := handler.NewStructureMapHandler(smService, baseURL, logger).
+		WithHistory(smRepo).
+		WithTransformEngine(transformEng).
+		WithTransformTimeout(cfg.Server.TransformTimeout).
+		WithSerializeHL7v2(cfg.Server.SerializeHL7v2)
+	smHandlerR4 := handler.NewR4StructureMapHandler(smService, baseURL, logger).
+		WithHistory(smRepo).
+		WithTransformEngine(transformEng).
+		WithTransformTimeout(cfg.Server.TransformTimeout).
+		WithSerializeHL7v2(cfg.Server.SerializeHL7v2)
+	if cfg.Server.SerializeHL7v2 {
+		logger.Info("transform HL7v2 ER7 serialization enabled")
+	}
 
 	// Output-validation gate (opt-in via SERVER_TRANSFORM_VALIDATE_OUTPUT).
 	switch cfg.Server.TransformOutputValidation {
