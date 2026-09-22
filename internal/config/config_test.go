@@ -288,3 +288,19 @@ func TestDSN_FallbackToIndividualVars(t *testing.T) {
 		t.Errorf("DSN() fallback: got %q, want %q", got, want)
 	}
 }
+
+func TestLoad_SerializeHL7v2_Default(t *testing.T) {
+	t.Setenv("SERVER_TRANSFORM_SERIALIZE_HL7V2", "")
+	cfg := Load()
+	if cfg.Server.SerializeHL7v2 {
+		t.Errorf("SerializeHL7v2 default: got true, want false")
+	}
+}
+
+func TestLoad_SerializeHL7v2_FromEnv(t *testing.T) {
+	t.Setenv("SERVER_TRANSFORM_SERIALIZE_HL7V2", "true")
+	cfg := Load()
+	if !cfg.Server.SerializeHL7v2 {
+		t.Errorf("SerializeHL7v2: got false, want true")
+	}
+}

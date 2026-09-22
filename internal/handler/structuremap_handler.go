@@ -34,6 +34,10 @@ type StructureMapHandler struct {
 	// flag (Warning response header + server log). Ignored when outputValidator
 	// is nil.
 	outputValidateStrict bool
+	// serializeHL7v2, when true, serializes $transform output targets that have
+	// an HL7v2 shape (resourceType: "HL7v2" or MSH-* fields) to ER7 text
+	// (application/hl7-v2 or text/plain) via ToER7 instead of a JSON segment map.
+	serializeHL7v2 bool
 }
 
 // StructureMapHistoryReader is the repository subset the _history/vread routes need.
@@ -84,6 +88,13 @@ func (h *StructureMapHandler) WithTransformTimeout(d time.Duration) *StructureMa
 func (h *StructureMapHandler) WithTransformOutputValidation(v OutputValidator, strict bool) *StructureMapHandler {
 	h.outputValidator = v
 	h.outputValidateStrict = strict
+	return h
+}
+
+// WithSerializeHL7v2 configures whether HL7v2 target results are serialized
+// to ER7 text.
+func (h *StructureMapHandler) WithSerializeHL7v2(enabled bool) *StructureMapHandler {
+	h.serializeHL7v2 = enabled
 	return h
 }
 

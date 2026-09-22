@@ -13,6 +13,7 @@ import (
 	"github.com/goodeworkers/fhir-map/internal/domain/structuremap"
 	"github.com/goodeworkers/fhir-map/internal/transform"
 	"github.com/goodeworkers/fhir-map/internal/transform/fml"
+	"github.com/goodeworkers/fhir-map/internal/transform/hl7v2"
 	"github.com/goodeworkers/fhir-map/pkg/fhir"
 )
 
@@ -117,6 +118,19 @@ func (h *StructureMapHandler) TransformStub(w http.ResponseWriter, r *http.Reque
 			// see it was not validated clean. Detail is PHI-conservative.
 			w.Header().Set("Warning", fmt.Sprintf(`299 fhir-map "transform output validation: %s"`, detail))
 			h.logger.Warn("transform output validation issues", "count", len(issues), "detail", detail)
+		}
+	}
+
+	if h.serializeHL7v2 {
+		if resultMap, ok := result.(map[string]any); ok && isHL7v2Shape(resultMap) {
+			er7 := hl7v2.ToER7(resultMap)
+			contentType := "application/hl7-v2"
+			if strings.Contains(r.Header.Get("Accept"), "text/plain") && !strings.Contains(r.Header.Get("Accept"), "application/hl7-v2") {
+				contentType = "text/plain"
+			}
+			w.Header().Set("Content-Type", contentType)
+			_, _ = w.Write([]byte(er7))
+			return
 		}
 	}
 
